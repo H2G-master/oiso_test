@@ -115,11 +115,10 @@ function checkCardFilled(el) {
   var isFilled = select.value !== '' && input.value.trim() !== '';
   if (isFilled) {
     card.classList.add('filled');
-    if (idx) idx.style.background = '';
   } else {
     card.classList.remove('filled');
-    if (idx) idx.style.background = 'var(--gray-300)';
   }
+  if (idx) idx.style.background = '';
   updateFilledCount();
 }
 
