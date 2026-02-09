@@ -1,0 +1,269 @@
+  <div class="screen" id="screen-record-input">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-individual-home')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="screen-content">
+      <div class="form-section animate-in"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름 <span class="required">*</span></span><input class="form-input readonly" value="김현수" readonly></div><div class="form-group"><span class="form-label">농장 주소 <span class="required">*</span></span><input class="form-input readonly" value="경남 거창군 거창읍 거열로 1..." readonly></div></div>
+      <div class="form-section animate-in"><div class="form-section-title">개체 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">이표번호 <span class="required">*</span></span><input class="form-input readonly" value="002-1234-5678-1" readonly></div><div class="form-row"><div class="form-group"><span class="form-label">축종 <span class="required">*</span></span><input class="form-input readonly" value="한우" readonly></div><div class="form-group"><span class="form-label">성별 <span class="required">*</span></span><input class="form-input readonly" value="암컷" readonly></div></div><div class="form-row"><div class="form-group"><span class="form-label">연령 <span class="required">*</span></span><input class="form-input readonly" value="13" readonly></div><div class="form-group"><span class="form-label">단위 <span class="required">*</span></span><input class="form-input readonly" value="개월" readonly></div></div></div>
+      <div class="form-section animate-in"><div class="form-section-title">진료기록</div><div class="form-row"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2026.02.05"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div><div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div><div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="메모를 입력하세요" rows="2" style="resize:none;"></textarea></div></div>
+      <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+      <div style="height:20px;"></div>
+    </div>
+  </div>
+
+  <!-- New Record Input -->
+
+  <div class="screen" id="screen-new-record">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-individual-home')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="screen-content">
+      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름 <span class="required">*</span></span><input class="form-input" placeholder="농장주 이름을 입력하세요"></div><div class="form-group"><span class="form-label">농장 주소 <span class="required">*</span></span><input class="form-input" placeholder="농장 주소를 입력하세요"></div></div>
+      <div class="form-section"><div class="form-section-title">개체 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">이표번호 <span class="required">*</span></span><input class="form-input" placeholder="이표번호를 입력하세요"></div><div class="form-row"><div class="form-group"><span class="form-label">축종 <span class="required">*</span></span><select class="form-select"><option>선택</option><option>한우</option><option>젖소</option><option>육우</option></select></div><div class="form-group"><span class="form-label">성별 <span class="required">*</span></span><select class="form-select"><option>선택</option><option>암컷</option><option>수컷</option></select></div></div><div class="form-row"><div class="form-group"><span class="form-label">연령 <span class="required">*</span></span><input class="form-input" placeholder="입력"></div><div class="form-group"><span class="form-label">단위 <span class="required">*</span></span><select class="form-select"><option>선택</option><option>일</option><option>개월</option><option>년</option></select></div></div></div>
+      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-row"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2026.02.05"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div><div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말</option><option>야간</option></select></div></div><div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="메모를 입력하세요" rows="2" style="resize:none;"></textarea></div></div>
+      <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+      <div style="height:20px;"></div>
+    </div>
+  </div>
+
+  <!-- Group Input (ear tags) - UPDATED: 다음 button goes to group-record-input -->
+
+  <div class="screen" id="screen-group-input">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-home')">‹</button><span class="page-title">군집진료</span></div>
+    <div class="screen-content" style="display:flex; flex-direction:column; height:100%;">
+      <div style="padding:20px 20px 0;"><div style="font-size:18px; font-weight:700; color:var(--gray-700); line-height:1.4;">어떤 개체들을 진료하셨나요?</div></div>
+      <div style="padding:16px 20px 0; flex:1; display:flex; flex-direction:column;">
+        <div style="font-size:13px; color:var(--gray-500); margin-bottom:12px; line-height:1.5;">개체번호를 한 줄에 하나씩 입력해주세요<br><span style="color:var(--gray-400);">중복된 개체번호는 제외됩니다</span></div>
+        <textarea class="form-input" style="flex:1; min-height:200px; resize:none; font-size:15px; line-height:2; font-family:'Noto Sans KR', monospace;" placeholder="002123456780&#10;002234567890&#10;002345678901&#10;...">002123456780
+002234567890
+002345678901
+002456789012</textarea>
+      </div>
+      <div style="padding:20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="navigateTo('screen-group-record-input')">다음</button></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
+      <div class="nav-item" onclick="switchTab('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>기록</span></div>
+      <div class="nav-item" onclick="switchTab('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>관리</span></div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Save Success -->
+
+  <div class="screen" id="screen-group-record-input">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-group-input')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="screen-content">
+      <!-- 진료 유형 선택 -->
+      <div class="form-section animate-in">
+        <div class="form-section-title">진료 유형</div>
+        <div class="treatment-tabs" id="treatment-tabs">
+          <button class="treatment-tab active" onclick="switchTreatmentType('castration')">거세</button>
+          <button class="treatment-tab" onclick="switchTreatmentType('blood')">채혈</button>
+          <button class="treatment-tab" onclick="switchTreatmentType('general')">일반 진료</button>
+        </div>
+      </div>
+
+      <!-- 농장주 정보 -->
+      <div class="form-section animate-in" style="animation-delay:0.05s">
+        <div class="form-section-title">농장주 정보</div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름 <span class="required">*</span></span><input class="form-input readonly" value="김형만" readonly></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장 주소 <span class="required">*</span></span><input class="form-input readonly" value="경남 양산시 물금읍 123-45" readonly></div>
+        <div class="form-group"><span class="form-label">핸드폰 번호 <span class="required">*</span></span><input class="form-input" placeholder="010-0000-0000"></div>
+      </div>
+
+      <!-- 개체별 정보 -->
+      <div class="form-section animate-in" style="animation-delay:0.1s">
+        <div class="form-section-title">개체별 정보</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:13px; color:var(--gray-500);">전체 이표번호 확인</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:13px; font-weight:600; color:var(--brand);">4마리</span>
+            <span style="font-size:12px; color:var(--gray-400);">완료 1/4</span>
+          </div>
+        </div>
+
+        <!-- 거세 개체 카드들 (기본 표시) -->
+        <div id="animal-cards-castration">
+          <div class="group-animal-card filled">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx">1</div><span class="group-animal-id">002-2020-0001-5</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>무혈</option><option>관혈</option></select>
+              <input placeholder="애우번호 (0000)" value="1234">
+            </div>
+          </div>
+
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">2</div><span class="group-animal-id">002-2020-0002-3</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>거세 방법</option><option>무혈</option><option>관혈</option></select>
+              <input placeholder="애우번호 (0000)">
+            </div>
+          </div>
+
+          <div class="group-animal-card warning">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx">3</div><span class="group-animal-id">002-2020-0003-1</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="animal-warning-msg">⚠ 이표번호 검증이 필요합니다</div>
+            <div class="group-animal-fields">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>무혈</option><option>관혈</option></select>
+              <input placeholder="애우번호 (0000)" value="1234">
+            </div>
+          </div>
+
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">4</div><span class="group-animal-id">002-2020-0004-9</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>무혈</option><option>관혈</option></select>
+              <input placeholder="애우번호 (0000)">
+            </div>
+          </div>
+        </div>
+
+        <!-- 채혈 개체 카드들 (숨김) -->
+        <div id="animal-cards-blood" style="display:none;">
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">1</div><span class="group-animal-id">002-2020-0001-5</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-check-row">
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+            </div>
+          </div>
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">2</div><span class="group-animal-id">002-2020-0002-3</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-check-row">
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+            </div>
+          </div>
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">3</div><span class="group-animal-id">002-2020-0003-1</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-check-row">
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+            </div>
+          </div>
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">4</div><span class="group-animal-id">002-2020-0004-9</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-check-row">
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 일반진료 개체 카드들 (숨김) -->
+        <div id="animal-cards-general" style="display:none;">
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">1</div><span class="group-animal-id">002-2020-0001-5</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
+              <input placeholder="결과" style="flex:1;">
+            </div>
+          </div>
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">2</div><span class="group-animal-id">002-2020-0002-3</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
+              <input placeholder="결과" style="flex:1;">
+            </div>
+          </div>
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">3</div><span class="group-animal-id">002-2020-0003-1</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
+              <input placeholder="결과" style="flex:1;">
+            </div>
+          </div>
+          <div class="group-animal-card">
+            <div class="group-animal-header">
+              <div class="group-animal-num"><div class="group-animal-idx" style="background:var(--gray-300);">4</div><span class="group-animal-id">002-2020-0004-9</span></div>
+              <button class="animal-remove">✕</button>
+            </div>
+            <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
+            <div class="group-animal-fields">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
+              <input placeholder="결과" style="flex:1;">
+            </div>
+          </div>
+        </div>
+
+        <!-- 개체 추가 -->
+        <div class="ear-tag-input-row" style="margin-top:10px;">
+          <div class="group-animal-idx" style="background:var(--gray-300); flex-shrink:0;">5</div>
+          <input placeholder="002-0000-0000-0" style="flex:1; border:1.5px solid var(--gray-200); border-radius:8px; padding:8px 10px; font-size:13px; font-family:inherit;">
+          <button class="ear-tag-confirm-btn" onclick="showToast('개체 확인 중...')">확인</button>
+          <button class="animal-remove" style="flex-shrink:0;">✕</button>
+        </div>
+        <button class="animal-add-btn" style="margin-top:10px;" onclick="showToast('개체 추가')">+ 개체 추가</button>
+      </div>
+
+      <!-- 진료기록 -->
+      <div class="form-section animate-in" style="animation-delay:0.15s">
+        <div class="form-section-title">진료기록</div>
+        <div class="form-row">
+          <div class="form-group"><span class="form-label">진료 일자 <span class="required">*</span></span><input class="form-input" type="text" value="2026.02.05"></div>
+          <div class="form-group" style="max-width:120px;">
+            <span class="form-label">진단 템플릿</span>
+            <button class="template-chip" onclick="showToast('템플릿 선택')">선택 ▾</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+        <div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+        <div class="form-row"><div class="form-group"><span class="form-label">보험여부</span><select class="form-select"><option>없음</option><option>가축공제</option><option>기타</option></select></div><div class="form-group"><span class="form-label">자기부담율 %</span><input class="form-input" placeholder="%"></div></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">최종 진료비 <span class="required">*</span></span><input class="form-input readonly" value="0" readonly></div>
+        <div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="2" style="resize:none;"></textarea></div>
+      </div>
+
+      <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+      <div style="height:20px;"></div>
+    </div>
+  </div>
+
+  <!-- Individual doc list -->
+

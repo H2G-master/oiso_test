@@ -1,0 +1,54 @@
+  <div class="screen" id="screen-records">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="screen-content">
+      <div class="records-header"><div class="month-nav"><button class="month-arrow">‹</button><span class="month-text">2026년 2월</span><button class="month-arrow">›</button></div><div class="total-fee">총 진료비 <strong>₩10,130,429</strong></div></div>
+      <div class="guide-msg">각 진료기록을 탭하여 개별 기록 수정, 청구서·서류 발급</div>
+      <div class="record-card" onclick="navigateTo('screen-record-detail-group')">
+        <div class="record-card-top"><span class="record-id">군집진료<span class="group-badge">4두</span></span><span class="record-time">02-05 14:30</span></div>
+        <div class="record-info">김형만 | 경상남도 양산시 물금읍 증산리 ...</div>
+        <div class="record-bottom"><span class="status-badge settled" onclick="event.stopPropagation(); openStatusSheet(this, 'settled')">✓ 정산완료</span><span class="record-fee">₩100,000</span></div>
+      </div>
+      <div class="record-card" onclick="navigateTo('screen-record-detail')">
+        <div class="record-card-top"><span class="record-id">1742-2421-0</span><span class="record-time">02-04 14:30</span></div>
+        <div class="record-info">한우 | 수컷 | 2세<br>김형만 | 경상남도 양산시 물금읍 증산리 ...</div>
+        <div class="record-bottom"><span class="status-badge unsettled" onclick="event.stopPropagation(); openStatusSheet(this, 'unsettled')">✕ 미정산</span><span class="record-fee">₩100,000</span></div>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
+      <div class="nav-item active" onclick="switchTab('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>기록</span></div>
+      <div class="nav-item" onclick="switchTab('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>관리</span></div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Record Detail (individual) -->
+
+  <div class="screen" id="screen-record-detail">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:12px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">진료 기록 상세보기</span></div><span class="status-header-badge settled">✓ 정산완료</span></div>
+    <div class="screen-content">
+      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="김현만" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경상남도 양산시 물금읍 증산리..." readonly></div></div>
+      <div class="form-section"><div class="form-section-title">개체 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">이표번호</span><input class="form-input readonly" value="002-1743-2421-0" readonly></div><div class="form-row"><div class="form-group"><span class="form-label">축종</span><input class="form-input readonly" value="한우" readonly></div><div class="form-group"><span class="form-label">성별</span><input class="form-input readonly" value="수컷" readonly></div></div></div>
+      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.04 14:30"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명</span><input class="form-input" value="설사, 장염"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역</span><textarea class="form-input" rows="2" style="resize:none;">DW, 10percent dex, KCL, MGsulfate, choco3 IV</textarea></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩100,000" readonly></div></div>
+      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="navigateTo('screen-doc-individual')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 서류 발급</button></div>
+      <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
+    </div>
+  </div>
+
+  <!-- Record Detail (group) -->
+
+  <div class="screen" id="screen-record-detail-group">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:12px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">군집진료 상세보기</span></div><span class="status-header-badge settled">✓ 정산완료</span></div>
+    <div class="screen-content">
+      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="김형만" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경남 양산시 물금읍 123-45" readonly></div></div>
+      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료유형</span><input class="form-input readonly" value="거세" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.05 14:30"></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩100,000" readonly></div></div>
+      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="navigateTo('screen-doc-group')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 서류 발급</button></div>
+      <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
+    </div>
+  </div>
+
+  <!-- Search -->
+

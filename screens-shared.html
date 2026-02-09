@@ -1,0 +1,27 @@
+  <div class="bottom-sheet-overlay" id="status-sheet-overlay" onclick="closeStatusSheet()">
+    <div class="bottom-sheet" onclick="event.stopPropagation()">
+      <div class="bottom-sheet-handle"></div>
+      <div class="bottom-sheet-title">정산 상태 변경</div>
+      <div class="bottom-sheet-options">
+        <button class="bottom-sheet-option" data-status="settled" onclick="selectStatus('settled')"><div class="option-icon settled-icon">✓</div><div class="option-text"><div class="option-name">정산완료</div><div class="option-desc">진료비가 정산되었습니다</div></div><div class="option-check">✓</div></button>
+        <button class="bottom-sheet-option" data-status="unsettled" onclick="selectStatus('unsettled')"><div class="option-icon unsettled-icon">✕</div><div class="option-text"><div class="option-name">미정산</div><div class="option-desc">아직 정산되지 않았습니다</div></div><div class="option-check">✓</div></button>
+        <button class="bottom-sheet-option" data-status="pending" onclick="selectStatus('pending')"><div class="option-icon pending-icon">⏳</div><div class="option-text"><div class="option-name">정산대기</div><div class="option-desc">정산 처리를 기다리고 있습니다</div></div><div class="option-check">✓</div></button>
+      </div>
+      <button class="bottom-sheet-cancel" onclick="closeStatusSheet()">취소</button>
+    </div>
+  </div>
+
+  <!-- Toast & Alert -->
+
+  <div class="toast" id="toast"></div>
+  <div class="alert-overlay" id="alert-overlay" onclick="closeAlert()">
+    <div class="alert-box" onclick="event.stopPropagation()">
+      <div class="alert-title" id="alert-title"></div>
+      <div class="alert-msg" id="alert-msg"></div>
+      <div class="alert-btns">
+        <button class="alert-btn alert-btn-cancel" id="alert-cancel" onclick="closeAlert()"></button>
+        <button class="alert-btn alert-btn-confirm" id="alert-confirm" onclick="closeAlert(); showToast('삭제되었습니다')"></button>
+      </div>
+    </div>
+  </div>
+
