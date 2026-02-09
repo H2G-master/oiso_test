@@ -83,3 +83,13 @@ function handleSearch(val){
     results.innerHTML='<div style="text-align:center; padding:60px 40px; color:var(--gray-400); font-size:14px;">검색 결과가 없습니다</div>';
   }
 }
+function showFarmerPopup() {
+  document.getElementById('farmer-popup').classList.add('active');
+}
+function closeFarmerPopup() {
+  document.getElementById('farmer-popup').classList.remove('active');
+}
+function selectFarmer(name) {
+  closeFarmerPopup();
+  navigateTo('screen-group-record-input');
+}

@@ -38,7 +38,34 @@
 002345678901
 002456789012</textarea>
       </div>
-      <div style="padding:20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="navigateTo('screen-group-record-input')">다음</button></div>
+      <div style="padding:20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="showFarmerPopup()">다음</button></div>
+    </div>
+    <!-- 농장주 선택 팝업 -->
+    <div class="farmer-popup-overlay" id="farmer-popup" onclick="closeFarmerPopup()">
+      <div class="farmer-popup" onclick="event.stopPropagation()">
+        <div class="farmer-popup-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#37353E" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="farmer-popup-title">조회된 농장주가 2명 이상 있어요</div>
+        <div class="farmer-popup-desc">기록을 작성할 개체들의 농장주를 선택해주세요</div>
+        <div class="farmer-popup-list">
+          <div class="farmer-popup-item" onclick="selectFarmer('김형만')">
+            <div>
+              <div class="farmer-popup-name">김형만</div>
+              <div class="farmer-popup-addr">경남 양산시 물금읍 123-45</div>
+            </div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="farmer-popup-item" onclick="selectFarmer('박영희')">
+            <div>
+              <div class="farmer-popup-name">박영희</div>
+              <div class="farmer-popup-addr">경남 양산시 물금읍 123-45</div>
+            </div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+        </div>
+        <button class="farmer-popup-cancel" onclick="closeFarmerPopup()">취소</button>
+      </div>
     </div>
     <div class="bottom-nav">
       <div class="nav-item active" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
