@@ -93,3 +93,42 @@ function selectFarmer(name) {
   closeFarmerPopup();
   navigateTo('screen-group-record-input');
 }
+
+function toggleGroupNextBtn() {
+  var textarea = document.getElementById('group-textarea');
+  var btn = document.getElementById('group-next-btn');
+  if (!textarea || !btn) return;
+  if (textarea.value.trim().length > 0) {
+    btn.classList.remove('disabled');
+  } else {
+    btn.classList.add('disabled');
+  }
+}
+
+function checkCardFilled(el) {
+  var card = el.closest('.group-animal-card');
+  if (!card) return;
+  var select = card.querySelector('select');
+  var input = card.querySelector('input');
+  var idx = card.querySelector('.group-animal-idx');
+  if (!select || !input) return;
+  var isFilled = select.value !== '' && input.value.trim() !== '';
+  if (isFilled) {
+    card.classList.add('filled');
+    if (idx) idx.style.background = '';
+  } else {
+    card.classList.remove('filled');
+    if (idx) idx.style.background = 'var(--gray-300)';
+  }
+  updateFilledCount();
+}
+
+function updateFilledCount() {
+  var container = document.getElementById('animal-cards-castration');
+  var counter = document.getElementById('filled-count');
+  if (!container || !counter) return;
+  var cards = container.querySelectorAll('.group-animal-card');
+  var filled = container.querySelectorAll('.group-animal-card.filled').length;
+  var total = cards.length;
+  counter.textContent = '완료 ' + filled + '/' + total;
+}

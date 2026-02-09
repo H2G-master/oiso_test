@@ -612,3 +612,25 @@ body {
   cursor: pointer; font-family: inherit;
 }
 .farmer-popup-cancel:active { background: var(--gray-200); }
+
+/* Disabled save button */
+.save-btn.disabled {
+  background: var(--gray-300) !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Verify all button */
+.verify-all-btn {
+  padding: 6px 14px;
+  background: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.verify-all-btn:active { opacity: 0.8; }

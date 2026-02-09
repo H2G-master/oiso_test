@@ -33,12 +33,9 @@
       <div style="padding:20px 20px 0;"><div style="font-size:18px; font-weight:700; color:var(--gray-700); line-height:1.4;">어떤 개체들을 진료하셨나요?</div></div>
       <div style="padding:16px 20px 0; flex:1; display:flex; flex-direction:column;">
         <div style="font-size:13px; color:var(--gray-500); margin-bottom:12px; line-height:1.5;">개체번호를 한 줄에 하나씩 입력해주세요<br><span style="color:var(--gray-400);">중복된 개체번호는 제외됩니다</span></div>
-        <textarea class="form-input" style="flex:1; min-height:200px; resize:none; font-size:15px; line-height:2; font-family:'Noto Sans KR', monospace;" placeholder="002123456780&#10;002234567890&#10;002345678901&#10;...">002123456780
-002234567890
-002345678901
-002456789012</textarea>
+        <textarea class="form-input" id="group-textarea" oninput="toggleGroupNextBtn()" style="flex:1; min-height:200px; resize:none; font-size:15px; line-height:2; font-family:'Noto Sans KR', monospace;" placeholder="002123456780&#10;002234567890&#10;002345678901&#10;..."></textarea>
       </div>
-      <div style="padding:20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="showFarmerPopup()">다음</button></div>
+      <div style="padding:20px;"><button class="save-btn disabled" id="group-next-btn" style="margin:0; width:100%;" onclick="showFarmerPopup()">다음</button></div>
     </div>
     <!-- 농장주 선택 팝업 -->
     <div class="farmer-popup-overlay" id="farmer-popup" onclick="closeFarmerPopup()">
@@ -101,15 +98,12 @@
 
       <!-- 개체별 정보 -->
       <div class="form-section animate-in" style="animation-delay:0.1s">
-        <div class="form-section-title">개체별 정보</div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:13px; color:var(--gray-500);">전체 이표번호 확인</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:13px; font-weight:600; color:var(--brand);">4마리</span>
-            <span style="font-size:12px; color:var(--gray-400);">완료 1/4</span>
-          </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div class="form-section-title" style="margin-bottom:0;">개체별 정보</div>
+          <button class="verify-all-btn" onclick="showToast('전체 이표번호 확인 중...')">전체 이표번호 확인</button>
+        </div>
+        <div style="margin-bottom:12px;">
+          <span style="font-size:13px; color:var(--gray-500);">4마리 · </span><span id="filled-count" style="font-size:13px; font-weight:600; color:var(--brand);">완료 1/4</span>
         </div>
 
         <!-- 거세 개체 카드들 (기본 표시) -->
@@ -121,8 +115,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>무혈</option><option>관혈</option></select>
-              <input placeholder="애우번호 (0000)" value="1234">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;" onchange="checkCardFilled(this)"><option value="">거세 방법</option><option selected>무혈</option><option>유혈</option></select>
+              <input placeholder="애우번호 (0000)" value="1234" oninput="checkCardFilled(this)">
             </div>
           </div>
 
@@ -133,8 +127,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>거세 방법</option><option>무혈</option><option>관혈</option></select>
-              <input placeholder="애우번호 (0000)">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;" onchange="checkCardFilled(this)"><option value="">거세 방법</option><option>무혈</option><option>유혈</option></select>
+              <input placeholder="애우번호 (0000)" oninput="checkCardFilled(this)">
             </div>
           </div>
 
@@ -145,8 +139,8 @@
             </div>
             <div class="animal-warning-msg">⚠ 이표번호 검증이 필요합니다</div>
             <div class="group-animal-fields">
-              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>무혈</option><option>관혈</option></select>
-              <input placeholder="애우번호 (0000)" value="1234">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;" onchange="checkCardFilled(this)"><option value="">거세 방법</option><option>무혈</option><option>유혈</option></select>
+              <input placeholder="애우번호 (0000)" value="1234" oninput="checkCardFilled(this)">
             </div>
           </div>
 
@@ -157,8 +151,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;"><option>무혈</option><option>관혈</option></select>
-              <input placeholder="애우번호 (0000)">
+              <select class="form-select" style="padding:8px 10px; font-size:13px; border-radius:8px;" onchange="checkCardFilled(this)"><option value="">거세 방법</option><option>무혈</option><option>유혈</option></select>
+              <input placeholder="애우번호 (0000)" oninput="checkCardFilled(this)">
             </div>
           </div>
         </div>
