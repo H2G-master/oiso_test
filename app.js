@@ -164,3 +164,63 @@ function updateFilledCount() {
     }
   }
 }
+
+function showAnimalSelectSheet(docName, targetScreen) {
+  document.getElementById('animal-select-overlay').classList.add('active');
+  var label = document.getElementById('animal-select-doc-name');
+  if (label) label.textContent = docName;
+  window._docTarget = targetScreen || 'screen-doc-grp-diagnosis';
+}
+function closeAnimalSelectSheet() {
+  var overlay = document.getElementById('animal-select-overlay');
+  if (overlay) overlay.classList.remove('active');
+}
+function selectAnimalForDoc(el) {
+  el.closest('.animal-select-list').querySelectorAll('.animal-select-item').forEach(function(item) {
+    item.classList.remove('selected');
+  });
+  el.classList.add('selected');
+}
+
+function showDocSelectSheet() {
+  document.getElementById('doc-select-overlay').classList.add('active');
+}
+function closeDocSelectSheet() {
+  document.getElementById('doc-select-overlay').classList.remove('active');
+}
+function showAnimalSelectSheet2(docName, targetScreen) {
+  var overlay = document.getElementById('animal-select-overlay-group');
+  var label = document.getElementById('animal-select-doc-name2');
+  if (label) label.textContent = docName || '진단서';
+  window._docTarget = targetScreen || 'screen-doc-grp-diagnosis';
+  if (overlay) overlay.classList.add('active');
+}
+function closeAnimalSelectSheet2() {
+  document.getElementById('animal-select-overlay-group').classList.remove('active');
+}
+function selectAnimalForDoc2(el) {
+  el.closest('.animal-select-list').querySelectorAll('.animal-select-item').forEach(function(item) {
+    item.classList.remove('selected');
+  });
+  el.classList.add('selected');
+}
+
+var docFormMap = {
+  'screen-doc-grp-diagnosis': 'doc-form-diagnosis',
+  'screen-doc-grp-castration': 'doc-form-castration',
+  'screen-doc-grp-labtest': 'doc-form-labtest'
+};
+function openDocForm(target) {
+  var formId = docFormMap[target] || target;
+  var el = document.getElementById(formId);
+  if (el) el.classList.add('active');
+}
+function closeDocForm(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function closeAllDocSheets() {
+  document.querySelectorAll('.doc-form-overlay, .animal-select-overlay').forEach(function(el) {
+    el.classList.remove('active');
+  });
+}

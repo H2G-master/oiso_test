@@ -25,3 +25,218 @@
     </div>
   </div>
 
+
+
+  <!-- 서류 작성 바텀시트 (공용) -->
+    <!-- 진단서 작성 바텀시트 -->
+    <div class="doc-form-overlay" id="doc-form-diagnosis" onclick="closeDocForm('doc-form-diagnosis')">
+      <div class="doc-form-sheet" onclick="event.stopPropagation()">
+        <div class="doc-form-sheet-header">
+          <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-form-diagnosis'); showAnimalSelectSheet2('진단서','screen-doc-grp-diagnosis')">‹</button><span class="doc-form-sheet-title">📋 진단서 작성</span></div>
+          <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+        </div>
+        <div class="doc-form-sheet-body">
+          <div style="padding:12px 20px 0;"><div class="guide-banner info" style="margin:0;">📋 진료 기록에서 정보가 자동으로 입력되었습니다</div></div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">👤</div>동물 소유자 (관리인)</div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">성명 <span class="required">*</span></span><input class="form-input readonly" value="김현만" readonly></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">주소 <span class="required">*</span></span><input class="form-input readonly" value="경남 양산시 물금읍 방리동 123-2 205호" readonly></div>
+            <div class="form-group"><span class="form-label">사육 장소</span><input class="form-input" value="경남 양산시 물금읍 방리동 123-2 205호"></div>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">🐄</div>동물의 표시</div>
+            <div class="form-row"><div class="form-group"><span class="form-label">종류 <span class="required">*</span></span><input class="form-input readonly" value="소" readonly></div><div class="form-group"><span class="form-label">품종 <span class="required">*</span></span><input class="form-input readonly" value="한우" readonly></div></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">동물명 (개체식별번호) <span class="required">*</span></span><input class="form-input readonly" value="1233-3132-2" readonly></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">성별 <span class="required">*</span></span><input class="form-input readonly" value="수컷" readonly></div><div class="form-group"><span class="form-label">연령</span><input class="form-input readonly" value="2세" readonly></div></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">모색</span><input class="form-input" placeholder="예: 황색"></div><div class="form-group"><span class="form-label">특징</span><input class="form-input" placeholder="특이사항 입력"></div></div>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">📋</div>진단 정보</div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">병명 <span class="required">*</span></span><input class="form-input" value="설사, 장염"></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">발병 연월일 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">진단 연월일 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">예후 소견 <span class="required">*</span></span><textarea class="form-input" rows="3" style="resize:none;" placeholder="예후 소견을 입력하세요"></textarea></div>
+            <div class="form-group"><span class="form-label">그 밖의 사항</span><textarea class="form-input" rows="2" style="resize:none;" placeholder="기타 사항을 입력하세요"></textarea></div>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">🏥</div>발급 기관</div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">동물병원 명칭</span><input class="form-input readonly" value="다함께 동물병원" readonly></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">동물병원 주소</span><input class="form-input readonly" value="경남 양산시 물금읍 123-56" readonly></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">전화번호</span><input class="form-input readonly" value="010-1234-5678" readonly></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">수의사 면허번호</span><input class="form-input readonly" value="12344" readonly></div><div class="form-group"><span class="form-label">수의사 성명</span><input class="form-input readonly" value="홍길동" readonly></div></div>
+          </div>
+          <div style="padding:0 20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="closeDocForm('doc-form-diagnosis'); openDocForm('doc-preview-diagnosis')">미리보기 및 발급</button></div>
+          <div style="height:20px;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 거세확인서 작성 바텀시트 -->
+    <div class="doc-form-overlay" id="doc-form-castration" onclick="closeDocForm('doc-form-castration')">
+      <div class="doc-form-sheet" onclick="event.stopPropagation()">
+        <div class="doc-form-sheet-header">
+          <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-form-castration'); showAnimalSelectSheet2('거세확인서','screen-doc-grp-castration')">‹</button><span class="doc-form-sheet-title">✂️ 거세확인서 작성</span></div>
+          <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+        </div>
+        <div class="doc-form-sheet-body">
+          <div style="padding:12px 20px 0;"><div class="guide-banner info" style="margin:0;">✂️ 진료기록에서 거세 정보가 불러와졌습니다</div></div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">👤</div>동물 소유자 (관리인)</div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">성명 <span class="required">*</span></span><input class="form-input readonly" value="김현만" readonly></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">주소 <span class="required">*</span></span><input class="form-input readonly" value="경남 양산시 물금읍 방리동 123-2 205호" readonly></div>
+            <div class="form-group"><span class="form-label">핸드폰 번호 <span class="required">*</span></span><input class="form-input" placeholder="010-0000-0000"></div>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">✂️</div>거세실적</div>
+            <div class="entry-card">
+              <div class="entry-card-header"><span class="entry-card-title">개체 1</span><button class="animal-remove">✕</button></div>
+              <div class="form-group" style="margin-bottom:10px;"><span class="form-label">개체식별번호 <span class="required">*</span></span><input class="form-input readonly" value="002-1233-3132-2" readonly></div>
+              <div class="form-row"><div class="form-group"><span class="form-label">거세일자 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">애우번호</span><input class="form-input" value="0174"></div></div>
+              <div class="form-row"><div class="form-group"><span class="form-label">출생일</span><input class="form-input" value="2024. 02. 01."></div><div class="form-group"><span class="form-label">거세방법 <span class="required">*</span></span><select class="form-select"><option>무혈</option><option>유혈</option></select></div></div>
+            </div>
+            <div class="entry-card">
+              <div class="entry-card-header"><span class="entry-card-title">개체 2</span><button class="animal-remove">✕</button></div>
+              <div class="form-group" style="margin-bottom:10px;"><span class="form-label">개체식별번호 <span class="required">*</span></span><input class="form-input readonly" value="002-1233-3132-2" readonly></div>
+              <div class="form-row"><div class="form-group"><span class="form-label">거세일자 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">애우번호</span><input class="form-input" value="0174"></div></div>
+              <div class="form-row"><div class="form-group"><span class="form-label">출생일</span><input class="form-input" value="2024. 02. 01."></div><div class="form-group"><span class="form-label">거세방법 <span class="required">*</span></span><select class="form-select"><option>유혈</option><option>무혈</option></select></div></div>
+            </div>
+            <button class="animal-add-btn" onclick="showToast('개체 추가')">+ 개체 추가</button>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">✅</div>확인자</div>
+            <div class="form-row"><div class="form-group"><span class="form-label">농가</span><input class="form-input readonly" value="김현만" readonly></div><div class="form-group"><span class="form-label">시술자</span><input class="form-input readonly" value="홍길동" readonly></div></div>
+            <div class="form-group"><span class="form-label">협조단체 <span class="required">*</span></span><input class="form-input" placeholder="예: 한우협회"></div>
+          </div>
+          <div style="padding:0 20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="closeDocForm('doc-form-castration'); openDocForm('doc-preview-castration')">미리보기 및 발급</button></div>
+          <div style="height:20px;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 검사의뢰서 작성 바텀시트 -->
+    <div class="doc-form-overlay" id="doc-form-labtest" onclick="closeDocForm('doc-form-labtest')">
+      <div class="doc-form-sheet" onclick="event.stopPropagation()">
+        <div class="doc-form-sheet-header">
+          <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-form-labtest'); showAnimalSelectSheet2('검사의뢰서','screen-doc-grp-labtest')">‹</button><span class="doc-form-sheet-title">🧪 검사의뢰서 작성</span></div>
+          <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+        </div>
+        <div class="doc-form-sheet-body">
+          <div style="padding:12px 20px 0;"><div class="guide-banner info" style="margin:0;">🧪 검사기관에 제출할 의뢰서를 작성합니다</div></div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">👤</div>동물 소유자 (관리인)</div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">성명 <span class="required">*</span></span><input class="form-input readonly" value="김현만" readonly></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">주소 <span class="required">*</span></span><input class="form-input readonly" value="경남 양산시 물금읍 방리동 123-2 205호" readonly></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">핸드폰 번호 <span class="required">*</span></span><input class="form-input" placeholder="010-0000-0000"></div><div class="form-group"><span class="form-label">생년월일</span><input class="form-input" placeholder="연도. 월. 일."></div></div>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">🐄</div>의뢰가축 내역</div>
+            <div class="entry-card">
+              <div class="entry-card-header"><span class="entry-card-title">개체 1</span><button class="animal-remove">✕</button></div>
+              <div class="form-group" style="margin-bottom:10px;"><span class="form-label">개체식별번호 <span class="required">*</span></span><input class="form-input readonly" value="002-1233-3132-2" readonly></div>
+              <div class="form-row"><div class="form-group"><span class="form-label">연령</span><input class="form-input readonly" value="2세" readonly></div><div class="form-group"><span class="form-label">품종</span><input class="form-input readonly" value="한우" readonly></div><div class="form-group"><span class="form-label">성별</span><input class="form-input readonly" value="수컷" readonly></div></div>
+              <div class="form-group" style="margin-top:10px;">
+                <span class="form-label">검사 항목</span>
+                <div class="doc-purpose-chips" style="margin-top:4px;">
+                  <button class="purpose-chip active" onclick="toggleLabTest(this)">브루셀라</button>
+                  <button class="purpose-chip active" onclick="toggleLabTest(this)">결핵</button>
+                </div>
+              </div>
+              <div style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--gray-200);">
+                <div style="font-size:12px; font-weight:500; color:var(--gray-400); margin-bottom:8px;">송아지 정보 <span style="font-size:11px;">(선택)</span></div>
+                <div class="form-group" style="margin-bottom:8px;"><span class="form-label">송아지 개체식별번호</span><input class="form-input" placeholder="010-0000-0000"></div>
+                <div class="form-row"><div class="form-group"><span class="form-label">송아지 연령</span><input class="form-input" placeholder="예: 2세"></div><div class="form-group"><span class="form-label">송아지 성별</span><input class="form-input" placeholder="예: 수컷"></div></div>
+              </div>
+            </div>
+            <button class="animal-add-btn" onclick="showToast('개체 추가')">+ 개체 추가</button>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">📋</div>진단 정보</div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">병명 <span class="required">*</span></span><input class="form-input" value="설사, 장염"></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">발병 연월일 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">진단 연월일 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">예후 소견 <span class="required">*</span></span><textarea class="form-input" rows="3" style="resize:none;" placeholder="예후 소견을 입력하세요"></textarea></div>
+            <div class="form-group"><span class="form-label">그 밖의 사항</span><textarea class="form-input" rows="2" style="resize:none;" placeholder="기타 사항을 입력하세요"></textarea></div>
+          </div>
+          <div class="official-form-section">
+            <div class="official-section-title"><div class="section-icon">✍️</div>의뢰자</div>
+            <div class="form-row"><div class="form-group"><span class="form-label">의뢰자 (채혈요원)</span><input class="form-input readonly" value="홍길동" readonly></div><div class="form-group"><span class="form-label">축주</span><input class="form-input readonly" value="김현만" readonly></div></div>
+          </div>
+          <div style="padding:0 20px;"><button class="save-btn" style="margin:0; width:100%;" onclick="closeDocForm('doc-form-labtest'); openDocForm('doc-preview-labtest')">미리보기 및 발급</button></div>
+          <div style="height:20px;"></div>
+        </div>
+      </div>
+    </div>
+
+  <!-- 진단서 미리보기 바텀시트 -->
+  <div class="doc-form-overlay" id="doc-preview-diagnosis" onclick="closeDocForm('doc-preview-diagnosis')">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeDocForm('doc-preview-diagnosis'); openDocForm('doc-form-diagnosis')">‹</button>
+          <span class="doc-form-sheet-title">진단서 미리보기</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div class="doc-form-sheet-body" style="padding:16px 20px 24px;">
+        <div class="pdf-preview">
+          <div class="pdf-doc-title">진 단 서</div>
+          <table class="pdf-table"><tr><th>소유자</th><td>김현만</td></tr><tr><th>주소</th><td>경남 양산시 물금읍 방리동 123-2</td></tr><tr><th>사육장소</th><td>경남 양산시 물금읍 방리동 123-2</td></tr></table>
+          <table class="pdf-table"><tr><th>종류</th><td>소</td><th>품종</th><td>한우</td></tr><tr><th>개체식별번호</th><td colspan="3">1233-3132-2</td></tr><tr><th>성별</th><td>수컷</td><th>연령</th><td>2세</td></tr></table>
+          <div class="pdf-section-title">진단 내용</div>
+          <table class="pdf-table"><tr><th>병명</th><td>설사, 장염</td></tr><tr><th>발병일</th><td>2026. 02. 01.</td></tr><tr><th>진단일</th><td>2026. 02. 01.</td></tr><tr><th>예후 소견</th><td>—</td></tr></table>
+          <div class="pdf-footer"><div class="date">2026년 02월 06일</div><div class="vet-info">다함께 동물병원<br>수의사 면허번호: 12344<br>수의사 <span class="pdf-stamp">인</span><br><span class="vet-name">홍길동</span></div></div>
+        </div>
+        <div class="share-btns"><button class="share-btn share-kakao" onclick="showToast('카카오톡으로 전송합니다')">💬 카카오톡</button><button class="share-btn share-sms" onclick="showToast('PDF 저장 완료')">📄 PDF 저장</button></div>
+        <button class="save-btn" style="margin:0; width:100%;" onclick="closeAllDocSheets(); showToast('진단서가 발급되었습니다')">발급 완료</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 거세확인서 미리보기 바텀시트 -->
+  <div class="doc-form-overlay" id="doc-preview-castration" onclick="closeDocForm('doc-preview-castration')">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeDocForm('doc-preview-castration'); openDocForm('doc-form-castration')">‹</button>
+          <span class="doc-form-sheet-title">거세확인서 미리보기</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div class="doc-form-sheet-body" style="padding:16px 20px 24px;">
+        <div class="pdf-preview">
+          <div class="pdf-doc-title">거 세 확 인 서</div>
+          <table class="pdf-table"><tr><th>소유자</th><td>김현만</td></tr><tr><th>주소</th><td>경남 양산시 물금읍 방리동 123-2</td></tr></table>
+          <div class="pdf-section-title">거세실적</div>
+          <table class="pdf-animal-list"><tr><th>No.</th><th>개체식별번호</th><th>거세일자</th><th>애우번호</th><th>거세방법</th></tr><tr><td>1</td><td style="font-size:9px;">002-1233-3132-2</td><td>2026.02.01</td><td>0174</td><td>유혈</td></tr><tr><td>2</td><td style="font-size:9px;">002-1233-3132-2</td><td>2026.02.01</td><td>0174</td><td>유혈</td></tr></table>
+          <table class="pdf-table"><tr><th>농가</th><td>김현만</td><th>시술자</th><td>홍길동</td></tr><tr><th>협조단체</th><td colspan="3">—</td></tr></table>
+          <div style="text-align:center; font-size:12px; color:var(--gray-500); margin:16px 0;">위와 같이 거세 시술을 실시하였음을 확인합니다.</div>
+          <div class="pdf-footer"><div class="date">2026년 02월 06일</div><div class="vet-info">다함께 동물병원<br>수의사 <span class="pdf-stamp">인</span><br><span class="vet-name">홍길동</span></div></div>
+        </div>
+        <div class="share-btns"><button class="share-btn share-kakao" onclick="showToast('카카오톡으로 전송합니다')">💬 카카오톡</button><button class="share-btn share-sms" onclick="showToast('PDF 저장 완료')">📄 PDF 저장</button></div>
+        <button class="save-btn" style="margin:0; width:100%;" onclick="closeAllDocSheets(); showToast('거세확인서가 발급되었습니다')">발급 완료</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 검사의뢰서 미리보기 바텀시트 -->
+  <div class="doc-form-overlay" id="doc-preview-labtest" onclick="closeDocForm('doc-preview-labtest')">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeDocForm('doc-preview-labtest'); openDocForm('doc-form-labtest')">‹</button>
+          <span class="doc-form-sheet-title">검사의뢰서 미리보기</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div class="doc-form-sheet-body" style="padding:16px 20px 24px;">
+        <div class="pdf-preview">
+          <div class="pdf-doc-title">검 사 의 뢰 서</div>
+          <table class="pdf-table"><tr><th>의뢰인</th><td>김현만</td></tr><tr><th>주소</th><td>경남 양산시 물금읍 방리동 123-2</td></tr></table>
+          <div class="pdf-section-title">의뢰가축 내역</div>
+          <table class="pdf-animal-list"><tr><th>No.</th><th>개체식별번호</th><th>연령</th><th>품종</th><th>성별</th><th>검사항목</th></tr><tr><td>1</td><td style="font-size:9px;">002-1233-3132-2</td><td>2세</td><td>한우</td><td>수</td><td style="font-size:9px;">브루셀라,결핵</td></tr></table>
+          <div class="pdf-section-title">진단 정보</div>
+          <table class="pdf-table"><tr><th>병명</th><td>설사, 장염</td></tr><tr><th>발병일</th><td>2026.02.01</td></tr><tr><th>예후</th><td>—</td></tr></table>
+          <table class="pdf-table"><tr><th>의뢰자</th><td>홍길동</td><th>축주</th><td>김현만</td></tr></table>
+          <div class="pdf-footer"><div class="date">2026년 02월 06일</div><div class="vet-info">다함께 동물병원<br>수의사 <span class="pdf-stamp">인</span><br><span class="vet-name">홍길동</span></div></div>
+        </div>
+        <div class="share-btns"><button class="share-btn share-kakao" onclick="showToast('카카오톡으로 전송합니다')">💬 카카오톡</button><button class="share-btn share-sms" onclick="showToast('PDF 저장 완료')">📄 PDF 저장</button></div>
+        <button class="save-btn" style="margin:0; width:100%;" onclick="closeAllDocSheets(); showToast('검사의뢰서가 발급되었습니다')">발급 완료</button>
+      </div>
+    </div>
+  </div>

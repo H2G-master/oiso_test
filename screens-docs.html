@@ -25,9 +25,52 @@
         <div style="font-size:12px; color:var(--gray-400); margin-top:8px; line-height:1.5; background:var(--gray-50); padding:10px 12px; border-radius:8px;">이외의 서류 (예: 의뢰서, 임신감정서, ...) 발급은<br><strong style="color:var(--brand);">오이소 Web</strong>에서 발급하실 수 있습니다</div>
       </div>
       <div style="padding:12px 0;">
-        <div class="doc-type-item animate-in" onclick="navigateTo('screen-doc-grp-diagnosis')"><div class="doc-type-info"><div class="doc-type-icon blue">📋</div><div><div class="doc-type-name">진단서</div><div class="doc-type-desc">군집 진단 내용을 기록합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
-        <div class="doc-type-item animate-in" style="animation-delay:0.05s" onclick="navigateTo('screen-doc-grp-castration')"><div class="doc-type-info"><div class="doc-type-icon green">✂️</div><div><div class="doc-type-name">거세 확인서</div><div class="doc-type-desc">거세 시술 내역을 확인합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
-        <div class="doc-type-item animate-in" style="animation-delay:0.1s" onclick="navigateTo('screen-doc-grp-labtest')"><div class="doc-type-info"><div class="doc-type-icon orange">🧪</div><div><div class="doc-type-name">검사의뢰서</div><div class="doc-type-desc">혈액검사 등 검사를 의뢰합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" onclick="showAnimalSelectSheet('진단서','screen-doc-grp-diagnosis')"><div class="doc-type-info"><div class="doc-type-icon blue">📋</div><div><div class="doc-type-name">진단서</div><div class="doc-type-desc">군집 진단 내용을 기록합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" style="animation-delay:0.05s" onclick="showAnimalSelectSheet('거세확인서','screen-doc-grp-castration')"><div class="doc-type-info"><div class="doc-type-icon green">✂️</div><div><div class="doc-type-name">거세 확인서</div><div class="doc-type-desc">거세 시술 내역을 확인합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" style="animation-delay:0.1s" onclick="showAnimalSelectSheet('검사의뢰서','screen-doc-grp-labtest')"><div class="doc-type-info"><div class="doc-type-icon orange">🧪</div><div><div class="doc-type-name">검사의뢰서</div><div class="doc-type-desc">혈액검사 등 검사를 의뢰합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+      </div>
+    </div>
+    <!-- 개체 선택 바텀시트 -->
+    <div class="animal-select-overlay" id="animal-select-overlay" onclick="closeAnimalSelectSheet()">
+      <div class="animal-select-sheet" onclick="event.stopPropagation()">
+        <div class="animal-select-header">
+          <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeAnimalSelectSheet()">‹</button><div><span class="animal-select-title-highlight" id="animal-select-doc-name">진단서</span><span class="animal-select-title"> 작성</span></div></div>
+          <button class="animal-select-close" onclick="closeAllDocSheets()">✕</button>
+        </div>
+        <div class="animal-select-desc">발급할 개체를 선택해주세요</div>
+        <div class="animal-select-list">
+          <div class="animal-select-item" onclick="selectAnimalForDoc(this)">
+            <div>
+              <div class="animal-select-id">002-2020-0001-5</div>
+              <div class="animal-select-info">한우 · 수 · 8개월</div>
+            </div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="animal-select-item" onclick="selectAnimalForDoc(this)">
+            <div>
+              <div class="animal-select-id">002-2342-2342-1</div>
+              <div class="animal-select-info">한우 · 수 · 8개월</div>
+            </div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="animal-select-item" onclick="selectAnimalForDoc(this)">
+            <div>
+              <div class="animal-select-id">002-1233-1245-2</div>
+              <div class="animal-select-info">한우 · 수 · 8개월</div>
+            </div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="animal-select-item" onclick="selectAnimalForDoc(this)">
+            <div>
+              <div class="animal-select-id">002-5231-2341-1</div>
+              <div class="animal-select-info">한우 · 수 · 8개월</div>
+            </div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+        </div>
+        <div style="padding:16px 20px 24px;">
+          <button class="save-btn" style="margin:0; width:100%;" onclick="closeAnimalSelectSheet(); openDocForm(docFormMap[window._docTarget]? window._docTarget : window._docTarget)">서류 미리보기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -184,7 +227,7 @@
 
   <div class="screen" id="screen-doc-grp-diagnosis-preview">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-doc-grp-diagnosis')">‹</button><span class="page-title">진단서 미리보기</span></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-record-detail-group')">‹</button><span class="page-title">진단서 미리보기</span></div>
     <div class="screen-content">
       <div class="pdf-preview animate-in">
         <div class="pdf-doc-title">진 단 서</div>
@@ -204,7 +247,7 @@
 
   <div class="screen" id="screen-doc-grp-castration-preview">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-doc-grp-castration')">‹</button><span class="page-title">거세확인서 미리보기</span></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-record-detail-group')">‹</button><span class="page-title">거세확인서 미리보기</span></div>
     <div class="screen-content">
       <div class="pdf-preview animate-in">
         <div class="pdf-doc-title">거 세 확 인 서</div>
@@ -225,7 +268,7 @@
 
   <div class="screen" id="screen-doc-grp-labtest-preview">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-doc-grp-labtest')">‹</button><span class="page-title">검사의뢰서 미리보기</span></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-record-detail-group')">‹</button><span class="page-title">검사의뢰서 미리보기</span></div>
     <div class="screen-content">
       <div class="pdf-preview animate-in">
         <div class="pdf-doc-title">검 사 의 뢰 서</div>

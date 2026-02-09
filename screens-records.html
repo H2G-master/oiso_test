@@ -45,8 +45,54 @@
     <div class="screen-content">
       <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="김형만" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경남 양산시 물금읍 123-45" readonly></div></div>
       <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료유형</span><input class="form-input readonly" value="거세" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.05 14:30"></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩100,000" readonly></div></div>
-      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="navigateTo('screen-doc-group')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 서류 발급</button></div>
+      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="showDocSelectSheet()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 서류 발급</button></div>
       <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
+    </div>
+    <!-- 서류 발급 바텀시트 -->
+    <div class="animal-select-overlay" id="doc-select-overlay" onclick="closeDocSelectSheet()">
+      <div class="animal-select-sheet" onclick="event.stopPropagation()">
+        <div class="animal-select-header">
+          <div class="animal-select-title" style="font-size:17px;">서류 발급</div>
+          <button class="animal-select-close" onclick="closeAllDocSheets()">✕</button>
+        </div>
+        <div class="animal-select-desc">발급할 서류를 선택해주세요</div>
+        <div style="padding:12px 16px 20px;">
+          <div class="doc-type-item" onclick="closeDocSelectSheet(); setTimeout(function(){ showAnimalSelectSheet2('진단서','screen-doc-grp-diagnosis'); }, 300)"><div class="doc-type-info"><div class="doc-type-icon blue">📋</div><div><div class="doc-type-name">진단서</div><div class="doc-type-desc">군집 진단 내용을 기록합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+          <div class="doc-type-item" onclick="closeDocSelectSheet(); setTimeout(function(){ showAnimalSelectSheet2('거세확인서','screen-doc-grp-castration'); }, 300)"><div class="doc-type-info"><div class="doc-type-icon green">✂️</div><div><div class="doc-type-name">거세 확인서</div><div class="doc-type-desc">거세 시술 내역을 확인합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+          <div class="doc-type-item" onclick="closeDocSelectSheet(); setTimeout(function(){ showAnimalSelectSheet2('검사의뢰서','screen-doc-grp-labtest'); }, 300)"><div class="doc-type-info"><div class="doc-type-icon orange">🧪</div><div><div class="doc-type-name">검사의뢰서</div><div class="doc-type-desc">혈액검사 등 검사를 의뢰합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- 개체 선택 바텀시트 -->
+    <div class="animal-select-overlay" id="animal-select-overlay-group" onclick="closeAnimalSelectSheet2()">
+      <div class="animal-select-sheet" onclick="event.stopPropagation()">
+        <div class="animal-select-header">
+          <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeAnimalSelectSheet2(); showDocSelectSheet()">‹</button><div><span class="animal-select-title-highlight" id="animal-select-doc-name2">진단서</span><span class="animal-select-title"> 작성</span></div></div>
+          <button class="animal-select-close" onclick="closeAllDocSheets()">✕</button>
+        </div>
+        <div class="animal-select-desc">발급할 개체를 선택해주세요</div>
+        <div class="animal-select-list">
+          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)">
+            <div><div class="animal-select-id">002-2020-0001-5</div><div class="animal-select-info">한우 · 수 · 8개월</div></div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)">
+            <div><div class="animal-select-id">002-2342-2342-1</div><div class="animal-select-info">한우 · 수 · 8개월</div></div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)">
+            <div><div class="animal-select-id">002-1233-1245-2</div><div class="animal-select-info">한우 · 수 · 8개월</div></div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)">
+            <div><div class="animal-select-id">002-5231-2341-1</div><div class="animal-select-info">한우 · 수 · 8개월</div></div>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+        </div>
+        <div style="padding:16px 20px 24px;">
+          <button class="save-btn" style="margin:0; width:100%;" onclick="closeAnimalSelectSheet2(); openDocForm(window._docTarget)">서류 미리보기</button>
+        </div>
+      </div>
     </div>
   </div>
 
