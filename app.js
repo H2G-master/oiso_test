@@ -68,6 +68,7 @@ function switchTreatmentType(type) {
   document.getElementById('animal-cards-general').style.display = 'none';
   const map = { castration: 'animal-cards-castration', blood: 'animal-cards-blood', general: 'animal-cards-general' };
   document.getElementById(map[type]).style.display = 'block';
+  updateFilledCount();
 }
 
 function handleSearch(val){
@@ -110,24 +111,56 @@ function checkCardFilled(el) {
   if (!card) return;
   var select = card.querySelector('select');
   var input = card.querySelector('input');
-  var idx = card.querySelector('.group-animal-idx');
-  if (!select || !input) return;
-  var isFilled = select.value !== '' && input.value.trim() !== '';
+  var isFilled = false;
+  if (select && input) {
+    isFilled = select.value !== '' && input.value.trim() !== '';
+  }
   if (isFilled) {
     card.classList.add('filled');
   } else {
     card.classList.remove('filled');
   }
-  if (idx) idx.style.background = '';
+  updateFilledCount();
+}
+
+function checkCardFilledAuto(el) {
+  var card = el.closest('.group-animal-card');
+  if (!card) return;
+  var isFilled = false;
+
+  // 채혈: at least one check-tag is active
+  var checkTags = card.querySelectorAll('.check-tag');
+  if (checkTags.length > 0) {
+    isFilled = card.querySelector('.check-tag.active-check') !== null;
+  }
+
+  // 일반진료: at least one input has value
+  var inputs = card.querySelectorAll('.group-animal-fields input');
+  if (inputs.length > 0) {
+    var anyFilled = false;
+    inputs.forEach(function(inp) { if (inp.value.trim() !== '') anyFilled = true; });
+    isFilled = anyFilled;
+  }
+
+  if (isFilled) {
+    card.classList.add('filled');
+  } else {
+    card.classList.remove('filled');
+  }
   updateFilledCount();
 }
 
 function updateFilledCount() {
-  var container = document.getElementById('animal-cards-castration');
+  var containers = ['animal-cards-castration', 'animal-cards-blood', 'animal-cards-general'];
   var counter = document.getElementById('filled-count');
-  if (!container || !counter) return;
-  var cards = container.querySelectorAll('.group-animal-card');
-  var filled = container.querySelectorAll('.group-animal-card.filled').length;
-  var total = cards.length;
-  counter.textContent = '완료 ' + filled + '/' + total;
+  if (!counter) return;
+  for (var i = 0; i < containers.length; i++) {
+    var container = document.getElementById(containers[i]);
+    if (container && container.style.display !== 'none') {
+      var cards = container.querySelectorAll('.group-animal-card');
+      var filled = container.querySelectorAll('.group-animal-card.filled').length;
+      counter.textContent = '완료 ' + filled + '/' + cards.length;
+      return;
+    }
+  }
 }

@@ -162,48 +162,48 @@
 
         <!-- 채혈 개체 카드들 (숨김) -->
         <div id="animal-cards-blood" style="display:none;">
-          <div class="group-animal-card">
+          <div class="group-animal-card filled">
             <div class="group-animal-header">
               <div class="group-animal-num"><div class="group-animal-idx">1</div><span class="group-animal-id">002-2020-0001-5</span></div>
               <button class="animal-remove">✕</button>
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-check-row">
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">결핵</span>
             </div>
           </div>
-          <div class="group-animal-card">
+          <div class="group-animal-card filled">
             <div class="group-animal-header">
               <div class="group-animal-num"><div class="group-animal-idx">2</div><span class="group-animal-id">002-2020-0002-3</span></div>
               <button class="animal-remove">✕</button>
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-check-row">
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">결핵</span>
             </div>
           </div>
-          <div class="group-animal-card">
+          <div class="group-animal-card filled">
             <div class="group-animal-header">
               <div class="group-animal-num"><div class="group-animal-idx">3</div><span class="group-animal-id">002-2020-0003-1</span></div>
               <button class="animal-remove">✕</button>
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-check-row">
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">결핵</span>
             </div>
           </div>
-          <div class="group-animal-card">
+          <div class="group-animal-card filled">
             <div class="group-animal-header">
               <div class="group-animal-num"><div class="group-animal-idx">4</div><span class="group-animal-id">002-2020-0004-9</span></div>
               <button class="animal-remove">✕</button>
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-check-row">
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">브루셀라</span>
-              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check')">결핵</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">브루셀라</span>
+              <span class="check-tag active-check" onclick="this.classList.toggle('active-check'); this.classList.toggle('inactive-check'); checkCardFilledAuto(this)">결핵</span>
             </div>
           </div>
         </div>
@@ -217,8 +217,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
-              <input placeholder="결과" style="flex:1;">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;" oninput="checkCardFilledAuto(this)">
+              <input placeholder="결과" style="flex:1;" oninput="checkCardFilledAuto(this)">
             </div>
           </div>
           <div class="group-animal-card">
@@ -228,8 +228,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
-              <input placeholder="결과" style="flex:1;">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;" oninput="checkCardFilledAuto(this)">
+              <input placeholder="결과" style="flex:1;" oninput="checkCardFilledAuto(this)">
             </div>
           </div>
           <div class="group-animal-card">
@@ -239,8 +239,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
-              <input placeholder="결과" style="flex:1;">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;" oninput="checkCardFilledAuto(this)">
+              <input placeholder="결과" style="flex:1;" oninput="checkCardFilledAuto(this)">
             </div>
           </div>
           <div class="group-animal-card">
@@ -250,8 +250,8 @@
             </div>
             <div class="group-animal-tags"><span class="tag">한우</span><span class="tag">수</span><span class="tag">8개월</span></div>
             <div class="group-animal-fields">
-              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;">
-              <input placeholder="결과" style="flex:1;">
+              <input placeholder="진단내용 (예: 임신감정)" style="flex:2;" oninput="checkCardFilledAuto(this)">
+              <input placeholder="결과" style="flex:1;" oninput="checkCardFilledAuto(this)">
             </div>
           </div>
         </div>
