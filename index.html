@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오이소 신규 프로토타입</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오이소 프로토타입</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
 /* ============================================
    오이소 (OiSo) — 대동물 수의사 진료 앱
    기획서 기준 스타일 가이드
@@ -281,6 +281,21 @@ body {
 .tag.unsettled { background: var(--gray-100); color: var(--gray-500); }
 .tag.pending { background: #FFF8E1; color: #F57F17; }
 .patient-owner { margin-top: 8px; font-size: 13px; color: var(--gray-400); line-height: 1.4; }
+
+/* ── 농장 카드 (흰 배경용) ── */
+.farmer-list-item {
+  background: var(--white);
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background 0.12s;
+}
+.farmer-list-item:active { background: var(--gray-50); }
+.farmer-name { font-size: 17px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.farmer-phone { font-size: 13px; color: var(--gray-500); margin-bottom: 2px; }
+.farmer-addr { font-size: 13px; color: var(--gray-400); }
+.farmer-phone-missing { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 2px; }
 
 /* ── 플로팅 버튼 ── */
 .floating-btn {
@@ -1149,6 +1164,121 @@ body {
   padding: 0; line-height: 1;
 }
 
+/* ── 혈액검사 필드 ── */
+.lab-field { display:flex; flex-direction:column; gap:4px; }
+.lab-label { font-size:11px; font-weight:600; color:var(--gray-500); letter-spacing:0.2px; }
+.lab-input { font-size:13px !important; padding:9px 10px !important; }
+.lab-unit { position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--gray-400); pointer-events:none; white-space:nowrap; }
+
+/* ── 키트검사 (큰 버전) ── */
+.kit-row-lg { display:flex; flex-direction:column; gap:8px; }
+.kit-label-lg { font-size:14px; font-weight:500; color:var(--gray-700); }
+.kit-en { font-size:12px; color:var(--gray-400); font-weight:400; }
+.kit-btns-lg { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.kit-btn-lg {
+  padding:14px 8px;
+  border-radius:12px;
+  border:1.5px solid var(--gray-200);
+  background:var(--white);
+  font-size:15px; font-weight:500;
+  color:var(--gray-500);
+  cursor:pointer; font-family:inherit;
+  transition:all 0.13s;
+  text-align:center;
+}
+.kit-btn-lg:active { transform:scale(0.96); }
+.kit-btn-lg.active-kit {
+  border-color:var(--brand);
+  background:var(--brand-bg);
+  color:var(--brand);
+  font-weight:700;
+}
+
+/* ── 키트검사 ── */
+.kit-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding-bottom:12px; border-bottom:1px solid var(--gray-100); }
+.kit-row:last-child { border-bottom:none; padding-bottom:0; }
+.kit-label { font-size:13px; font-weight:500; color:var(--gray-700); flex:1; }
+.kit-btns { display:flex; gap:6px; flex-shrink:0; }
+.kit-btn { padding:6px 12px; border-radius:8px; border:1.5px solid var(--gray-200); background:var(--white); font-size:12px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; }
+.kit-btn:active { transform:scale(0.95); }
+.kit-btn.active-kit { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+
+/* ── 기초검사 ── */
+.basic-exam-row { margin-bottom:16px; }
+.basic-exam-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.basic-btn { padding:8px 14px; border-radius:10px; border:1.5px solid var(--gray-200); background:var(--white); font-size:13px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; }
+.basic-btn:active { transform:scale(0.95); }
+.basic-btn.active-basic { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+
+/* ── 임신여부 토글 ── */
+.toggle-option { padding:9px 20px; border-radius:10px; border:1.5px solid var(--gray-200); background:var(--white); font-size:14px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; }
+.toggle-option.active-toggle { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+
+/* ── 선택사항 아코디언 ── */
+.opt-accordion {
+  background: var(--white);
+  border-radius: 16px;
+  margin: 0 16px 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.opt-acc-header {
+  width: 100%; display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: none; border: none;
+  cursor: pointer; font-family: inherit;
+}
+.opt-acc-left { display: flex; align-items: center; gap: 10px; }
+.opt-acc-plus {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--gray-300);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+  color: var(--gray-400);
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.opt-accordion.done .opt-acc-plus {
+  border-color: var(--brand);
+  background: var(--brand-bg);
+  color: var(--brand);
+}
+.opt-acc-title {
+  font-size: 15px; font-weight: 600;
+  color: var(--gray-700);
+}
+.opt-acc-badge {
+  font-size: 12px; font-weight: 600;
+  color: var(--gray-400);
+  transition: color 0.15s;
+}
+.opt-accordion.done .opt-acc-badge {
+  color: var(--brand);
+}
+.opt-acc-body {
+  padding: 4px 20px 20px;
+  border-top: 1px solid var(--gray-100);
+}
+
+/* ── 진료유형 리스트 (record-input 전용) ── */
+.ri-treatment-option {
+  padding: 20px 22px;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background 0.12s;
+}
+.ri-treatment-option:active { background: var(--gray-50); }
+.ri-treatment-option.selected {
+  color: var(--brand);
+  font-weight: 700;
+  background: var(--brand-bg);
+}
+
 /* ── 진료유형 아코디언 옵션 ── */
 .treatment-option {
   display: flex; align-items: center; justify-content: space-between;
@@ -1178,12 +1308,12 @@ body {
   .phone-frame { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
   body { padding: 0; background: var(--white); }
 }
-  </style>
+</style>
 </head>
 <body>
 <div class="phone-frame" id="app">
-<div class="screen active" id="screen-home">
-    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+<div class="screen active" id="screen-home" style="background:var(--white);">
+    <div class="status-bar" style="background:var(--white);"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
     <div style="padding:20px 20px 4px;">
       <div class="greeting-text">홍길동 수의사님!</div>
       <div class="greeting-sub">어떤 농장에서 진료를 하셨나요?</div>
@@ -1192,49 +1322,47 @@ body {
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="이름 또는 전화번호 검색" readonly>
     </div>
-    <div class="screen-content">
-      <div class="section-label">최근 진료 개체</div>
+    <div class="screen-content" style="background:var(--white);">
+      <div class="section-label">최근 진료 농장</div>
 
       <!-- 농장주 카드: 이미 등록된 정보 있음 -->
-      <div class="patient-card" onclick="navigateTo('screen-record-input')">
-        <div class="patient-card-top">
-          <span class="patient-id">김형만</span>
-          <button class="star-btn active" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">★</button>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;">
+          <div class="farmer-name">김형만</div>
+          <div class="farmer-phone">010-3423-5093</div>
+          <div class="farmer-addr">경상남도 김해시 한림면</div>
         </div>
-        <div style="font-size:13px; color:var(--gray-500); margin-top:4px;">010-3423-5093</div>
-        <div class="patient-owner" style="margin-top:2px;">경상남도 김해시 한림면...</div>
+        <button class="star-btn active" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">★</button>
       </div>
 
       <!-- 농장주 카드: 전화번호 미등록 -->
-      <div class="patient-card" onclick="navigateTo('screen-record-input')">
-        <div class="patient-card-top">
-          <span class="patient-id">장주은</span>
-          <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;">
+          <div class="farmer-name">장주은</div>
+          <div class="farmer-phone-missing">전화번호 등록 필요</div>
+          <div class="farmer-addr">경상남도 김해시 진영읍</div>
         </div>
-        <div style="margin-top:6px;">
-          <span style="display:inline-block; font-size:12px; font-weight:600; color:var(--red); background:#FFF0F0; padding:3px 8px; border-radius:6px;">전화번호 등록 필요</span>
-        </div>
-        <div class="patient-owner" style="margin-top:4px;">경상남도 김해시 진영읍...</div>
+        <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
       </div>
 
       <!-- 농장주 카드 -->
-      <div class="patient-card" onclick="navigateTo('screen-record-input')">
-        <div class="patient-card-top">
-          <span class="patient-id">최동우</span>
-          <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;">
+          <div class="farmer-name">최동우</div>
+          <div class="farmer-phone">010-4324-1234</div>
+          <div class="farmer-addr">부산광역시 강서구 대저동</div>
         </div>
-        <div style="font-size:13px; color:var(--gray-500); margin-top:4px;">010-4324-1234</div>
-        <div class="patient-owner" style="margin-top:2px;">부산광역시 강서구 대저동...</div>
+        <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
       </div>
 
       <!-- 농장주 카드 -->
-      <div class="patient-card" onclick="navigateTo('screen-record-input')">
-        <div class="patient-card-top">
-          <span class="patient-id">이상호</span>
-          <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;">
+          <div class="farmer-name">이상호</div>
+          <div class="farmer-phone">010-2131-4220</div>
+          <div class="farmer-addr">경상남도 김해시 진영읍</div>
         </div>
-        <div style="font-size:13px; color:var(--gray-500); margin-top:4px;">010-2131-4220</div>
-        <div class="patient-owner" style="margin-top:2px;">경상남도 양산시 웅상읍...</div>
+        <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
       </div>
 
     </div>
@@ -1283,17 +1411,22 @@ body {
 
 
 
-  <div class="screen" id="screen-search">
-    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div style="display:flex; align-items:center; padding:12px 16px; background:var(--white); gap:10px; border-bottom:1px solid var(--gray-100);">
-      <button class="back-btn" onclick="navigateTo('screen-individual-home')">‹</button>
-      <div style="flex:1; display:flex; align-items:center; background:var(--gray-100); border-radius:10px; padding:0 12px; height:42px; gap:8px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="search-input" type="text" placeholder="농장주 이름 또는 이표번호" style="border:none; background:none; flex:1; font-size:15px; font-family:inherit; outline:none; color:var(--gray-700);" oninput="handleSearch(this.value)">
+  <div class="screen" id="screen-search" style="background:var(--white);">
+    <div class="status-bar" style="background:var(--white);"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div style="display:flex; align-items:center; padding:10px 16px; background:var(--white); gap:10px;">
+      <button class="back-btn" onclick="navigateTo('screen-home')">‹</button>
+      <div style="flex:1; display:flex; align-items:center; gap:8px;">
+        <input id="search-input" type="text" placeholder="농장주 이름 또는 전화번호"
+          style="flex:1; border:none; background:none; font-size:17px; font-family:inherit; outline:none; color:var(--gray-700);"
+          oninput="handleSearch(this.value)" autofocus>
+        <button id="search-clear-btn" onclick="clearSearch()" style="display:none; width:22px; height:22px; border-radius:50%; background:var(--gray-300); border:none; cursor:pointer; color:white; font-size:13px; line-height:1; display:none; align-items:center; justify-content:center; flex-shrink:0;">✕</button>
       </div>
     </div>
-    <div class="screen-content" id="search-results" style="padding-top:12px;">
-      <div style="text-align:center; padding:60px 40px; color:var(--gray-400); font-size:14px;">농장주의 이름, 주소, 개체 정보를 찾거나<br>직접 이표번호를 입력하여 진료기록을 입력할 수 있습니다</div>
+    <div style="height:1px; background:var(--gray-200);"></div>
+    <div class="screen-content" id="search-results" style="background:var(--white);">
+      <div style="text-align:center; padding:100px 40px; color:var(--gray-400); font-size:14px; line-height:1.8;">
+        농장주의 이름, 주소, 전화번호 찾거나<br>직접 입력하여 진료기록을 입력할 수 있습니다
+      </div>
     </div>
   </div>
 
@@ -1437,78 +1570,196 @@ body {
 
   <div class="screen" id="screen-record-input">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-home')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="page-header-with-back" style="background:var(--bg); border-bottom:none;">
+      <button class="back-btn" onclick="navigateTo('screen-home')">‹</button>
+      <span class="page-title">진료 기록 입력</span>
+    </div>
     <div class="screen-content">
 
-      <!-- 농장주 정보 (readonly 요약 카드) -->
-      <div class="form-section animate-in">
-        <div class="form-section-title">농장주 정보</div>
-        <div style="background:var(--brand-bg); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px;">
-          <div style="width:40px; height:40px; border-radius:12px; background:var(--brand); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div style="flex:1; min-width:0;">
-            <div style="font-size:16px; font-weight:700; color:var(--brand-dark);">김형만</div>
-            <div style="font-size:13px; color:var(--brand); margin-top:2px;">010-3423-5093</div>
-            <div style="font-size:12px; color:var(--gray-500); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">경상남도 김해시 한림면</div>
-          </div>
+      <!-- 농장주 정보 카드 -->
+      <div style="background:var(--white); border-radius:16px; margin:4px 16px 12px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+        <div style="display:flex; align-items:center; gap:7px; margin-bottom:12px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span style="font-size:13px; font-weight:700; color:var(--brand);">농장주 정보</span>
         </div>
+        <div style="font-size:18px; font-weight:700; color:var(--gray-700); margin-bottom:5px;">김형만</div>
+        <div style="font-size:14px; color:var(--gray-400); margin-bottom:3px;">010-3423-5093</div>
+        <div style="font-size:14px; color:var(--gray-400);">경상남도 김해시 한림면</div>
       </div>
 
-      <!-- 진료유형 아코디언 -->
-      <div class="form-section animate-in" style="padding:0; overflow:hidden;">
-        <!-- 아코디언 헤더 -->
-        <button id="treatment-accordion-btn" onclick="toggleTreatmentAccordion()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:18px 20px; background:none; border:none; cursor:pointer; font-family:inherit;">
-          <span style="font-size:15px; font-weight:700; color:var(--gray-700); display:flex; align-items:center; gap:8px;">
-            <span style="width:5px; height:5px; border-radius:50%; background:var(--brand); display:inline-block;"></span>
-            진료유형
-          </span>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span id="treatment-selected-label" style="font-size:13px; font-weight:600; color:var(--brand);"></span>
-            <svg id="treatment-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" style="transition:transform 0.2s; transform:rotate(180deg);"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
+      <!-- 진료유형 헤더 카드 -->
+      <div style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+        <button onclick="toggleTreatmentAccordion()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:20px 22px; background:none; border:none; cursor:pointer; font-family:inherit;">
+          <span id="treatment-selected-label" style="font-size:16px; font-weight:500; color:var(--gray-400);">진료유형</span>
+          <svg id="treatment-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" style="transition:transform 0.22s; transform:rotate(180deg); flex-shrink:0;"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <!-- 아코디언 바디 -->
-        <div id="treatment-accordion-body" style="border-top:1px solid var(--gray-100);">
-          <div class="treatment-option" onclick="selectTreatment(this, '일반진료')">
-            <span>일반진료</span>
-            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="treatment-option" onclick="selectTreatment(this, '송아지 진료')">
-            <span>송아지 진료</span>
-            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="treatment-option" onclick="selectTreatment(this, '중성화')">
-            <span>중성화</span>
-            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="treatment-option" onclick="selectTreatment(this, '임신감정')">
-            <span>임신감정</span>
-            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="treatment-option" onclick="selectTreatment(this, '수정')">
-            <span>수정</span>
-            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="treatment-option" onclick="selectTreatment(this, '시료채취')" style="border-bottom:none;">
-            <span>시료채취</span>
-            <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-        </div>
       </div>
 
-      <!-- 진료기록 (진료유형 선택 후 표시) -->
-      <div id="record-form-section" style="display:none;">
-        <div class="form-section animate-in"><div class="form-section-title">진료기록</div>
-          <div class="form-row"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2026.03.10"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
-          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
-          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
-          <div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
-          <div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="메모를 입력하세요" rows="2" style="resize:none;"></textarea></div>
-        </div>
-        <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
-        <div style="height:20px;"></div>
+      <!-- 진료유형 리스트 카드 -->
+      <div id="treatment-accordion-body" style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '일반진료', 'general')"><span>일반진료</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '송아지 진료', 'calf')"><span>송아지 진료</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '중성화', 'simple')"><span>중성화</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '임신감정', 'simple')"><span>임신감정</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '수정', 'simple')"><span>수정</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '시료채취', 'simple')" style="border-bottom:none;"><span>시료채취</span></div>
       </div>
+
+<!-- ===== 일반진료 전체 폼 ===== -->
+<div id="form-general" class="treatment-form" style="display:none;">
+  <div class="form-section animate-in">
+    <div class="form-section-title">진료기록</div>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div>
+      <div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option value="">선택</option><option>소화불량 처방</option><option>호흡기 감염 처방</option><option>외상 처치</option><option>발정 동기화</option><option>일반 예방접종</option></select></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+    <!-- 1. 체크박스로 변경 -->
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:16px;border:1.5px solid var(--gray-200);">
+      <input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;">
+      <span style="font-size:13px;color:var(--gray-600);">지금 작성한 내용을 새로운 진단 템플릿으로 추가</span>
+    </label>
+    <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div>
+      <div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-group"><span class="form-label">보험여부</span><select class="form-select"><option>없음</option><option>있음</option></select></div>
+      <div class="form-group"><span class="form-label">자기부담율</span><div style="position:relative;"><input class="form-input" placeholder="0" type="number" style="padding-right:28px;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--gray-500);">%</span></div></div>
+    </div>
+    <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+  </div>
+
+  <!-- 아코디언: 개체 정보 -->
+  <div class="opt-accordion" id="acc-animal-g">
+    <button class="opt-acc-header" onclick="toggleOptAcc('acc-animal-g')">
+      <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">개체 정보</span></div>
+      <span class="opt-acc-badge" id="badge-acc-animal-g">선택사항</span>
+    </button>
+    <div class="opt-acc-body" id="body-acc-animal-g" style="display:none;">
+      <div class="form-group" style="margin-bottom:8px;"><span class="form-label">이표번호 (개체식별번호)</span><div style="position:relative;"><input class="form-input" placeholder="002-1234-5678-1" style="padding-right:44px;" oninput="checkOptAcc('acc-animal-g',this.value.trim()!=='')"><button style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:8px;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div></div>
+      <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">아직 이표번호를 부착 전인 송아지 입니다.</span></label>
+      <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">축종</span><select class="form-select"><option>한우</option><option>젖소</option><option>육우</option></select></div><div class="form-group"><span class="form-label">성별</span><select class="form-select"><option>암컷</option><option>수컷</option></select></div></div>
+      <div class="form-group" style="margin-bottom:14px;"><span class="form-label">임신여부</span><div style="display:flex;gap:8px;margin-top:6px;"><button class="toggle-option active-toggle" onclick="toggleOption(this)">임신</button><button class="toggle-option" onclick="toggleOption(this)">비임신</button></div></div>
+      <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">연령</span><input class="form-input" placeholder="숫자" type="number"></div><div class="form-group"><span class="form-label">단위</span><select class="form-select"><option>일</option><option>주</option><option selected>개월</option><option>년</option></select></div></div>
+      <div class="form-group"><span class="form-label">이미지</span><div style="display:flex;gap:8px;margin-top:6px;"><div style="width:72px;height:72px;border-radius:12px;border:1.5px dashed var(--gray-300);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-400);font-size:24px;">+</div></div></div>
+    </div>
+  </div>
+
+  <!-- 2. 혈액검사 항목 업데이트 -->
+  <div class="opt-accordion" id="acc-blood-g">
+    <button class="opt-acc-header" onclick="toggleOptAcc('acc-blood-g')">
+      <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">혈액검사</span></div>
+      <span class="opt-acc-badge" id="badge-acc-blood-g">선택사항</span>
+    </button>
+    <div class="opt-acc-body" id="body-acc-blood-g" style="display:none;">
+      <div style="background:var(--gray-50);border:1.5px dashed var(--gray-300);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;cursor:pointer;"><div style="font-size:22px;margin-bottom:6px;">📷</div><div style="font-size:13px;font-weight:600;color:var(--brand);margin-bottom:4px;">사진 촬영 또는 불러오기</div><div style="font-size:11px;color:var(--gray-400);line-height:1.6;">이미지를 업로드하면 결과값을 자동으로 읽어옵니다<br>노이즈가 심하면 판독이 어려울 수 있습니다<br>인식되지 않은 항목은 직접 입력 가능합니다</div></div>
+      <div style="font-size:12px;color:var(--gray-400);margin-bottom:12px;">검사 결과 — 자동 입력된 값을 확인하고 수정할 수 있습니다.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="lab-field"><span class="lab-label">pH</span><input class="form-input lab-input" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+        <div class="lab-field"><span class="lab-label">PCO2</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:38px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmHg</span></div></div>
+        <div class="lab-field"><span class="lab-label">PO2</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:38px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmHg</span></div></div>
+        <div class="lab-field"><span class="lab-label">HCO3 (Bicarbonate)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">TCO2 (Total CO2)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">sO2 (Oxygen Satur…)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:22px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">%</span></div></div>
+        <div class="lab-field"><span class="lab-label">BEecf (Base Excess…)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">Na (Sodium)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">K (Potassium)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">iCa (Ionized Calcium)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">Glu (Glucose)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:36px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mg/dL</span></div></div>
+        <div class="lab-field"><span class="lab-label">Hct (Hematocrit)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:32px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">%PCV</span></div></div>
+        <div class="lab-field"><span class="lab-label">cHgb (Hemoglobin)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:30px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">g/dL</span></div></div>
+        <div class="lab-field"><span class="lab-label">Cl</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">BUN</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:36px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mg/dL</span></div></div>
+        <div class="lab-field"><span class="lab-label">AnGap (AGap)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">Crea</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:36px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mg/dL</span></div></div>
+        <div class="lab-field"><span class="lab-label">Urea</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:36px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mg/dL</span></div></div>
+        <div class="lab-field"><span class="lab-label">AGapK</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">Lac (lactate)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+        <div class="lab-field"><span class="lab-label">BUN/Crea</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mg/mg</span></div></div>
+        <div class="lab-field"><span class="lab-label">Urea/Crea</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:52px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/mmol</span></div></div>
+        <div class="lab-field" style="grid-column:1/-1; max-width:calc(50% - 5px);"><span class="lab-label">BE(b)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-g',true)"><span class="lab-unit">mmol/L</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 키트검사 크게 -->
+  <div class="opt-accordion" id="acc-kit-g">
+    <button class="opt-acc-header" onclick="toggleOptAcc('acc-kit-g')">
+      <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">키트검사</span></div>
+      <span class="opt-acc-badge" id="badge-acc-kit-g">선택사항</span>
+    </button>
+    <div class="opt-acc-body" id="body-acc-kit-g" style="display:none;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="kit-row-lg"><span class="kit-label-lg">로타바이러스 <span class="kit-en">(Rotavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+        <div class="kit-row-lg"><span class="kit-label-lg">코로나바이러스 <span class="kit-en">(Coronavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+        <div class="kit-row-lg"><span class="kit-label-lg">대장균 <span class="kit-en">(E. coli)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+        <div class="kit-row-lg"><span class="kit-label-lg">크립토스포리디움 <span class="kit-en">(Cryptosporidium)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+        <div class="kit-row-lg"><span class="kit-label-lg">소 바이러스 설사병 <span class="kit-en">(BVD)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+        <div class="kit-row-lg"><span class="kit-label-lg">지아르디아 <span class="kit-en">(Giardia)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기초검사 -->
+  <div class="opt-accordion" id="acc-basic-g">
+    <button class="opt-acc-header" onclick="toggleOptAcc('acc-basic-g')">
+      <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">기초검사</span></div>
+      <span class="opt-acc-badge" id="badge-acc-basic-g">선택사항</span>
+    </button>
+    <div class="opt-acc-body" id="body-acc-basic-g" style="display:none;">
+      <div class="form-group" style="margin-bottom:16px;"><span class="form-label">체온 (℃)</span><input class="form-input" placeholder="숫자만 입력하세요 (예: 38.5)" type="number" step="0.1" oninput="checkOptAcc('acc-basic-g',this.value.trim()!=='')"></div>
+      <div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">변 상태</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">설사</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">혈변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">점액변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">수양성</button></div></div>
+      <div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">식욕</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">감소</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">절폐</button></div></div>
+      <div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">활력</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">양호</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">저하</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">기립불능</button></div></div>
+      <div class="basic-exam-row" style="margin-bottom:0;"><span class="form-label" style="margin-bottom:8px;display:block;">보행</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">파행</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">보행곤란</button></div></div>
+    </div>
+  </div>
+
+  <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+  <div style="height:20px;"></div>
+</div>
+
+
+<!-- ===== 송아지진료 전체 폼 ===== -->
+<div id="form-calf" class="treatment-form" style="display:none;">
+  <div class="form-section animate-in">
+    <div class="form-section-title">진료기록</div>
+    <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option value="">선택</option><option>[송아지] 설사 처방</option><option>[송아지] 호흡기 감염</option><option>[송아지] 탈수 치료</option><option>[송아지] 제대염 처치</option><option>[송아지] 관절염 처방</option></select></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:16px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">지금 작성한 내용을 새로운 진단 템플릿으로 추가</span></label>
+    <div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+    <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">보험여부</span><select class="form-select"><option>없음</option><option>있음</option></select></div><div class="form-group"><span class="form-label">자기부담율</span><div style="position:relative;"><input class="form-input" placeholder="0" type="number" style="padding-right:28px;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--gray-500);">%</span></div></div></div>
+    <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+  </div>
+  <div class="opt-accordion" id="acc-animal-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-animal-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">개체 정보</span></div><span class="opt-acc-badge" id="badge-acc-animal-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-animal-c" style="display:none;"><div class="form-group" style="margin-bottom:8px;"><span class="form-label">이표번호</span><div style="position:relative;"><input class="form-input" placeholder="002-1234-5678-1" style="padding-right:44px;" oninput="checkOptAcc('acc-animal-c',this.value.trim()!=='')"><button style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:8px;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div></div><label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">아직 이표번호를 부착 전인 송아지 입니다.</span></label><div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">축종</span><select class="form-select"><option>한우</option><option>젖소</option><option>육우</option></select></div><div class="form-group"><span class="form-label">성별</span><select class="form-select"><option>암컷</option><option>수컷</option></select></div></div><div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">연령</span><input class="form-input" placeholder="숫자" type="number"></div><div class="form-group"><span class="form-label">단위</span><select class="form-select"><option>일</option><option>주</option><option selected>개월</option><option>년</option></select></div></div></div></div>
+  <div class="opt-accordion" id="acc-blood-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-blood-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">혈액검사</span></div><span class="opt-acc-badge" id="badge-acc-blood-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-blood-c" style="display:none;"><div style="background:var(--gray-50);border:1.5px dashed var(--gray-300);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;cursor:pointer;"><div style="font-size:22px;margin-bottom:6px;">📷</div><div style="font-size:13px;font-weight:600;color:var(--brand);">사진 촬영 또는 불러오기</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="lab-field"><span class="lab-label">pH</span><input class="form-input lab-input" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">PCO2</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:38px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mmHg</span></div></div><div class="lab-field"><span class="lab-label">HCO3</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mmol/L</span></div></div><div class="lab-field"><span class="lab-label">Na</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mmol/L</span></div></div><div class="lab-field"><span class="lab-label">K</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mmol/L</span></div></div><div class="lab-field"><span class="lab-label">Glu</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:36px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mg/dL</span></div></div><div class="lab-field"><span class="lab-label">BUN</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:36px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mg/dL</span></div></div><div class="lab-field"><span class="lab-label">Lac (lactate)</span><div style="position:relative;"><input class="form-input lab-input" placeholder="0" type="number" style="padding-right:42px;" oninput="checkOptAcc('acc-blood-c',true)"><span class="lab-unit">mmol/L</span></div></div></div></div></div>
+  <div class="opt-accordion" id="acc-kit-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-kit-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">키트검사</span></div><span class="opt-acc-badge" id="badge-acc-kit-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-kit-c" style="display:none;"><div style="display:flex;flex-direction:column;gap:16px;"><div class="kit-row-lg"><span class="kit-label-lg">로타바이러스 <span class="kit-en">(Rotavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div><div class="kit-row-lg"><span class="kit-label-lg">코로나바이러스 <span class="kit-en">(Coronavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div><div class="kit-row-lg"><span class="kit-label-lg">대장균 <span class="kit-en">(E. coli)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div><div class="kit-row-lg"><span class="kit-label-lg">크립토스포리디움 <span class="kit-en">(Cryptosporidium)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div></div></div></div>
+  <div class="opt-accordion" id="acc-basic-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-basic-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">기초검사</span></div><span class="opt-acc-badge" id="badge-acc-basic-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-basic-c" style="display:none;"><div class="form-group" style="margin-bottom:16px;"><span class="form-label">체온 (℃)</span><input class="form-input" placeholder="38.5" type="number" step="0.1" oninput="checkOptAcc('acc-basic-c',this.value.trim()!=='')"></div><div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">변 상태</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">설사</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">혈변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">점액변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">수양성</button></div></div><div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">식욕</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">감소</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">절폐</button></div></div><div class="basic-exam-row" style="margin-bottom:0;"><span class="form-label" style="margin-bottom:8px;display:block;">활력</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">양호</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">저하</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">기립불능</button></div></div></div></div>
+  <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+  <div style="height:20px;"></div>
+</div>
+
+<!-- ===== 기타 진료유형 간단 폼 ===== -->
+<div id="form-simple" class="treatment-form" style="display:none;">
+  <div class="form-section animate-in">
+    <div class="form-section-title">진료기록</div>
+    <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
+    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역</span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+    <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+    <div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="메모를 입력하세요" rows="2" style="resize:none;"></textarea></div>
+  </div>
+  <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+  <div style="height:20px;"></div>
+</div>
+
 
     </div>
   </div>
@@ -1517,13 +1768,78 @@ body {
 
   <div class="screen" id="screen-new-record">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-individual-home')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="page-header-with-back" style="background:var(--bg); border-bottom:none;">
+      <button class="back-btn" onclick="navigateTo('screen-home')">‹</button>
+      <span class="page-title">진료 기록 입력</span>
+    </div>
     <div class="screen-content">
-      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름 <span class="required">*</span></span><input class="form-input" placeholder="농장주 이름을 입력하세요"></div><div class="form-group"><span class="form-label">농장 주소 <span class="required">*</span></span><input class="form-input" placeholder="농장 주소를 입력하세요"></div></div>
-      <div class="form-section"><div class="form-section-title">개체 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">이표번호 <span class="required">*</span></span><input class="form-input" placeholder="이표번호를 입력하세요"></div><div class="form-row"><div class="form-group"><span class="form-label">축종 <span class="required">*</span></span><select class="form-select"><option>선택</option><option>한우</option><option>젖소</option><option>육우</option></select></div><div class="form-group"><span class="form-label">성별 <span class="required">*</span></span><select class="form-select"><option>선택</option><option>암컷</option><option>수컷</option></select></div></div><div class="form-row"><div class="form-group"><span class="form-label">연령 <span class="required">*</span></span><input class="form-input" placeholder="입력"></div><div class="form-group"><span class="form-label">단위 <span class="required">*</span></span><select class="form-select"><option>선택</option><option>일</option><option>개월</option><option>년</option></select></div></div></div>
-      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-row"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2026.02.05"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div><div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말</option><option>야간</option></select></div></div><div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="메모를 입력하세요" rows="2" style="resize:none;"></textarea></div></div>
-      <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
-      <div style="height:20px;"></div>
+
+      <!-- ① 농장주 입력 폼 (저장 전) -->
+      <div id="nr-farmer-form">
+        <div style="background:var(--white); border-radius:16px; margin:4px 16px 12px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+          <div style="display:flex; align-items:center; gap:7px; margin-bottom:16px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span style="font-size:13px; font-weight:700; color:var(--brand);">농장주 정보</span>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <span class="form-label">농장주 이름 <span class="required">*</span></span>
+            <input id="nr-name" class="form-input" placeholder="농장주 이름을 입력하세요">
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <span class="form-label">전화번호 <span class="required">*</span></span>
+            <input id="nr-phone" class="form-input" placeholder="전화번호를 입력하세요" type="tel">
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <span class="form-label">농장 주소 <span class="required">*</span></span>
+            <div style="position:relative;">
+              <input id="nr-addr" class="form-input" placeholder="경상남도 김해시 장주읍..." style="padding-right:44px;">
+              <button style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:8px;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px;">
+            <span class="form-label">상세주소 <span style="color:var(--gray-400); font-weight:400;">(선택)</span></span>
+            <input id="nr-addr-detail" class="form-input" placeholder="상세주소를 입력하세요">
+          </div>
+          <button onclick="saveFarmerInfo()" style="width:100%; padding:15px; background:var(--brand); color:white; border:none; border-radius:14px; font-size:16px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 4px 14px rgba(74,112,169,0.30);">저장</button>
+        </div>
+      </div>
+
+      <!-- ② 농장주 요약 카드 (저장 후) -->
+      <div id="nr-farmer-card" style="display:none;">
+        <div style="background:var(--white); border-radius:16px; margin:4px 16px 12px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+          <div style="display:flex; align-items:center; gap:7px; margin-bottom:12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span style="font-size:13px; font-weight:700; color:var(--brand);">농장주 정보</span>
+          </div>
+          <div id="nr-card-name" style="font-size:18px; font-weight:700; color:var(--gray-700); margin-bottom:5px;"></div>
+          <div id="nr-card-phone" style="font-size:14px; color:var(--gray-400); margin-bottom:3px;"></div>
+          <div id="nr-card-addr" style="font-size:14px; color:var(--gray-400);"></div>
+        </div>
+
+        <!-- 진료유형 헤더 카드 -->
+        <div style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+          <button onclick="toggleTreatmentAccordionNR()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:20px 22px; background:none; border:none; cursor:pointer; font-family:inherit;">
+            <span id="nr-treatment-label" style="font-size:16px; font-weight:500; color:var(--gray-400);">진료유형</span>
+            <svg id="nr-treatment-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" style="transition:transform 0.22s; transform:rotate(180deg); flex-shrink:0;"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+
+        <!-- 진료유형 리스트 카드 -->
+        <div id="nr-treatment-list" style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'일반진료','general')"><span>일반진료</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'송아지 진료','calf')"><span>송아지 진료</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'중성화','simple')"><span>중성화</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'임신감정','simple')"><span>임신감정</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'수정','simple')"><span>수정</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'시료채취','simple')" style="border-bottom:none;"><span>시료채취</span></div>
+        </div>
+
+        <!-- 진료 폼 영역 (진료유형 선택 후 표시) -->
+        <div id="nr-form-area"></div>
+      </div>
+
     </div>
   </div>
 
@@ -1794,6 +2110,7 @@ body {
   </div>
 
   <!-- Individual doc list -->
+
 
   <div class="screen" id="screen-doc-individual">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
@@ -2355,6 +2672,115 @@ function showAlert(title,msg,cancel,confirm){
 }
 function closeAlert(){document.getElementById('alert-overlay').classList.remove('active');}
 
+// 농장주 정보 저장 → 요약 카드로 전환
+function saveFarmerInfo() {
+  var name  = document.getElementById('nr-name').value.trim();
+  var phone = document.getElementById('nr-phone').value.trim();
+  var addr  = document.getElementById('nr-addr').value.trim();
+  var detail = document.getElementById('nr-addr-detail').value.trim();
+
+  if (!name) { showToast('농장주 이름을 입력하세요'); return; }
+  if (!phone) { showToast('전화번호를 입력하세요'); return; }
+  if (!addr) { showToast('농장 주소를 입력하세요'); return; }
+
+  // 카드에 값 채우기
+  document.getElementById('nr-card-name').textContent  = name;
+  document.getElementById('nr-card-phone').textContent = phone;
+  document.getElementById('nr-card-addr').textContent  = addr + (detail ? ' ' + detail : '');
+
+  // 폼 숨기고 카드 표시
+  document.getElementById('nr-farmer-form').style.display = 'none';
+  document.getElementById('nr-farmer-card').style.display = 'block';
+}
+
+function toggleTreatmentAccordionNR() {
+  var list    = document.getElementById('nr-treatment-list');
+  var chevron = document.getElementById('nr-treatment-chevron');
+  if (!list) return;
+  var isOpen = list.style.display !== 'none';
+  list.style.display = isOpen ? 'none' : 'block';
+  chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+// NR 전용 간단 폼 템플릿
+var NR_FORMS = {
+  general: function(tmplOpts) {
+    return '<div class="form-section animate-in"><div class="form-section-title">진료기록</div>' +
+      '<div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>' +
+      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option value="">선택</option>' + tmplOpts + '</select></div>' +
+      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>' +
+      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>' +
+      '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:16px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">지금 작성한 내용을 새로운 진단 템플릿으로 추가</span></label>' +
+      '<div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>' +
+      '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>' +
+      '<div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>' +
+      '</div>' +
+      '<button class="save-btn" onclick="navigateTo(\'screen-save-success\')">저장</button><div style="height:20px;"></div>';
+  },
+  simple: function() {
+    return '<div class="form-section animate-in"><div class="form-section-title">진료기록</div>' +
+      '<div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>' +
+      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>' +
+      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역</span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>' +
+      '<div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>' +
+      '</div>' +
+      '<button class="save-btn" onclick="navigateTo(\'screen-save-success\')">저장</button><div style="height:20px;"></div>';
+  }
+};
+
+function selectTreatmentNR(el, name, formType) {
+  // 선택 표시
+  el.closest('#nr-treatment-list').querySelectorAll('.ri-treatment-option').forEach(function(opt) {
+    opt.classList.remove('selected');
+  });
+  el.classList.add('selected');
+
+  // 헤더 라벨
+  var label = document.getElementById('nr-treatment-label');
+  if (label) { label.textContent = name; label.style.color = 'var(--gray-700)'; label.style.fontWeight = '600'; }
+
+  // 리스트 닫기
+  var list    = document.getElementById('nr-treatment-list');
+  var chevron = document.getElementById('nr-treatment-chevron');
+  if (list)    list.style.display = 'none';
+  if (chevron) chevron.style.transform = 'rotate(0deg)';
+
+  // 폼 렌더
+  var area = document.getElementById('nr-form-area');
+  if (!area) return;
+  if (formType === 'general') {
+    area.innerHTML = NR_FORMS.general('<option>소화불량 처방</option><option>호흡기 감염 처방</option><option>외상 처치</option>');
+  } else if (formType === 'calf') {
+    area.innerHTML = NR_FORMS.general('<option>[송아지] 설사 처방</option><option>[송아지] 호흡기 감염</option><option>[송아지] 탈수 치료</option>');
+  } else {
+    area.innerHTML = NR_FORMS.simple();
+  }
+}
+
+
+function toggleTreatmentAccordion2() {
+  var body = document.getElementById('treatment-accordion-body2');
+  var chevron = document.getElementById('treatment-chevron2');
+  if (!body) return;
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+function selectTreatment2(el, name) {
+  el.closest('#treatment-accordion-body2').querySelectorAll('.treatment-option').forEach(function(opt) {
+    opt.classList.remove('selected');
+    opt.querySelector('.check-icon').style.display = 'none';
+  });
+  el.classList.add('selected');
+  el.querySelector('.check-icon').style.display = 'block';
+  document.getElementById('treatment-selected-label2').textContent = name;
+  document.getElementById('treatment-accordion-body2').style.display = 'none';
+  document.getElementById('treatment-chevron2').style.transform = 'rotate(0deg)';
+  document.getElementById('record-form-section2').style.display = 'block';
+}
+
+
 function toggleTreatmentAccordion() {
   var body = document.getElementById('treatment-accordion-body');
   var chevron = document.getElementById('treatment-chevron');
@@ -2364,23 +2790,65 @@ function toggleTreatmentAccordion() {
   chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
 }
 
-function selectTreatment(el, name) {
-  // 선택 표시
-  el.closest('#treatment-accordion-body').querySelectorAll('.treatment-option').forEach(function(opt) {
+function selectTreatment(el, name, formType) {
+  // 리스트 항목 선택 표시
+  el.closest('#treatment-accordion-body').querySelectorAll('.ri-treatment-option').forEach(function(opt) {
     opt.classList.remove('selected');
-    opt.querySelector('.check-icon').style.display = 'none';
   });
   el.classList.add('selected');
-  el.querySelector('.check-icon').style.display = 'block';
-  // 라벨 업데이트
-  document.getElementById('treatment-selected-label').textContent = name;
-  // 아코디언 닫기
-  document.getElementById('treatment-accordion-body').style.display = 'none';
-  document.getElementById('treatment-chevron').style.transform = 'rotate(0deg)';
-  // 진료기록 폼 표시
-  document.getElementById('record-form-section').style.display = 'block';
+
+  // 헤더 라벨 업데이트
+  var label = document.getElementById('treatment-selected-label');
+  if (label) { label.textContent = name; label.style.color = 'var(--gray-700)'; label.style.fontWeight = '600'; }
+
+  // 리스트 카드 닫기
+  var body = document.getElementById('treatment-accordion-body');
+  var chevron = document.getElementById('treatment-chevron');
+  if (body) body.style.display = 'none';
+  if (chevron) chevron.style.transform = 'rotate(0deg)';
+
+  // 모든 폼 숨기고 해당 폼만 표시
+  document.querySelectorAll('.treatment-form').forEach(function(f) { f.style.display = 'none'; });
+  var target = document.getElementById('form-' + (formType || 'simple'));
+  if (target) target.style.display = 'block';
 }
 
+
+function toggleOptAcc(id) {
+  var body = document.getElementById('body-' + id);
+  if (!body) return;
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+}
+
+function checkOptAcc(id, isDone) {
+  var acc = document.getElementById(id);
+  var badge = document.getElementById('badge-' + id);
+  if (!acc || !badge) return;
+  if (isDone) {
+    acc.classList.add('done');
+    badge.textContent = '입력완료';
+  } else {
+    acc.classList.remove('done');
+    badge.textContent = '선택사항';
+  }
+}
+
+
+function selectKit(btn, accId) {
+  btn.closest('.kit-btns').querySelectorAll('.kit-btn').forEach(function(b) { b.classList.remove('active-kit'); });
+  btn.classList.add('active-kit');
+  if (accId) checkOptAcc(accId, true);
+}
+function selectBasic(btn, accId) {
+  btn.closest('.basic-exam-btns').querySelectorAll('.basic-btn').forEach(function(b) { b.classList.remove('active-basic'); });
+  btn.classList.add('active-basic');
+  if (accId) checkOptAcc(accId, true);
+}
+function toggleOption(btn) {
+  btn.closest('div').querySelectorAll('.toggle-option').forEach(function(b) { b.classList.remove('active-toggle'); });
+  btn.classList.add('active-toggle');
+}
 
 function togglePurpose(btn) {
   btn.parentElement.querySelectorAll('.purpose-chip').forEach(c => c.classList.remove('active'));
@@ -2432,19 +2900,71 @@ function switchTreatmentType(type) {
   updateFilledCount();
 }
 
-function handleSearch(val){
-  const results=document.getElementById('search-results');
-  if(!results) return;
-  if(!val){results.innerHTML='<div style="text-align:center; padding:60px 40px; color:var(--gray-400); font-size:14px;">농장주의 이름, 주소, 개체 정보를 찾거나<br>직접 이표번호를 입력하여 진료기록을 입력할 수 있습니다</div>';return;}
-  const isNum=/^\d+$/.test(val);
-  if(isNum&&val.length>=3){
-    results.innerHTML='<div class="patient-card" onclick="navigateTo(\'screen-record-input\')" style="margin:4px 20px;"><div class="patient-card-top"><span class="patient-id">4324-'+val+'-3</span></div><div class="patient-tags"><span class="tag">한우</span><span class="tag">암컷</span><span class="tag">5세</span></div><div class="patient-owner">주현우 | 경상남도 양산시 물금읍 증산리 84-9</div></div>';
-  }else if(!isNum&&val.length>=1){
-    results.innerHTML='<div class="patient-card" onclick="navigateTo(\'screen-record-input\')" style="margin:4px 20px;"><div class="patient-card-top"><span class="patient-id">1742-2421-0</span></div><div class="patient-tags"><span class="tag">한우</span><span class="tag">수컷</span><span class="tag">3세</span></div><div class="patient-owner">김형만 | 경상남도 양산시 물금읍 증산리 ...</div></div>';
-  }else{
-    results.innerHTML='<div style="text-align:center; padding:60px 40px; color:var(--gray-400); font-size:14px;">검색 결과가 없습니다</div>';
-  }
+// 더미 농장주 데이터
+const FARMERS = [
+  { name: '김형만', phone: '010-3423-5093', addr: '경상남도 김해시 한림면', star: true },
+  { name: '장주은', phone: null,            addr: '경상남도 김해시 진영읍', star: false },
+  { name: '최동우', phone: '010-4324-1234', addr: '부산광역시 강서구 대저동', star: false },
+  { name: '이상호', phone: '010-2131-4220', addr: '경상남도 김해시 진영읍', star: false },
+];
+
+function clearSearch() {
+  var inp = document.getElementById('search-input');
+  if (inp) { inp.value = ''; inp.focus(); }
+  handleSearch('');
 }
+
+function handleSearch(val) {
+  var results = document.getElementById('search-results');
+  var clearBtn = document.getElementById('search-clear-btn');
+  if (!results) return;
+
+  // X 버튼 표시/숨김
+  if (clearBtn) clearBtn.style.display = val ? 'flex' : 'none';
+
+  if (!val) {
+    results.innerHTML = '<div style="text-align:center; padding:100px 40px; color:var(--gray-400); font-size:14px; line-height:1.8;">농장주의 이름, 주소, 전화번호 찾거나<br>직접 입력하여 진료기록을 입력할 수 있습니다</div>';
+    return;
+  }
+
+  var matched = FARMERS.filter(function(f) {
+    var q = val.toLowerCase();
+    return f.name.includes(q) || (f.phone && f.phone.replace(/-/g,'').includes(q.replace(/-/g,''))) || f.addr.includes(q);
+  });
+
+  if (matched.length === 0) {
+    results.innerHTML =
+      '<div style="padding:40px 20px;">' +
+        '<div style="display:flex; align-items:center; gap:16px; padding:16px 0;">' +
+          '<div style="width:36px; height:36px; border-radius:50%; border:2px solid var(--gray-300); display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; background:var(--white);" onclick="navigateTo(\'screen-new-record\')">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+          '</div>' +
+          '<div onclick="navigateTo(\'screen-new-record\')" style="cursor:pointer;">' +
+            '<div style="font-size:15px; color:var(--gray-500);">농장주 정보가 없습니다.</div>' +
+            '<div style="font-size:14px; font-weight:600; color:var(--brand); margin-top:3px;">농장주 추가</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    return;
+  }
+
+  results.innerHTML = matched.map(function(f) {
+    var phoneHtml = f.phone
+      ? '<div style="font-size:13px; color:var(--gray-500); margin-top:3px;">' + f.phone + '</div>'
+      : '<div style="font-size:13px; font-weight:600; color:var(--red); margin-top:3px;">전화번호 등록 필요</div>';
+    var starChar = f.star ? '★' : '☆';
+    var starColor = f.star ? 'var(--yellow)' : 'var(--gray-300)';
+    return '<div class="farmer-list-item" onclick="navigateTo(\'screen-record-input\')">' +
+      '<div style="flex:1; min-width:0;">' +
+        '<div class="farmer-name">' + f.name + '</div>' +
+        phoneHtml +
+        '<div class="farmer-addr" style="margin-top:2px;">' + f.addr + '</div>' +
+      '</div>' +
+      '<span style="font-size:22px; color:' + starColor + '; cursor:pointer;" onclick="event.stopPropagation();">' + starChar + '</span>' +
+    '</div>';
+  }).join('');
+}
+
 function showFarmerPopup() {
   document.getElementById('farmer-popup').classList.add('active');
 }
