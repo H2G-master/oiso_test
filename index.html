@@ -418,6 +418,83 @@ body {
   box-shadow: none;
 }
 
+/* ── 템플릿 목록 ── */
+.tmpl-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  cursor: pointer;
+  background: var(--white);
+  transition: background 0.12s;
+}
+.tmpl-item:active { background: var(--gray-50); }
+.tmpl-item-body { flex: 1; min-width: 0; }
+.tmpl-diagnosis { font-size: 15px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.tmpl-price { font-size: 12px; color: var(--gray-500); margin-bottom: 3px; }
+.tmpl-rx { font-size: 12px; color: var(--gray-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tmpl-calf-tag { color: var(--brand); font-weight: 700; }
+.tmpl-error { font-size: 12px; color: var(--red); margin-top: 6px; font-weight: 500; }
+.tmpl-input-error { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(255,68,68,0.10) !important; }
+
+/* ── 수의사 정보 수정 필드 ── */
+.profile-field-row {
+  display: flex; align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--gray-100);
+  gap: 16px;
+}
+.profile-field-label {
+  font-size: 12px; font-weight: 600;
+  color: var(--gray-400);
+  white-space: nowrap;
+  min-width: 90px;
+  flex-shrink: 0;
+}
+.profile-field-value {
+  font-size: 15px; color: var(--gray-700);
+  flex: 1;
+}
+.profile-field-value.readonly { color: var(--gray-500); }
+.profile-field-input {
+  border: none; background: none;
+  font-size: 15px; font-family: inherit;
+  color: var(--gray-700); outline: none;
+  flex: 1; min-width: 0;
+  padding: 0;
+}
+.profile-field-input:focus { color: var(--brand); }
+
+/* ── 청구서 항목 행 ── */
+.bill-item-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.bill-item-row:active { background: var(--gray-50); }
+.bill-farmer-row:hover { background: var(--gray-50); }
+
+/* ── 기록 카드 (새 디자인) ── */
+.rec-card {
+  background: var(--white);
+  margin: 0 16px 8px;
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border: 1.5px solid var(--gray-100);
+  transition: transform 0.12s;
+}
+.rec-card:active { transform: scale(0.98); }
+.rec-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.rec-diagnosis { font-size: 16px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.2px; }
+.rec-time { font-size: 12px; color: var(--gray-400); }
+.rec-farmer { font-size: 13px; color: var(--gray-500); margin-bottom: 2px; }
+.rec-addr { font-size: 12px; color: var(--gray-400); margin-bottom: 10px; }
+.rec-bottom { display: flex; justify-content: space-between; align-items: center; }
+.rec-fee { font-size: 16px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.3px; }
+
 /* ── 기록 헤더 ── */
 .records-header {
   background: var(--white);
@@ -1164,6 +1241,41 @@ body {
   padding: 0; line-height: 1;
 }
 
+/* ── 실시 두수 스텝퍼 ── */
+.stepper-row {
+  display: flex; align-items: center; gap: 0;
+  margin-top: 8px;
+  width: fit-content;
+}
+.stepper-btn {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid var(--gray-200);
+  background: var(--white);
+  font-size: 22px; font-weight: 400;
+  color: var(--gray-600);
+  cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.13s, border-color 0.13s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.stepper-btn:active { background: var(--gray-100); border-color: var(--brand); }
+.stepper-input {
+  width: 64px; height: 44px;
+  border: 1.5px solid var(--gray-200);
+  border-left: none; border-right: none;
+  text-align: center;
+  font-size: 18px; font-weight: 700;
+  color: var(--gray-700);
+  font-family: inherit;
+  outline: none;
+  background: var(--white);
+  -moz-appearance: textfield;
+}
+.stepper-input::-webkit-inner-spin-button,
+.stepper-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
 /* ── 혈액검사 필드 ── */
 .lab-field { display:flex; flex-direction:column; gap:4px; }
 .lab-label { font-size:11px; font-weight:600; color:var(--gray-500); letter-spacing:0.2px; }
@@ -1440,13 +1552,57 @@ body {
 
   <!-- ===== SCREEN: 군집진료 기록 입력 ===== -->
 
+  <!-- ===== 관리 메뉴 ===== -->
   <div class="screen" id="screen-settings">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="screen-content">
-      <div class="settings-list">
-        <div class="settings-item" onclick="showToast('수의사 정보 수정')"><div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="settings-text"><div class="settings-name">수의사 정보 수정</div><div class="settings-desc">계정 정보 수정</div></div><span class="settings-arrow">›</span></div>
-        <div class="settings-item" onclick="showToast('진단/처방 템플릿')"><div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="settings-text"><div class="settings-name">진단/처방 템플릿</div><div class="settings-desc">자주 사용하는 템플릿 관리</div></div><span class="settings-arrow">›</span></div>
-        <div class="logout-item" onclick="showToast('로그아웃 되었습니다')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> 로그아웃</div>
+    <div class="screen-content" style="padding-bottom:80px;">
+      <div style="padding:16px 16px 0;">
+
+        <!-- 메뉴 아이템: 수의사 정보 수정 -->
+        <div class="settings-item" onclick="navigateTo('screen-vet-profile')" style="margin-bottom:10px;">
+          <div class="settings-icon" style="background:#EBF0F7;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="settings-text"><div class="settings-name">수의사 정보 수정</div><div class="settings-desc">계정 정보 수정</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+
+        <!-- 메뉴 아이템: 진단/처방 템플릿 -->
+        <div class="settings-item" onclick="navigateTo('screen-templates')" style="margin-bottom:10px;">
+          <div class="settings-icon" style="background:#EBF0F7;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="settings-text"><div class="settings-name">진단/처방 템플릿</div><div class="settings-desc">자주 사용하는 템플릿 관리</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+
+        <!-- 메뉴 아이템: 진료비 할증 설정 -->
+        <div class="settings-item" onclick="showToast('진료비 할증 설정 준비 중')" style="margin-bottom:10px;">
+          <div class="settings-icon" style="background:#EBF0F7;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+          </div>
+          <div class="settings-text"><div class="settings-name">진료비 할증 설정</div><div class="settings-desc">야간, 주말/공휴일 할증 설정</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+
+        <!-- 메뉴 아이템: 고객센터 -->
+        <div class="settings-item" onclick="showToast('고객센터 연결 준비 중')">
+          <div class="settings-icon" style="background:#EBF0F7;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          </div>
+          <div class="settings-text"><div class="settings-name">고객센터</div><div class="settings-desc">궁금한 사항이 있으신가요?</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+
+        <!-- 로그아웃 -->
+        <div class="settings-item" onclick="showAlert('로그아웃','로그아웃 하시겠습니까?','아니오','예')" style="margin-top:16px; border:1.5px solid #FFE5E5; background:var(--white);">
+          <div class="settings-icon" style="background:#FFF0F0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+          <div class="settings-text"><div class="settings-name" style="color:var(--red);">로그아웃</div></div>
+          <span class="settings-arrow" style="color:var(--red);">›</span>
+        </div>
+
       </div>
     </div>
     <div class="bottom-nav">
@@ -1458,35 +1614,352 @@ body {
   </div>
 
 
+  <!-- ===== 수의사 정보 수정 ===== -->
+  <div class="screen" id="screen-vet-profile">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="background:var(--white);">
+      <button class="back-btn" onclick="navigateTo('screen-settings')">‹</button>
+      <span class="page-title">기본 정보 보기</span>
+    </div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:20px 24px 0; border-bottom:1px solid var(--gray-100); margin-bottom:4px;">
+        <div style="font-size:12px; font-weight:600; color:var(--gray-400); letter-spacing:0.5px; margin-bottom:16px;">내 정보 관리</div>
+      </div>
+
+      <!-- 이메일 (readonly) -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">이메일</span>
+        <span class="profile-field-value readonly">test1234@email.com</span>
+      </div>
+
+      <!-- 비밀번호 변경 링크 -->
+      <div class="profile-field-row" style="cursor:pointer;" onclick="navigateTo('screen-change-pw')">
+        <span class="profile-field-value" style="font-weight:700; color:var(--gray-700);">비밀번호 변경</span>
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-400)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+      </div>
+
+      <!-- 이름 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">이름</span>
+        <input class="profile-field-input" value="홍길동">
+      </div>
+
+      <!-- 전화번호 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">전화번호</span>
+        <input class="profile-field-input" value="010-1234-5678" type="tel">
+      </div>
+
+      <!-- 동물병원 명칭 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">동물병원 명칭</span>
+        <input class="profile-field-input" value="다함께 동물병원">
+      </div>
+
+      <!-- 동물병원 주소 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">동물병원 주소</span>
+        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+          <input class="profile-field-input" value="경상남도 창원시 진해구 안골로..." style="flex:1;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+      </div>
+
+      <!-- 동물병원 상세주소 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">동물병원 상세주소</span>
+        <input class="profile-field-input" value="205호">
+      </div>
+
+      <!-- 수의사 면허번호 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">수의사 면허번호</span>
+        <div style="display:flex; align-items:center; gap:6px; flex:1;">
+          <input class="profile-field-input" value="12345" type="number" style="flex:1;">
+          <span style="font-size:14px; color:var(--gray-500); white-space:nowrap;">호</span>
+        </div>
+      </div>
+
+      <!-- 은행 -->
+      <div class="profile-field-row">
+        <span class="profile-field-label">은행</span>
+        <input class="profile-field-input" value="농협">
+      </div>
+
+      <!-- 계좌번호 -->
+      <div class="profile-field-row" style="border-bottom:none;">
+        <span class="profile-field-label">계좌번호</span>
+        <input class="profile-field-input" value="123-2323424242-2">
+      </div>
+
+      <!-- 저장 버튼 -->
+      <div style="padding:20px 24px 32px;">
+        <button onclick="showAlert('기본 정보 수정하기','변경된 정보가 있습니다. 변경된 내용으로 저장하시겠습니까?','취소','예')" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">저장</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== 비밀번호 변경 ===== -->
+  <div class="screen" id="screen-change-pw">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="background:var(--white);">
+      <button class="back-btn" onclick="navigateTo('screen-vet-profile')">‹</button>
+      <span class="page-title">비밀번호 변경</span>
+    </div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:28px 24px 0; display:flex; flex-direction:column; gap:28px; flex:1;">
+
+        <div>
+          <div class="profile-field-label" style="margin-bottom:8px;">기존 비밀번호 입력</div>
+          <input type="password" placeholder="8자리 이상 입력" style="width:100%; border:none; border-bottom:1.5px solid var(--gray-200); padding:10px 0; font-size:16px; font-family:inherit; outline:none; color:var(--gray-700); background:none;">
+        </div>
+
+        <div>
+          <div class="profile-field-label" style="margin-bottom:8px;">변경 비밀번호 입력</div>
+          <input type="password" placeholder="8자리 이상 입력" style="width:100%; border:none; border-bottom:1.5px solid var(--gray-200); padding:10px 0; font-size:16px; font-family:inherit; outline:none; color:var(--gray-700); background:none;">
+        </div>
+
+        <div>
+          <div class="profile-field-label" style="margin-bottom:8px;">변경 비밀번호 재입력</div>
+          <input type="password" placeholder="8자리 이상 입력" style="width:100%; border:none; border-bottom:1.5px solid var(--gray-200); padding:10px 0; font-size:16px; font-family:inherit; outline:none; color:var(--gray-700); background:none;">
+        </div>
+
+      </div>
+
+      <div style="padding:32px 24px 40px; margin-top:auto;">
+        <button onclick="showToast('비밀번호가 변경되었습니다'); navigateTo('screen-vet-profile');" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">비밀번호 변경</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== 진단/처방 템플릿 목록 ===== -->
+  <div class="screen" id="screen-templates">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="background:var(--white);">
+      <button class="back-btn" onclick="navigateTo('screen-settings')">‹</button>
+      <span class="page-title">진단 / 처방 템플릿</span>
+    </div>
+    <div class="screen-content" style="background:var(--white); padding-bottom:100px;">
+      <!-- 검색바 -->
+      <div style="padding:12px 16px 8px;">
+        <div style="display:flex; align-items:center; background:var(--gray-100); border-radius:12px; padding:0 14px; height:44px; gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="진단명 or 처방내역으로 검색하기" style="border:none;background:none;flex:1;font-size:14px;font-family:inherit;outline:none;color:var(--gray-700);">
+        </div>
+      </div>
+      <!-- 템플릿 목록 -->
+      <div id="template-list">
+        <div class="tmpl-item" onclick="navigateTo('screen-template-detail')">
+          <div class="tmpl-item-body">
+            <div class="tmpl-diagnosis">설사, 장염, 장출혈 [수액 + 키트]</div>
+            <div class="tmpl-price">진료비 140,000</div>
+            <div class="tmpl-rx">DW, 10percent dex, KCL, MGsulfate, chco3 IV...</div>
+          </div>
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+        </div>
+        <div class="tmpl-item" onclick="navigateTo('screen-template-detail')">
+          <div class="tmpl-item-body">
+            <div class="tmpl-diagnosis"><span class="tmpl-calf-tag">[송아지]</span> 설사, 장염, 장출혈 [수액 + 키트]</div>
+            <div class="tmpl-price">진료비 140,000</div>
+            <div class="tmpl-rx">DW, 10percent dex, KCL, MGsulfate, chco3 IV...</div>
+          </div>
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+        </div>
+        <div class="tmpl-item" onclick="navigateTo('screen-template-detail')">
+          <div class="tmpl-item-body">
+            <div class="tmpl-diagnosis">호흡기 감염 [항생제 처방]</div>
+            <div class="tmpl-price">진료비 80,000</div>
+            <div class="tmpl-rx">Penicillin, Gentamicin, Dexamethasone IV...</div>
+          </div>
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+        </div>
+        <div class="tmpl-item" onclick="navigateTo('screen-template-detail')">
+          <div class="tmpl-item-body">
+            <div class="tmpl-diagnosis">외상 처치 [소독 + 봉합]</div>
+            <div class="tmpl-price">진료비 60,000</div>
+            <div class="tmpl-rx">Betadine, 생리식염수 세척, 봉합사 처치...</div>
+          </div>
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+        </div>
+        <div class="tmpl-item" onclick="navigateTo('screen-template-detail')">
+          <div class="tmpl-item-body">
+            <div class="tmpl-diagnosis"><span class="tmpl-calf-tag">[송아지]</span> 탈수 치료 [수액]</div>
+            <div class="tmpl-price">진료비 120,000</div>
+            <div class="tmpl-rx">DW 500ml, 생리식염수 1000ml IV drip...</div>
+          </div>
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+        </div>
+        <div class="tmpl-item" onclick="navigateTo('screen-template-detail')">
+          <div class="tmpl-item-body">
+            <div class="tmpl-diagnosis">발정 동기화 처방</div>
+            <div class="tmpl-price">진료비 50,000</div>
+            <div class="tmpl-rx">CIDR 삽입, GnRH, PGF2α 처치...</div>
+          </div>
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+        </div>
+      </div>
+    </div>
+    <!-- 플로팅 버튼 -->
+    <div class="floating-btn" onclick="navigateTo('screen-template-add')" style="bottom:12px;">
+      <div class="floating-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+      <div class="floating-btn-text"><div class="floating-btn-title">템플릿 추가 등록</div><div class="floating-btn-sub">새로운 템플릿을 등록합니다</div></div>
+      <span class="floating-btn-arrow">›</span>
+    </div>
+  </div>
+
+
+  <!-- ===== 템플릿 추가 ===== -->
+  <div class="screen" id="screen-template-add">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="background:var(--white);">
+      <button class="back-btn" onclick="navigateTo('screen-templates')">‹</button>
+      <span class="page-title">템플릿 추가</span>
+    </div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:20px 20px 0;">
+
+        <!-- 진단명 -->
+        <div class="form-group" style="margin-bottom:20px;">
+          <span class="form-label">진단명 <span class="required">*</span></span>
+          <input id="tmpl-add-name" class="form-input" placeholder="진단명을 입력하세요" oninput="clearTmplError('tmpl-add-name','tmpl-add-name-err')">
+          <div id="tmpl-add-name-err" class="tmpl-error" style="display:none;">진단명을 입력해주세요</div>
+        </div>
+
+        <!-- 처방내역 -->
+        <div class="form-group" style="margin-bottom:20px;">
+          <span class="form-label">처방내역 <span class="required">*</span></span>
+          <textarea id="tmpl-add-rx" class="form-input" placeholder="처방내역을 입력하세요" rows="5" style="resize:none;" oninput="clearTmplError('tmpl-add-rx','tmpl-add-rx-err')"></textarea>
+          <div id="tmpl-add-rx-err" class="tmpl-error" style="display:none;">처방내역을 입력해주세요</div>
+        </div>
+
+        <!-- 진료비 -->
+        <div class="form-group" style="margin-bottom:24px;">
+          <span class="form-label">진료비</span>
+          <input id="tmpl-add-price" class="form-input" placeholder="진료비를 입력하세요" type="number">
+        </div>
+
+        <!-- 송아지 체크박스 -->
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:32px;">
+          <input id="tmpl-add-calf" type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;">
+          <span style="font-size:14px; color:var(--gray-600);">송아지 진료에 사용되는 템플릿입니다</span>
+        </label>
+
+        <!-- 추가 버튼 -->
+        <button onclick="submitTmplAdd()" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">템플릿 추가</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== 템플릿 상세보기 ===== -->
+  <div class="screen" id="screen-template-detail">
+    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div class="page-header-with-back" style="background:var(--white);">
+      <button class="back-btn" onclick="navigateTo('screen-templates')">‹</button>
+      <span class="page-title">템플릿 상세보기</span>
+    </div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:20px 20px 0;">
+
+        <!-- 진단명 -->
+        <div class="form-group" style="margin-bottom:20px;">
+          <span class="form-label">진단명 <span class="required">*</span></span>
+          <input class="form-input" value="설사, 장염, 장출혈 [수액 + 키트]">
+        </div>
+
+        <!-- 처방내역 -->
+        <div class="form-group" style="margin-bottom:20px;">
+          <span class="form-label">처방내역 <span class="required">*</span></span>
+          <textarea class="form-input" rows="6" style="resize:none;">DW, 10percent dex, KCL, MGsulfate, choco3 IV, kacine, dexa, anargine, meto, 수액 1000 ml</textarea>
+        </div>
+
+        <!-- 진료비 -->
+        <div class="form-group" style="margin-bottom:24px;">
+          <span class="form-label">진료비</span>
+          <input class="form-input" value="140,000">
+        </div>
+
+        <!-- 송아지 체크박스 -->
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:32px;">
+          <input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;">
+          <span style="font-size:14px; color:var(--gray-600);">송아지 진료에 사용되는 템플릿입니다</span>
+        </label>
+
+        <!-- 하단 버튼 -->
+        <div style="display:flex; gap:12px;">
+          <button onclick="showAlert('템플릿 삭제하기','한 번 삭제한 템플릿은 복구할 수 없습니다. 삭제하시겠습니까?','취소','삭제')" style="flex:1;padding:15px;background:#FFF0F0;color:var(--red);border:1.5px solid #FFD4D4;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;">삭제하기</button>
+          <button onclick="showAlert('템플릿 수정하기','템플릿 정보가 변경되었습니다. 변경된 내용으로 저장하시겠습니까?','아니오','예')" style="flex:1;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">수정하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Status Bottom Sheet -->
 
+  <!-- ===== 기록 목록 ===== -->
   <div class="screen" id="screen-records">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="screen-content">
-      <div class="records-header"><div class="month-nav"><button class="month-arrow">‹</button><span class="month-text">2026년 2월</span><button class="month-arrow">›</button></div><div class="total-fee">총 진료비 <strong>₩10,130,429</strong></div></div>
-      <div class="guide-msg">각 진료기록을 탭하여 개별 기록 수정, 청구서·서류 발급</div>
-      <div class="record-card" onclick="navigateTo('screen-record-detail-group')">
-        <div class="record-card-top"><span class="record-id">군집진료<span class="group-badge">4두</span></span><span class="record-time">02-05 14:30</span></div>
-        <div class="record-info"><span style="display:inline-block; background:var(--gray-100); color:var(--gray-600); font-size:11px; padding:2px 6px; border-radius:4px; margin-right:4px;">거세</span> 김형만 | 경상남도 양산시 물금읍 증산리 ...</div>
-        <div class="record-bottom"><span class="status-badge settled" onclick="event.stopPropagation(); openStatusSheet(this, 'settled')">✓ 정산완료</span><span class="record-fee">₩100,000</span></div>
+
+    <div style="background:var(--white); padding:14px 20px 0; flex-shrink:0;">
+      <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:6px;">
+        <button class="month-arrow" onclick="changeMonth(-1)">‹</button>
+        <span class="month-text">2026년 2월</span>
+        <button class="month-arrow" onclick="changeMonth(1)">›</button>
       </div>
-      <div class="record-card" onclick="navigateTo('screen-record-detail-group-blood')">
-        <div class="record-card-top"><span class="record-id">군집진료<span class="group-badge">4두</span></span><span class="record-time">02-05 10:00</span></div>
-        <div class="record-info"><span style="display:inline-block; background:#FFF0E6; color:#E67700; font-size:11px; padding:2px 6px; border-radius:4px; margin-right:4px;">채혈</span> 박영희 | 경상남도 양산시 물금읍 범어리 ...</div>
-        <div class="record-bottom"><span class="status-badge unsettled" onclick="event.stopPropagation(); openStatusSheet(this, 'unsettled')">✕ 미정산</span><span class="record-fee">₩80,000</span></div>
+      <div style="text-align:center; padding-bottom:12px;">
+        <span style="font-size:13px; color:var(--gray-500);">총 진료비 </span>
+        <span style="font-size:20px; font-weight:800; color:var(--brand); letter-spacing:-0.5px;">₩10,130,429</span>
       </div>
-      <div class="record-card" onclick="navigateTo('screen-record-detail-group-general')">
-        <div class="record-card-top"><span class="record-id">군집진료<span class="group-badge">3두</span></span><span class="record-time">02-04 16:00</span></div>
-        <div class="record-info"><span style="display:inline-block; background:#E6F0FF; color:#3366CC; font-size:11px; padding:2px 6px; border-radius:4px; margin-right:4px;">일반진료</span> 이상호 | 경상남도 양산시 하북면 용연리 ...</div>
-        <div class="record-bottom"><span class="status-badge settled" onclick="event.stopPropagation(); openStatusSheet(this, 'settled')">✓ 정산완료</span><span class="record-fee">₩150,000</span></div>
-      </div>
-      <div class="record-card" onclick="navigateTo('screen-record-detail')">
-        <div class="record-card-top"><span class="record-id">1742-2421-0</span><span class="record-time">02-04 14:30</span></div>
-        <div class="record-info">한우 | 수컷 | 2세<br>김형만 | 경상남도 양산시 물금읍 증산리 ...</div>
-        <div class="record-bottom"><span class="status-badge unsettled" onclick="event.stopPropagation(); openStatusSheet(this, 'unsettled')">✕ 미정산</span><span class="record-fee">₩100,000</span></div>
-      </div>
-      <div style="height:20px;"></div>
     </div>
+
+    <div class="screen-content" style="background:var(--bg); padding-bottom:80px;">
+      <div style="background:var(--white); padding:10px 16px 0;">
+        <div style="display:flex; align-items:center; background:var(--gray-100); border-radius:12px; padding:0 14px; height:44px; gap:8px; margin-bottom:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="농장주 이름, 전화번호, 진료유형, ..." style="border:none;background:none;flex:1;font-size:14px;font-family:inherit;outline:none;color:var(--gray-700);">
+        </div>
+        <button onclick="openMonthlyBill()" style="width:100%;padding:14px;background:var(--brand);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;box-shadow:0 3px 10px rgba(74,112,169,0.22);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+          이번 달 청구서 발급
+        </button>
+      </div>
+
+      <div style="padding:8px 20px 6px; font-size:12px; color:var(--gray-400);">각 진료기록을 탭하여 개별 기록 수정, 청구서·서류 발급</div>
+
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">설사, 장염</span><span class="rec-time">02-14 14:30</span></div>
+        <div class="rec-farmer">김형만 | 010-3423-5093</div>
+        <div class="rec-addr">경상남도 김해시 한림면...</div>
+        <div class="rec-bottom"><span class="status-badge settled" onclick="event.stopPropagation();openStatusSheet(this,'settled')">✓ 정산완료</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">중성화</span><span class="rec-time">02-14 14:30</span></div>
+        <div class="rec-farmer">최동우 | 010-4324-1234</div>
+        <div class="rec-addr">부산광역시 강서구 대저동...</div>
+        <div class="rec-bottom"><span class="status-badge unsettled" onclick="event.stopPropagation();openStatusSheet(this,'unsettled')">✕ 미정산</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">시료채취</span><span class="rec-time">02-14 14:30</span></div>
+        <div class="rec-farmer">장주은 | 010-1234-5678</div>
+        <div class="rec-addr">경상남도 김해시 진영읍...</div>
+        <div class="rec-bottom"><span class="status-badge pending" onclick="event.stopPropagation();openStatusSheet(this,'pending')">⏳ 정산대기</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">1742-2421-0</span><span class="rec-time">01-14 14:30</span></div>
+        <div class="rec-farmer">한우 | 수컷 | 2세</div>
+        <div class="rec-addr">김형만 | 경상남도 양산시 물금읍 증산리...</div>
+        <div class="rec-bottom"><span class="status-badge settled" onclick="event.stopPropagation();openStatusSheet(this,'settled')">✓ 정산완료</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+
+      <div style="height:10px;"></div>
+    </div>
+
     <div class="bottom-nav">
       <div class="nav-item" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
       <div class="nav-item active" onclick="switchTab('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>기록</span></div>
@@ -1495,78 +1968,313 @@ body {
     </div>
   </div>
 
-  <!-- Record Detail (individual) -->
 
+  <!-- ===== 진료 기록 상세보기 ===== -->
   <div class="screen" id="screen-record-detail">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:12px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">진료 기록 상세보기</span></div><span class="status-header-badge settled">✓ 정산완료</span></div>
-    <div class="screen-content">
-      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="김현만" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경상남도 양산시 물금읍 증산리..." readonly></div></div>
-      <div class="form-section"><div class="form-section-title">개체 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">이표번호</span><input class="form-input readonly" value="002-1743-2421-0" readonly></div><div class="form-row"><div class="form-group"><span class="form-label">축종</span><input class="form-input readonly" value="한우" readonly></div><div class="form-group"><span class="form-label">성별</span><input class="form-input readonly" value="수컷" readonly></div></div></div>
-      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.04 14:30"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명</span><input class="form-input" value="설사, 장염"></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역</span><textarea class="form-input" rows="2" style="resize:none;">DW, 10percent dex, KCL, MGsulfate, choco3 IV</textarea></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩100,000" readonly></div></div>
-      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="navigateTo('screen-doc-individual')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 서류 발급</button></div>
-      <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
+    <div class="page-header-with-back" style="justify-content:space-between; background:var(--bg); border-bottom:none;">
+      <div style="display:flex;align-items:center;gap:4px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">진료 기록 상세보기</span></div>
+      <span class="status-badge settled" style="cursor:pointer;" onclick="openStatusSheet(this,'settled')">✓ 정산완료</span>
     </div>
-  </div>
 
-  <!-- Record Detail (group) -->
-
-  <div class="screen" id="screen-record-detail-group">
-    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:12px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">군집진료 상세보기</span></div><span class="status-header-badge settled">✓ 정산완료</span></div>
     <div class="screen-content">
-      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="김형만" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경남 양산시 물금읍 123-45" readonly></div></div>
-      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료유형</span><input class="form-input readonly" value="거세" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.05 14:30"></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩100,000" readonly></div></div>
-      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="openDocForm('doc-form-castration')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 거세확인서 발급</button></div>
-      <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
-    </div>
-  </div>
-
-  <!-- Record Detail (group - 채혈) -->
-
-  <div class="screen" id="screen-record-detail-group-blood">
-    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:12px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">군집진료 상세보기</span></div><span class="status-header-badge unsettled">✕ 미정산</span></div>
-    <div class="screen-content">
-      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="박영희" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경남 양산시 물금읍 범어리 456-12" readonly></div></div>
-      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료유형</span><input class="form-input readonly" value="채혈" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.05 10:00"></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩80,000" readonly></div></div>
-      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="openDocForm('doc-form-labtest')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 검사의뢰서 발급</button></div>
-      <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
-    </div>
-  </div>
-
-  <!-- Record Detail (group - 일반진료) -->
-
-  <div class="screen" id="screen-record-detail-group-general">
-    <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
-    <div class="page-header-with-back" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:12px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">군집진료 상세보기</span></div><span class="status-header-badge settled">✓ 정산완료</span></div>
-    <div class="screen-content">
-      <div class="form-section"><div class="form-section-title">농장주 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름</span><input class="form-input readonly" value="이상호" readonly></div><div class="form-group"><span class="form-label">농장 주소</span><input class="form-input readonly" value="경남 양산시 하북면 용연리 789-3" readonly></div></div>
-      <div class="form-section"><div class="form-section-title">진료기록</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료유형</span><input class="form-input readonly" value="일반진료" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">진료일자</span><input class="form-input" value="2026.02.04 16:00"></div><div class="form-group"><span class="form-label">최종 진료비</span><input class="form-input readonly" value="₩150,000" readonly></div></div>
-      <div style="padding:8px 20px;"><button class="detail-action-btn btn-outline" style="width:100%;" onclick="showAnimalSelectSheetGeneral()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 진단서 발급</button></div>
-      <div class="detail-actions"><button class="detail-action-btn btn-outline" onclick="showToast('수정되었습니다')">수정</button><button class="detail-action-btn btn-danger" onclick="showAlert('진료 기록 삭제하기', '한 번 삭제한 진료 기록은 복구할 수 없습니다.', '취소', '삭제')">삭제</button></div>
-    </div>
-    <!-- 개체 선택 바텀시트 (일반진료→진단서) -->
-    <div class="animal-select-overlay" id="animal-select-overlay-general" onclick="closeAnimalSelectSheetGeneral()">
-      <div class="animal-select-sheet" onclick="event.stopPropagation()">
-        <div class="animal-select-header">
-          <div style="display:flex; align-items:center; gap:8px;"><div><span class="animal-select-title-highlight">진단서</span><span class="animal-select-title"> 작성</span></div></div>
-          <button class="animal-select-close" onclick="closeAllDocSheets()">✕</button>
+      <!-- 농장주 정보 카드 -->
+      <div style="background:var(--white);border-radius:16px;margin:4px 16px 12px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span style="font-size:13px;font-weight:700;color:var(--brand);">농장주 정보</span>
         </div>
-        <div class="animal-select-desc">발급할 개체를 선택해주세요</div>
-        <div class="animal-select-list">
-          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)"><div><div class="animal-select-id">002-3321-1122-3</div><div class="animal-select-info">한우 · 수 · 1세</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
-          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)"><div><div class="animal-select-id">002-4412-3344-5</div><div class="animal-select-info">한우 · 암 · 3세</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
-          <div class="animal-select-item" onclick="selectAnimalForDoc2(this)"><div><div class="animal-select-id">002-5523-4455-7</div><div class="animal-select-info">한우 · 수 · 2세</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+        <div style="font-size:18px;font-weight:700;color:var(--gray-700);margin-bottom:4px;">김형만</div>
+        <div style="font-size:14px;color:var(--gray-400);margin-bottom:3px;">010-3423-5093</div>
+        <div style="font-size:14px;color:var(--gray-400);">경상남도 김해시 한림면</div>
+      </div>
+
+      <!-- 진료유형 카드 (변경 불가) -->
+      <div style="background:var(--white);border-radius:16px;margin:0 16px 12px;padding:18px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+        <span style="font-size:16px;font-weight:600;color:var(--gray-700);">일반진료</span>
+      </div>
+
+      <!-- 진료기록 -->
+      <div class="form-section">
+        <div class="form-section-title">진료기록</div>
+        <div class="form-row" style="margin-bottom:14px;">
+          <div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2026.02.14"></div>
+          <div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="14:30"></div>
         </div>
-        <div style="padding:16px 20px 24px;">
-          <button class="save-btn" style="margin:0; width:100%;" onclick="closeAnimalSelectSheetGeneral(); openDocForm('doc-form-diagnosis')">서류 미리보기</button>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option>선택</option><option selected>소화불량 처방</option></select></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" value="설사, 장염"></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" rows="3" style="resize:none;">DW, 10% dex, KCL, MGsulfate IV</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" value="100000" type="number"></div>
+          <div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option selected>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div>
+        </div>
+      </div>
+
+      <!-- 버튼들 -->
+      <div style="padding:4px 16px 8px;">
+        <button onclick="openIndividualBillPreview()" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 10px rgba(74,112,169,0.25);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          개별 청구서 발급
+        </button>
+      </div>
+      <div style="padding:0 16px 8px;">
+        <button onclick="navigateTo('screen-doc-individual')" style="width:100%;padding:14px;background:var(--white);color:var(--gray-600);border:1.5px solid var(--gray-200);border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          서류 발급
+        </button>
+      </div>
+      <div style="display:flex;gap:10px;padding:0 16px 20px;">
+        <button onclick="showAlert('진료 기록 수정하기','변경된 진료기록이 있습니다. 변경된 내용으로 저장하시겠습니까?','취소','수정')" style="flex:1;padding:14px;background:var(--white);color:var(--gray-600);border:1.5px solid var(--gray-200);border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          수정
+        </button>
+        <button onclick="showAlert('진료 기록 삭제하기','한 번 삭제한 진료 기록은 복구할 수 없습니다. 삭제하시겠습니까?','취소','삭제')" style="flex:1;padding:14px;background:#FFF0F0;color:var(--red);border:1.5px solid #FFD4D4;border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          삭제
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== 정산 상태 변경 바텀시트 (전역) ===== -->
+  <div class="bottom-sheet-overlay" id="status-sheet-overlay" onclick="closeStatusSheet()">
+    <div class="bottom-sheet" onclick="event.stopPropagation()">
+      <div class="bottom-sheet-handle"></div>
+      <div class="bottom-sheet-title">정산 상태 변경</div>
+      <div class="bottom-sheet-options">
+        <button class="bottom-sheet-option" data-status="unsettled" onclick="selectStatus('unsettled')">
+          <div class="option-icon unsettled-icon" style="font-size:14px;font-weight:700;">✕</div>
+          <div class="option-text"><div class="option-name">미정산</div><div class="option-desc">청구서 미발급</div></div>
+          <div class="option-check">✓</div>
+        </button>
+        <button class="bottom-sheet-option" data-status="pending" onclick="selectStatus('pending')">
+          <div class="option-icon pending-icon" style="font-size:16px;">⏳</div>
+          <div class="option-text"><div class="option-name">정산대기</div><div class="option-desc">청구서 발급, 정산 전</div></div>
+          <div class="option-check">✓</div>
+        </button>
+        <button class="bottom-sheet-option" data-status="settled" onclick="selectStatus('settled')">
+          <div class="option-icon settled-icon" style="font-size:14px;font-weight:700;">✓</div>
+          <div class="option-text"><div class="option-name">정산완료</div><div class="option-desc">정산 완료</div></div>
+          <div class="option-check">✓</div>
+        </button>
+      </div>
+      <button class="bottom-sheet-cancel" onclick="closeStatusSheet()">취소</button>
+    </div>
+  </div>
+
+
+  <!-- ===== 이번 달 청구서 발급 바텀시트 ===== -->
+  <div class="bottom-sheet-overlay" id="monthly-bill-overlay" onclick="closeMonthlyBill()">
+    <div style="background:var(--white); border-radius:24px 24px 0 0; width:100%; max-height:88%; display:flex; flex-direction:column; animation: sheetUp 0.28s cubic-bezier(0.32,0.72,0,1);" onclick="event.stopPropagation()">
+      <!-- 핸들 + 헤더 -->
+      <div style="padding:14px 20px 0; flex-shrink:0;">
+        <div style="width:40px; height:4px; background:var(--gray-300); border-radius:2px; margin:0 auto 16px;"></div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+          <span style="font-size:18px; font-weight:800; color:var(--gray-700);">2026년 2월 청구서</span>
+          <button onclick="closeMonthlyBill()" style="width:32px;height:32px;border:none;background:var(--gray-100);border-radius:50%;font-size:16px;color:var(--gray-500);cursor:pointer;">✕</button>
+        </div>
+        <p style="font-size:13px; color:var(--gray-400); margin-bottom:14px;">청구서를 발급할 농장주를 선택하세요</p>
+        <!-- 범례 -->
+        <div style="display:flex; gap:16px; margin-bottom:14px; font-size:12px;">
+          <span style="color:var(--gray-500);">미정산: <span style="color:var(--gray-600); font-weight:600;">청구서 미발급</span></span>
+          <span style="color:var(--orange); font-weight:600;">대기: 청구서 발급, 정산 전</span>
+        </div>
+        <div style="height:1px; background:var(--gray-100); margin:0 -20px;"></div>
+      </div>
+      <!-- 농장주 리스트 -->
+      <div style="overflow-y:auto; flex:1; padding:12px 20px 24px;">
+        <!-- 농장주 행 1 -->
+        <div onclick="openFarmerBill('김형만', '010-1234-4242', '₩1,100,000')" style="padding:16px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; display:flex; align-items:center; justify-content:space-between;" class="bill-farmer-row">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--gray-700); margin-bottom:4px;">김형만 <span style="font-size:13px; font-weight:400; color:var(--gray-500);">(010-1234-4242)</span></div>
+            <div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">3건 미정산 · 2건 대기 · 1건 완료</div>
+            <div style="font-size:12px; color:var(--gray-500);">미정산 ₩1,000,000 + <span style="color:var(--orange); font-weight:600;">대기 ₩100,000</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px; font-weight:800; color:var(--brand);">₩1,100,000</span>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
+        </div>
+        <!-- 농장주 행 2 -->
+        <div onclick="openFarmerBill('송형만', '010-1234-4242', '₩100,000')" style="padding:16px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; display:flex; align-items:center; justify-content:space-between;" class="bill-farmer-row">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--gray-700); margin-bottom:4px;">송형만 <span style="font-size:13px; font-weight:400; color:var(--gray-500);">(010-1234-4242)</span></div>
+            <div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">2건 미정산</div>
+            <div style="font-size:12px; color:var(--gray-500);">미정산 ₩1,000,000</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px; font-weight:800; color:var(--brand);">₩100,000</span>
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Search -->
+
+  <!-- ===== 농장주별 청구 항목 선택 풀시트 ===== -->
+  <div class="doc-form-overlay" id="farmer-bill-overlay" onclick="closeFarmerBillOverlay()">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <!-- 헤더 -->
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeFarmerBillOverlay(); document.getElementById('monthly-bill-overlay').classList.add('active')">‹</button>
+          <span class="doc-form-sheet-title" id="farmer-bill-title">김형만 청구서</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeFarmerBillOverlay()">✕</button>
+      </div>
+
+      <!-- 청구 총액 -->
+      <div style="padding:12px 20px 0; background:var(--white); flex-shrink:0;">
+        <div style="font-size:13px; color:var(--gray-400);">총 진료비</div>
+        <div style="font-size:22px; font-weight:800; color:var(--brand); letter-spacing:-0.5px;" id="farmer-bill-total">₩1,100,000</div>
+      </div>
+
+      <!-- 안내 + 전체선택 -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 20px 8px; background:var(--white);">
+        <span style="font-size:13px; color:var(--gray-500);">청구할 항목을 선택하세요</span>
+        <button onclick="selectAllBillItems()" style="padding:6px 14px; background:var(--gray-100); border:none; border-radius:8px; font-size:12px; font-weight:600; color:var(--gray-600); cursor:pointer; font-family:inherit;">전체선택</button>
+      </div>
+      <div style="height:1px; background:var(--gray-100);"></div>
+
+      <!-- 항목 리스트 -->
+      <div style="flex:1; overflow-y:auto; padding:8px 0 0;">
+
+        <!-- 항목 1 (체크됨) -->
+        <label class="bill-item-row" onclick="updateBillTotal()">
+          <input type="checkbox" checked class="bill-checkbox" data-amount="500000" style="width:20px;height:20px;accent-color:var(--brand);flex-shrink:0;cursor:pointer;">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:15px; font-weight:700; color:var(--gray-700);">설사, 장염</span>
+              <span style="font-size:15px; font-weight:700; color:var(--gray-700);">₩500,000</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:12px; color:var(--gray-400);">02-01 14:30</span>
+              <span style="font-size:11px; font-weight:600; color:var(--gray-500); background:var(--gray-100); padding:2px 8px; border-radius:6px;">미정산</span>
+            </div>
+          </div>
+        </label>
+
+        <!-- 항목 2 (체크됨) -->
+        <label class="bill-item-row" onclick="updateBillTotal()">
+          <input type="checkbox" checked class="bill-checkbox" data-amount="500000" style="width:20px;height:20px;accent-color:var(--brand);flex-shrink:0;cursor:pointer;">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:15px; font-weight:700; color:var(--gray-700);">설사, 장염</span>
+              <span style="font-size:15px; font-weight:700; color:var(--gray-700);">₩500,000</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:12px; color:var(--gray-400);">02-01 14:30</span>
+              <span style="font-size:11px; font-weight:600; color:var(--gray-500); background:var(--gray-100); padding:2px 8px; border-radius:6px;">미정산</span>
+            </div>
+          </div>
+        </label>
+
+        <!-- 항목 3 (체크 안됨, 대기) -->
+        <label class="bill-item-row" onclick="updateBillTotal()">
+          <input type="checkbox" class="bill-checkbox" data-amount="50000" style="width:20px;height:20px;accent-color:var(--brand);flex-shrink:0;cursor:pointer;">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:15px; font-weight:700; color:var(--gray-700);">중성화</span>
+              <span style="font-size:15px; font-weight:700; color:var(--gray-700);">₩50,000</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:12px; color:var(--gray-400);">02-12 19:30</span>
+              <span style="font-size:11px; font-weight:600; color:var(--orange); background:#FFF3E0; padding:2px 8px; border-radius:6px;">대기</span>
+            </div>
+          </div>
+        </label>
+
+        <div style="height:160px;"></div>
+      </div>
+
+      <!-- 하단 고정 영역 -->
+      <div style="position:sticky; bottom:0; background:var(--white); border-top:1px solid var(--gray-100); padding:14px 20px 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <span style="font-size:14px; color:var(--gray-600);">선택: <span id="bill-selected-count" style="font-weight:700;">2건</span></span>
+          <span id="bill-selected-amount" style="font-size:18px; font-weight:800; color:var(--brand);">₩1,000,000</span>
+        </div>
+        <label style="display:flex; align-items:center; gap:10px; margin-bottom:14px; cursor:pointer;">
+          <input type="checkbox" id="bill-settle-now" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;">
+          <span style="font-size:13px; color:var(--gray-600);">청구서 생성 시 정산완료 처리 <span style="color:var(--gray-400);">(기본값: 정산대기)</span></span>
+        </label>
+        <button onclick="openBillPreview()" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(74,112,169,0.30);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          청구서 생성
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== 청구서 미리보기 풀시트 ===== -->
+  <div class="doc-form-overlay" id="bill-preview-overlay">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <!-- 헤더 -->
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeBillPreview()">‹</button>
+          <span class="doc-form-sheet-title" id="bill-preview-title">김형만 청구서 미리보기</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeBillPreview(); closeMonthlyBill();">✕</button>
+      </div>
+
+      <div style="overflow-y:auto; flex:1;">
+        <!-- 생성 완료 배너 -->
+        <div style="margin:12px 16px; padding:12px 16px; background:#E8F5E9; border-radius:12px; display:flex; align-items:center; gap:8px; border:1.5px solid #A5D6A7;">
+          <span style="color:#2E7D32; font-size:16px;">✓</span>
+          <span style="font-size:14px; font-weight:700; color:#2E7D32;">청구서 생성 완료!</span>
+        </div>
+
+        <!-- 청구서 문서 -->
+        <div style="background:var(--white); border:1px solid var(--gray-200); border-radius:12px; margin:0 16px 16px; padding:28px 22px; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+          <h2 style="text-align:center; font-size:20px; font-weight:800; letter-spacing:8px; color:var(--gray-700); margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-700);">진 료 비 청 구 서</h2>
+
+          <div style="font-size:13px; color:var(--gray-600); margin-bottom:4px;">청구 대상: <strong style="color:var(--gray-700);">김형만</strong></div>
+          <div style="font-size:13px; color:var(--gray-600); margin-bottom:20px;">청구 기간: <strong style="color:var(--gray-700);">2026.02.01 ~ 2026.02.28</strong></div>
+
+          <div style="border-top:1px solid var(--gray-200); padding-top:14px;">
+            <!-- 청구 항목들 -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--gray-100);">
+              <div><div style="font-size:13px; font-weight:600; color:var(--gray-700);">장염, 설사</div><div style="font-size:11px; color:var(--gray-400);">02-01 14:30</div></div>
+              <span style="font-size:13px; font-weight:600; color:var(--gray-700);">₩500,000</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--gray-100);">
+              <div><div style="font-size:13px; font-weight:600; color:var(--gray-700);">장염, 설사</div><div style="font-size:11px; color:var(--gray-400);">02-01 14:30</div></div>
+              <span style="font-size:13px; font-weight:600; color:var(--gray-700);">₩500,000</span>
+            </div>
+          </div>
+
+          <!-- 합계 -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:14px; border-top:2px solid var(--gray-700);">
+            <span style="font-size:15px; font-weight:700; color:var(--gray-700);">합계 (2건)</span>
+            <span style="font-size:20px; font-weight:800; color:var(--brand);">₩1,000,000</span>
+          </div>
+
+          <!-- 발급 정보 -->
+          <div style="text-align:center; margin-top:24px; padding-top:16px; border-top:1px solid var(--gray-200); font-size:13px; color:var(--gray-500); line-height:2;">
+            <div style="margin-bottom:4px;">위 금액을 정히 청구함</div>
+            <div style="font-weight:700; color:var(--gray-700);">다함께 동물병원</div>
+            <div>수의사 홍길동</div>
+            <div style="color:var(--gray-400); font-size:12px;">(농협) 111-1234-2434-9</div>
+          </div>
+        </div>
+
+        <!-- 전송 버튼 -->
+        <div style="display:flex; gap:10px; padding:0 16px 32px;">
+          <button onclick="showToast('PDF 다운로드 기능은 준비 중입니다')" style="flex:1;padding:14px;background:var(--gray-700);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            PDF로 다운로드
+          </button>
+          <button onclick="showToast('이미지 공유 기능은 준비 중입니다')" style="flex:1;padding:14px;background:var(--gray-100);color:var(--gray-700);border:none;border-radius:12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            이미지로 공유하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="screen" id="screen-record-input">
     <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
@@ -1599,7 +2307,7 @@ body {
       <div id="treatment-accordion-body" style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
         <div class="ri-treatment-option" onclick="selectTreatment(this, '일반진료', 'general')"><span>일반진료</span></div>
         <div class="ri-treatment-option" onclick="selectTreatment(this, '송아지 진료', 'calf')"><span>송아지 진료</span></div>
-        <div class="ri-treatment-option" onclick="selectTreatment(this, '중성화', 'simple')"><span>중성화</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '중성화', 'castration')"><span>중성화</span></div>
         <div class="ri-treatment-option" onclick="selectTreatment(this, '임신감정', 'simple')"><span>임신감정</span></div>
         <div class="ri-treatment-option" onclick="selectTreatment(this, '수정', 'simple')"><span>수정</span></div>
         <div class="ri-treatment-option" onclick="selectTreatment(this, '시료채취', 'simple')" style="border-bottom:none;"><span>시료채취</span></div>
@@ -1746,15 +2454,67 @@ body {
   <div style="height:20px;"></div>
 </div>
 
-<!-- ===== 기타 진료유형 간단 폼 ===== -->
+<!-- ===== 중성화 폼 (사용약물 포함) ===== -->
+<div id="form-castration" class="treatment-form" style="display:none;">
+  <div class="form-section animate-in">
+    <div class="form-section-title">진료기록</div>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div>
+      <div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <span class="form-label">실시 두수 <span class="required">*</span></span>
+      <div class="stepper-row">
+        <button class="stepper-btn" onclick="stepperChange('stepper-castration', -1)">−</button>
+        <input id="stepper-castration" class="stepper-input" type="number" value="1" min="1" oninput="stepperClamp(this)">
+        <button class="stepper-btn" onclick="stepperChange('stepper-castration', 1)">+</button>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px;">
+      <span class="form-label">사용약물 <span class="required">*</span></span>
+      <textarea class="form-input" placeholder="사용약물을 입력하세요" rows="3" style="resize:none;"></textarea>
+    </div>
+    <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div>
+      <div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-group"><span class="form-label">보험여부</span><select class="form-select"><option>없음</option><option>있음</option></select></div>
+      <div class="form-group"><span class="form-label">자기부담율</span><div style="position:relative;"><input class="form-input" placeholder="0" type="number" style="padding-right:28px;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--gray-500);">%</span></div></div>
+    </div>
+    <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+  </div>
+  <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+  <div style="height:20px;"></div>
+</div>
+
+<!-- ===== 임신감정 / 수정 / 시료채취 폼 ===== -->
 <div id="form-simple" class="treatment-form" style="display:none;">
   <div class="form-section animate-in">
     <div class="form-section-title">진료기록</div>
-    <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
-    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
-    <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역</span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
-    <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
-    <div class="form-group"><span class="form-label">메모</span><textarea class="form-input" placeholder="메모를 입력하세요" rows="2" style="resize:none;"></textarea></div>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div>
+      <div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <span class="form-label">실시 두수 <span class="required">*</span></span>
+      <div class="stepper-row">
+        <button class="stepper-btn" onclick="stepperChange('stepper-simple', -1)">−</button>
+        <input id="stepper-simple" class="stepper-input" type="number" value="1" min="1" oninput="stepperClamp(this)">
+        <button class="stepper-btn" onclick="stepperChange('stepper-simple', 1)">+</button>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:10px;">
+      <div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div>
+      <div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-group"><span class="form-label">보험여부</span><select class="form-select"><option>없음</option><option>있음</option></select></div>
+      <div class="form-group"><span class="form-label">자기부담율</span><div style="position:relative;"><input class="form-input" placeholder="0" type="number" style="padding-right:28px;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--gray-500);">%</span></div></div>
+    </div>
+    <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
   </div>
   <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
   <div style="height:20px;"></div>
@@ -1830,7 +2590,7 @@ body {
         <div id="nr-treatment-list" style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
           <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'일반진료','general')"><span>일반진료</span></div>
           <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'송아지 진료','calf')"><span>송아지 진료</span></div>
-          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'중성화','simple')"><span>중성화</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'중성화','castration')"><span>중성화</span></div>
           <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'임신감정','simple')"><span>임신감정</span></div>
           <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'수정','simple')"><span>수정</span></div>
           <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'시료채취','simple')" style="border-bottom:none;"><span>시료채취</span></div>
@@ -2673,6 +3433,34 @@ function showAlert(title,msg,cancel,confirm){
 function closeAlert(){document.getElementById('alert-overlay').classList.remove('active');}
 
 // 농장주 정보 저장 → 요약 카드로 전환
+function submitTmplAdd() {
+  var name  = document.getElementById('tmpl-add-name');
+  var rx    = document.getElementById('tmpl-add-rx');
+  var nameErr = document.getElementById('tmpl-add-name-err');
+  var rxErr   = document.getElementById('tmpl-add-rx-err');
+  var valid = true;
+  if (!name.value.trim()) {
+    name.classList.add('tmpl-input-error');
+    nameErr.style.display = 'block';
+    valid = false;
+  }
+  if (!rx.value.trim()) {
+    rx.classList.add('tmpl-input-error');
+    rxErr.style.display = 'block';
+    valid = false;
+  }
+  if (!valid) return;
+  showToast('템플릿이 추가되었습니다');
+  navigateTo('screen-templates');
+}
+function clearTmplError(inputId, errId) {
+  var el = document.getElementById(inputId);
+  var err = document.getElementById(errId);
+  if (el) el.classList.remove('tmpl-input-error');
+  if (err) err.style.display = 'none';
+}
+
+
 function saveFarmerInfo() {
   var name  = document.getElementById('nr-name').value.trim();
   var phone = document.getElementById('nr-phone').value.trim();
@@ -2702,32 +3490,6 @@ function toggleTreatmentAccordionNR() {
   chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
 }
 
-// NR 전용 간단 폼 템플릿
-var NR_FORMS = {
-  general: function(tmplOpts) {
-    return '<div class="form-section animate-in"><div class="form-section-title">진료기록</div>' +
-      '<div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>' +
-      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option value="">선택</option>' + tmplOpts + '</select></div>' +
-      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>' +
-      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>' +
-      '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:16px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">지금 작성한 내용을 새로운 진단 템플릿으로 추가</span></label>' +
-      '<div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>' +
-      '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>' +
-      '<div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="진료와 관련해 메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>' +
-      '</div>' +
-      '<button class="save-btn" onclick="navigateTo(\'screen-save-success\')">저장</button><div style="height:20px;"></div>';
-  },
-  simple: function() {
-    return '<div class="form-section animate-in"><div class="form-section-title">진료기록</div>' +
-      '<div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>' +
-      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>' +
-      '<div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역</span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>' +
-      '<div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>' +
-      '</div>' +
-      '<button class="save-btn" onclick="navigateTo(\'screen-save-success\')">저장</button><div style="height:20px;"></div>';
-  }
-};
-
 function selectTreatmentNR(el, name, formType) {
   // 선택 표시
   el.closest('#nr-treatment-list').querySelectorAll('.ri-treatment-option').forEach(function(opt) {
@@ -2745,16 +3507,32 @@ function selectTreatmentNR(el, name, formType) {
   if (list)    list.style.display = 'none';
   if (chevron) chevron.style.transform = 'rotate(0deg)';
 
-  // 폼 렌더
+  // 기존 form-general / form-calf / form-simple 복제해서 삽입
   var area = document.getElementById('nr-form-area');
   if (!area) return;
-  if (formType === 'general') {
-    area.innerHTML = NR_FORMS.general('<option>소화불량 처방</option><option>호흡기 감염 처방</option><option>외상 처치</option>');
-  } else if (formType === 'calf') {
-    area.innerHTML = NR_FORMS.general('<option>[송아지] 설사 처방</option><option>[송아지] 호흡기 감염</option><option>[송아지] 탈수 치료</option>');
-  } else {
-    area.innerHTML = NR_FORMS.simple();
-  }
+  area.innerHTML = '';
+  var sourceId = formType === 'general' ? 'form-general' : formType === 'calf' ? 'form-calf' : 'form-simple';
+  var source = document.getElementById(sourceId);
+  if (!source) return;
+  var clone = source.cloneNode(true);
+  // 복제본은 id 충돌 방지 위해 id 제거 후 표시
+  clone.removeAttribute('id');
+  clone.style.display = 'block';
+  // 내부 id들을 nr- prefix로 변경
+  clone.querySelectorAll('[id]').forEach(function(el) {
+    el.id = 'nr-' + el.id;
+  });
+  // onclick 내 id 참조 업데이트 (아코디언 + 스텝퍼)
+  clone.querySelectorAll('[onclick]').forEach(function(el) {
+    var oc = el.getAttribute('onclick');
+    oc = oc.replace(/toggleOptAcc\('(acc-[^']+)'\)/g, function(m, id) { return "toggleOptAcc('nr-" + id + "')"; });
+    oc = oc.replace(/checkOptAcc\('(acc-[^']+)'/g, function(m, id) { return "checkOptAcc('nr-" + id + "'"; });
+    oc = oc.replace(/selectKit\(this,'(acc-[^']+)'\)/g, function(m, id) { return "selectKit(this,'nr-" + id + "')"; });
+    oc = oc.replace(/selectBasic\(this,'(acc-[^']+)'\)/g, function(m, id) { return "selectBasic(this,'nr-" + id + "')"; });
+    oc = oc.replace(/stepperChange\('(stepper-[^']+)'/g, function(m, id) { return "stepperChange('nr-" + id + "'"; });
+    el.setAttribute('onclick', oc);
+  });
+  area.appendChild(clone);
 }
 
 
@@ -2814,6 +3592,20 @@ function selectTreatment(el, name, formType) {
 }
 
 
+function stepperChange(id, delta) {
+  var el = document.getElementById(id);
+  // 복제된 폼의 경우 id가 없을 수 있으므로 버튼 기준으로도 탐색
+  if (!el) return;
+  var val = parseInt(el.value) || 1;
+  val = Math.max(1, val + delta);
+  el.value = val;
+}
+function stepperClamp(el) {
+  var val = parseInt(el.value) || 1;
+  if (val < 1) el.value = 1;
+}
+
+
 function toggleOptAcc(id) {
   var body = document.getElementById('body-' + id);
   if (!body) return;
@@ -2866,6 +3658,54 @@ function addMedicineRow() {
   row.className = 'medicine-row';
   row.innerHTML = '<input placeholder="약품명" style="flex:2;"><input placeholder="용량" style="flex:1;"><input placeholder="용법" style="flex:1;"><button class="medicine-remove" onclick="this.parentElement.remove()">✕</button>';
   list.appendChild(row);
+}
+
+// ── 청구서 관련 함수 ──
+function openMonthlyBill() {
+  document.getElementById('monthly-bill-overlay').classList.add('active');
+}
+function closeMonthlyBill() {
+  document.getElementById('monthly-bill-overlay').classList.remove('active');
+}
+function openFarmerBill(name, phone, total) {
+  document.getElementById('farmer-bill-title').textContent = name + ' 청구서';
+  document.getElementById('farmer-bill-total').textContent = total;
+  closeMonthlyBill();
+  document.getElementById('farmer-bill-overlay').classList.add('active');
+  updateBillTotal();
+}
+function closeFarmerBillOverlay() {
+  document.getElementById('farmer-bill-overlay').classList.remove('active');
+}
+function selectAllBillItems() {
+  document.querySelectorAll('#farmer-bill-overlay .bill-checkbox').forEach(function(cb) { cb.checked = true; });
+  updateBillTotal();
+}
+function updateBillTotal() {
+  setTimeout(function() {
+    var checkboxes = document.querySelectorAll('#farmer-bill-overlay .bill-checkbox');
+    var count = 0; var total = 0;
+    checkboxes.forEach(function(cb) {
+      if (cb.checked) { count++; total += parseInt(cb.dataset.amount || 0); }
+    });
+    var countEl  = document.getElementById('bill-selected-count');
+    var amountEl = document.getElementById('bill-selected-amount');
+    if (countEl)  countEl.textContent  = count + '건';
+    if (amountEl) amountEl.textContent = '₩' + total.toLocaleString();
+  }, 10);
+}
+function openBillPreview() {
+  var name = document.getElementById('farmer-bill-title').textContent.replace(' 청구서','');
+  document.getElementById('bill-preview-title').textContent = name + ' 청구서 미리보기';
+  closeFarmerBillOverlay();
+  document.getElementById('bill-preview-overlay').classList.add('active');
+}
+function closeBillPreview() {
+  document.getElementById('bill-preview-overlay').classList.remove('active');
+}
+function openIndividualBillPreview() {
+  document.getElementById('bill-preview-title').textContent = '김형만 청구서 미리보기';
+  document.getElementById('bill-preview-overlay').classList.add('active');
 }
 
 function openStatusSheet(badgeEl, currentStatus) {
