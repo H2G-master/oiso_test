@@ -1,53 +1,1986 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오이소 프로토타입</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오이소 — 대동물 수의사 진료 앱</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand:       #4A70A9;
+  --brand-light: #6B8FC4;
+  --brand-dark:  #3A5A8A;
+  --brand-bg:    #EBF0F7;
+  --bg:    #F5F6F8;
+  --white: #FFFFFF;
+  --gray-50:  #FAFAFA;
+  --gray-100: #F0F1F3;
+  --gray-200: #E2E4E8;
+  --gray-300: #C8CBD2;
+  --gray-400: #969696;
+  --gray-500: #6E7278;
+  --gray-600: #4A4D52;
+  --gray-700: #37353E;
+  --red:    #FF4444;
+  --green:  #34C759;
+  --yellow: #FFD60A;
+  --orange: #FF9500;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.phone-frame {
+  width: 393px;
+  height: 852px;
+  background: var(--white);
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 0 0 12px #1c1c1e,
+    0 0 0 14px #3a3a3c,
+    0 48px 96px rgba(0,0,0,0.6),
+    0 24px 48px rgba(0,0,0,0.4);
+}
+.status-bar {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: var(--white);
+  position: relative;
+  z-index: 100;
+  flex-shrink: 0;
+}
+.status-bar .time { font-size: 15px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.3px; }
+.status-icons { display: flex; gap: 6px; align-items: center; }
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--bg);
+}
+.screen.active { display: flex; }
+.screen-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  -webkit-overflow-scrolling: touch;
+}
+.screen-content::-webkit-scrollbar { display: none; }
+.bottom-nav {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: var(--white);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 10px;
+  border-top: 1px solid var(--gray-100);
+  z-index: 100;
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+.nav-item svg { width: 24px; height: 24px; }
+.nav-item span { font-size: 10px; font-weight: 500; color: var(--gray-400); letter-spacing: 0.2px; }
+.nav-item svg path, .nav-item svg circle, .nav-item svg polyline, .nav-item svg line { stroke: var(--gray-400); }
+.nav-item.active span { color: var(--gray-700); font-weight: 600; }
+.nav-item.active svg path, .nav-item.active svg circle, .nav-item.active svg polyline, .nav-item.active svg line { stroke: var(--gray-700); }
+.home-indicator {
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 134px; height: 5px;
+  background: var(--gray-700);
+  border-radius: 3px;
+}
+.page-header-with-back {
+  background: var(--white);
+  padding: 10px 16px 10px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--gray-100);
+  flex-shrink: 0;
+}
+.back-btn {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none; background: none;
+  font-size: 26px; font-weight: 300;
+  color: var(--brand);
+  border-radius: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+.back-btn:active { background: var(--gray-100); }
+.page-title { font-size: 17px; font-weight: 600; color: var(--gray-700); letter-spacing: -0.3px; }
+.greeting-text { font-size: 26px; font-weight: 800; color: var(--brand); line-height: 1.3; letter-spacing: -0.5px; }
+.greeting-sub { font-size: 16px; font-weight: 400; color: var(--gray-500); margin-top: 6px; }
+.treatment-type-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 18px;
+  padding: 20px 18px;
+  cursor: pointer;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.12s;
+}
+.treatment-type-card:hover { border-color: var(--brand-light); box-shadow: 0 4px 16px rgba(74,112,169,0.12); }
+.treatment-type-card:active { transform: scale(0.97); }
+.treatment-type-card .card-icon { width: 48px; height: 48px; border-radius: 14px; background: var(--brand-bg); display: flex; align-items: center; justify-content: center; color: var(--brand); flex-shrink: 0; }
+.treatment-type-card .card-title { font-size: 16px; font-weight: 700; color: var(--gray-700); margin-bottom: 3px; }
+.treatment-type-card .card-desc { font-size: 13px; color: var(--gray-400); line-height: 1.4; }
+.search-bar {
+  margin: 14px 20px;
+  background: var(--gray-100);
+  border-radius: 14px;
+  display: flex; align-items: center;
+  padding: 0 14px;
+  height: 48px;
+  gap: 10px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: border-color 0.15s;
+}
+.search-bar:focus-within { border-color: var(--brand); background: var(--white); }
+.search-bar input { border: none; background: none; flex: 1; font-size: 15px; font-family: inherit; color: var(--gray-700); outline: none; }
+.search-bar input::placeholder { color: var(--gray-400); }
+.camera-btn { width: 36px; height: 36px; border-radius: 10px; background: var(--brand); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; transition: opacity 0.15s; }
+.camera-btn:active { opacity: 0.8; }
+.section-label { padding: 18px 20px 10px; font-size: 12px; font-weight: 600; color: var(--gray-400); letter-spacing: 0.5px; text-transform: uppercase; }
+.patient-card { background: var(--white); margin: 0 16px 10px; border-radius: 16px; padding: 16px; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03); border: 1.5px solid var(--gray-100); }
+.patient-card:active { transform: scale(0.98); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+.patient-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.patient-id { font-size: 16px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.2px; }
+.star-btn { cursor: pointer; font-size: 20px; color: var(--gray-300); border: none; background: none; padding: 2px; }
+.star-btn.active { color: var(--yellow); }
+.patient-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.tag { padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; background: var(--gray-100); color: var(--gray-600); }
+.tag.verify { background: #FFF0F0; color: var(--red); }
+.tag.settled { background: #E8F5E9; color: #2E7D32; }
+.tag.unsettled { background: var(--gray-100); color: var(--gray-500); }
+.tag.pending { background: #FFF8E1; color: #F57F17; }
+.patient-owner { margin-top: 8px; font-size: 13px; color: var(--gray-400); line-height: 1.4; }
+.farmer-list-item { background: var(--white); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-bottom: 1px solid var(--gray-100); transition: background 0.12s; }
+.farmer-list-item:active { background: var(--gray-50); }
+.farmer-name { font-size: 17px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.farmer-phone { font-size: 13px; color: var(--gray-500); margin-bottom: 2px; }
+.farmer-addr { font-size: 13px; color: var(--gray-400); }
+.farmer-phone-missing { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 2px; }
+.floating-btn { position: absolute; bottom: 92px; left: 16px; right: 16px; background: var(--brand); color: white; border-radius: 18px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; z-index: 50; box-shadow: 0 6px 20px rgba(74,112,169,0.40); transition: transform 0.12s, box-shadow 0.12s; border: none; font-family: inherit; }
+.floating-btn:active { transform: scale(0.97); box-shadow: 0 3px 10px rgba(74,112,169,0.3); }
+.floating-btn-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.floating-btn-text { flex: 1; margin-left: 14px; }
+.floating-btn-title { font-size: 15px; font-weight: 700; }
+.floating-btn-sub { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+.floating-btn-arrow { font-size: 20px; opacity: 0.6; }
+.form-section { background: var(--white); margin: 12px 16px; border-radius: 18px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1.5px solid var(--gray-100); }
+.form-section-title { font-size: 14px; font-weight: 700; color: var(--brand); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; letter-spacing: -0.1px; }
+.form-section-title::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--brand); flex-shrink: 0; }
+.form-row { display: flex; gap: 10px; margin-bottom: 14px; min-width: 0; }
+.form-group { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.2px; }
+.form-label .required { color: var(--red); }
+.form-input { border: 1.5px solid var(--gray-200); border-radius: 12px; padding: 11px 14px; font-size: 14px; font-family: inherit; color: var(--gray-700); outline: none; background: var(--white); transition: border-color 0.15s, box-shadow 0.15s; width: 100%; min-width: 0; }
+.form-input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(74,112,169,0.10); }
+.form-input.readonly { background: var(--brand-bg); border-color: rgba(74,112,169,0.2); color: var(--brand-dark); }
+.form-input::placeholder { color: var(--gray-300); }
+.form-select { appearance: none; border: 1.5px solid var(--gray-200); border-radius: 12px; padding: 11px 36px 11px 14px; font-size: 14px; font-family: inherit; color: var(--gray-700); background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23969696' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center; outline: none; cursor: pointer; width: 100%; min-width: 0; transition: border-color 0.15s; }
+.form-select:focus { border-color: var(--brand); }
+.save-btn { display: block; margin: 16px 16px 4px; padding: 16px; background: var(--brand); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; width: calc(100% - 32px); letter-spacing: -0.2px; transition: transform 0.12s, opacity 0.12s, box-shadow 0.12s; box-shadow: 0 4px 14px rgba(74,112,169,0.30); }
+.save-btn:active { transform: scale(0.97); opacity: 0.9; box-shadow: 0 2px 8px rgba(74,112,169,0.2); }
+.save-btn.disabled { background: var(--gray-300) !important; cursor: default; pointer-events: none; box-shadow: none; }
+.tmpl-item { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--gray-100); cursor: pointer; background: var(--white); transition: background 0.12s; }
+.tmpl-item:active { background: var(--gray-50); }
+.tmpl-item-body { flex: 1; min-width: 0; }
+.tmpl-diagnosis { font-size: 15px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+.tmpl-price { font-size: 12px; color: var(--gray-500); margin-bottom: 3px; }
+.tmpl-rx { font-size: 12px; color: var(--gray-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tmpl-calf-tag { color: var(--brand); font-weight: 700; }
+.tmpl-error { font-size: 12px; color: var(--red); margin-top: 6px; font-weight: 500; }
+.tmpl-input-error { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(255,68,68,0.10) !important; }
+.profile-field-row { display: flex; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--gray-100); gap: 16px; }
+.profile-field-label { font-size: 12px; font-weight: 600; color: var(--gray-400); white-space: nowrap; min-width: 90px; flex-shrink: 0; }
+.profile-field-value { font-size: 15px; color: var(--gray-700); flex: 1; }
+.profile-field-value.readonly { color: var(--gray-500); }
+.profile-field-input { border: none; background: none; font-size: 15px; font-family: inherit; color: var(--gray-700); outline: none; flex: 1; min-width: 0; padding: 0; }
+.profile-field-input:focus { color: var(--brand); }
+.bill-item-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--gray-100); cursor: pointer; transition: background 0.12s; }
+.bill-item-row:active { background: var(--gray-50); }
+.bill-farmer-row:hover { background: var(--gray-50); }
+.rec-card { background: var(--white); margin: 0 16px 8px; border-radius: 16px; padding: 16px 16px 14px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1.5px solid var(--gray-100); transition: transform 0.12s; }
+.rec-card:active { transform: scale(0.98); }
+.rec-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.rec-diagnosis { font-size: 16px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.2px; }
+.rec-time { font-size: 12px; color: var(--gray-400); }
+.rec-farmer { font-size: 13px; color: var(--gray-500); margin-bottom: 2px; }
+.rec-addr { font-size: 12px; color: var(--gray-400); margin-bottom: 10px; }
+.rec-bottom { display: flex; justify-content: space-between; align-items: center; }
+.rec-fee { font-size: 16px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.3px; }
+.records-header { background: var(--white); padding: 18px 20px 16px; text-align: center; border-bottom: 1px solid var(--gray-100); flex-shrink: 0; }
+.month-nav { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.month-arrow { width: 34px; height: 34px; border-radius: 10px; border: none; background: var(--gray-100); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--gray-600); transition: background 0.15s; }
+.month-arrow:active { background: var(--gray-200); }
+.month-text { font-size: 18px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.3px; }
+.total-fee { margin-top: 6px; font-size: 13px; color: var(--gray-500); }
+.total-fee strong { color: var(--brand); font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
+.guide-msg { padding: 10px 20px 4px; font-size: 12px; color: var(--gray-400); flex-shrink: 0; }
+.record-card { background: var(--white); margin: 0 16px 10px; border-radius: 16px; padding: 16px; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1.5px solid var(--gray-100); }
+.record-card:active { transform: scale(0.98); }
+.record-card-top { display: flex; justify-content: space-between; align-items: center; }
+.record-id { font-size: 15px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.2px; }
+.record-time { font-size: 12px; color: var(--gray-400); }
+.record-info { margin-top: 6px; font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+.record-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+.status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; }
+.status-badge:active { transform: scale(0.95); }
+.status-badge.settled  { background: #E8F5E9; color: #2E7D32; }
+.status-badge.unsettled { background: var(--gray-100); color: var(--gray-500); }
+.status-badge.pending  { background: #FFF8E1; color: #F57F17; }
+.record-fee { font-size: 18px; font-weight: 700; color: var(--gray-700); letter-spacing: -0.5px; }
+.group-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 5px; font-size: 11px; font-weight: 700; background: var(--brand-bg); color: var(--brand); margin-left: 6px; }
+.settings-list { padding: 16px; }
+.settings-item { background: var(--white); border-radius: 16px; padding: 16px 18px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: transform 0.12s; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1.5px solid var(--gray-100); }
+.settings-item:active { transform: scale(0.98); }
+.settings-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--brand-bg); display: flex; align-items: center; justify-content: center; color: var(--brand); flex-shrink: 0; }
+.settings-text { flex: 1; }
+.settings-name { font-size: 15px; font-weight: 600; color: var(--gray-700); }
+.settings-desc { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.settings-arrow { color: var(--gray-300); font-size: 20px; }
+.logout-item { margin-top: 16px; background: var(--white); border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; color: var(--red); font-weight: 600; font-size: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1.5px solid #FFE5E5; }
+.detail-actions { display: flex; gap: 10px; padding: 8px 16px 12px; }
+.detail-action-btn { flex: 1; padding: 14px; border-radius: 12px; border: none; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: opacity 0.15s, transform 0.12s; }
+.detail-action-btn:active { transform: scale(0.97); opacity: 0.85; }
+.btn-primary { background: var(--brand); color: white; box-shadow: 0 3px 10px rgba(74,112,169,0.25); }
+.btn-outline { background: var(--white); color: var(--gray-600); border: 1.5px solid var(--gray-200) !important; }
+.btn-danger  { background: #FFF0F0; color: var(--red); border: 1.5px solid #FFD4D4 !important; }
+.status-header-badge { padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+.status-header-badge.settled  { background: #E8F5E9; color: #2E7D32; }
+.status-header-badge.unsettled { background: var(--gray-100); color: var(--gray-500); }
+.pdf-preview { background: var(--white); margin: 12px 16px; border-radius: 8px; padding: 28px 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.09); border: 1px solid var(--gray-200); position: relative; }
+.pdf-preview::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand); border-radius: 8px 8px 0 0; }
+.pdf-doc-title { text-align: center; font-size: 20px; font-weight: 800; color: var(--gray-700); letter-spacing: 10px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--gray-700); }
+.pdf-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px; }
+.pdf-table th, .pdf-table td { border: 1px solid var(--gray-300); padding: 8px 10px; text-align: left; vertical-align: middle; }
+.pdf-table th { background: #F5F7FA; font-weight: 600; color: var(--gray-600); white-space: nowrap; width: 80px; }
+.pdf-table td { color: var(--gray-700); }
+.pdf-section-title { font-size: 12px; font-weight: 700; color: var(--gray-700); margin: 14px 0 8px; padding-left: 8px; border-left: 3px solid var(--brand); }
+.pdf-animal-list { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; }
+.pdf-animal-list th { background: var(--brand); color: white; padding: 6px 6px; font-weight: 600; text-align: center; border: 1px solid var(--brand-dark); font-size: 10px; }
+.pdf-animal-list td { border: 1px solid var(--gray-200); padding: 6px 6px; text-align: center; color: var(--gray-600); font-size: 11px; }
+.pdf-animal-list tr:nth-child(even) td { background: #FAFBFD; }
+.pdf-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--gray-200); }
+.pdf-footer .date { font-size: 13px; color: var(--gray-600); margin-bottom: 14px; }
+.pdf-footer .vet-info { font-size: 13px; color: var(--gray-700); line-height: 1.9; }
+.pdf-footer .vet-name { font-size: 15px; font-weight: 700; }
+.pdf-stamp { display: inline-flex; width: 42px; height: 42px; border: 2px solid var(--red); border-radius: 50%; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--red); margin-left: 8px; vertical-align: middle; }
+.share-btns { display: flex; gap: 10px; padding: 12px 16px; }
+.share-btn { flex: 1; padding: 14px; border-radius: 12px; border: none; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: opacity 0.15s; }
+.share-btn:active { opacity: 0.8; }
+.share-kakao { background: #FEE500; color: #3C1E1E; }
+.share-sms   { background: var(--gray-100); color: var(--gray-700); }
+.doc-purpose-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.purpose-chip { padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--gray-200); font-size: 13px; font-weight: 500; color: var(--gray-500); cursor: pointer; background: var(--white); font-family: inherit; transition: all 0.15s; }
+.purpose-chip.active { background: var(--brand); border-color: var(--brand); color: white; }
+.doc-type-item { background: var(--white); margin: 0 16px 10px; border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: transform 0.12s; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1.5px solid var(--gray-100); }
+.doc-type-item:active { transform: scale(0.98); }
+.doc-type-info { display: flex; align-items: center; gap: 14px; }
+.doc-type-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.doc-type-icon.blue   { background: var(--brand-bg); }
+.doc-type-icon.green  { background: #E8F5E9; }
+.doc-type-icon.orange { background: #FFF3E0; }
+.doc-type-icon.purple { background: #F3E5F5; }
+.doc-type-icon.red    { background: #FFF0F0; }
+.doc-type-name { font-size: 15px; font-weight: 600; color: var(--gray-700); }
+.doc-type-desc { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.success-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 40px; text-align: center; height: 100%; }
+.success-icon { width: 80px; height: 80px; border-radius: 50%; background: #E8F5E9; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #2E7D32; margin-bottom: 24px; }
+.success-title { font-size: 22px; font-weight: 800; color: var(--gray-700); letter-spacing: -0.5px; }
+.success-sub { font-size: 14px; color: var(--gray-400); margin-top: 8px; }
+.success-btn { margin-top: 32px; padding: 16px 48px; background: var(--brand); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 4px 14px rgba(74,112,169,0.30); }
+.alert-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 300; display: none; align-items: center; justify-content: center; }
+.alert-overlay.active { display: flex; }
+.alert-box { background: var(--white); border-radius: 20px; padding: 28px 24px 20px; width: 300px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.alert-title { font-size: 17px; font-weight: 700; color: var(--gray-700); margin-bottom: 10px; }
+.alert-msg { font-size: 14px; color: var(--gray-500); line-height: 1.55; }
+.alert-btns { display: flex; gap: 10px; margin-top: 20px; }
+.alert-btn { flex: 1; padding: 13px; border-radius: 12px; border: none; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.alert-btn-cancel  { background: var(--gray-100); color: var(--gray-600); }
+.alert-btn-confirm { background: var(--brand); color: white; }
+.toast { position: absolute; bottom: 106px; left: 50%; transform: translateX(-50%) translateY(12px); background: rgba(37,37,40,0.92); color: white; padding: 11px 20px; border-radius: 22px; font-size: 14px; font-weight: 500; z-index: 400; opacity: 0; transition: opacity 0.25s, transform 0.25s; pointer-events: none; white-space: nowrap; backdrop-filter: blur(8px); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.guide-banner { margin: 12px 16px; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; text-align: center; line-height: 1.5; }
+.guide-banner.success { background: #E8F5E9; color: #2E7D32; }
+.guide-banner.info    { background: var(--brand-bg); color: var(--brand-dark); }
+.treatment-tabs { display: flex; background: var(--gray-100); border-radius: 12px; padding: 3px; margin-bottom: 16px; gap: 2px; }
+.treatment-tab { flex: 1; padding: 10px 8px; border-radius: 9px; border: none; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; background: transparent; color: var(--gray-400); transition: all 0.18s; text-align: center; }
+.treatment-tab.active { background: var(--white); color: var(--brand); box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
+.group-animal-card { background: var(--white); border: 2px solid var(--red); border-radius: 14px; padding: 14px; margin-bottom: 10px; transition: border-color 0.2s; }
+.group-animal-card.filled  { border-color: var(--gray-200); }
+.group-animal-card.warning { border-color: var(--orange); }
+.group-animal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.group-animal-num { display: flex; align-items: center; gap: 8px; }
+.group-animal-idx { width: 24px; height: 24px; border-radius: 6px; background: var(--red); color: white; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.group-animal-card.filled  .group-animal-idx { background: var(--gray-300); }
+.group-animal-card.warning .group-animal-idx { background: var(--orange); }
+.group-animal-id { font-size: 14px; font-weight: 600; color: var(--gray-700); }
+.group-animal-tags { display: flex; gap: 6px; margin-bottom: 8px; }
+.group-animal-fields { display: flex; gap: 8px; margin-top: 8px; }
+.group-animal-fields input, .group-animal-fields select { flex: 1; min-width: 0; border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 9px 10px; font-size: 13px; font-family: inherit; color: var(--gray-700); outline: none; background: var(--white); transition: border-color 0.15s; }
+.group-animal-fields input:focus { border-color: var(--brand); }
+.group-animal-fields input::placeholder { color: var(--gray-300); }
+.group-animal-check-row { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.check-tag { padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; user-select: none; transition: all 0.15s; }
+.check-tag.active-check  { background: var(--brand-bg); color: var(--brand); }
+.check-tag.inactive-check { background: var(--gray-100); color: var(--gray-400); }
+.animal-warning-msg { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--orange); font-weight: 500; margin: 4px 0; }
+.animal-remove { width: 28px; height: 28px; border-radius: 8px; background: none; border: none; color: var(--gray-400); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color 0.15s, background 0.15s; }
+.animal-remove:hover { color: var(--red); background: #FFF0F0; }
+.animal-add-btn { width: 100%; padding: 14px; border: 2px dashed var(--gray-300); border-radius: 12px; background: none; font-size: 14px; font-weight: 600; color: var(--gray-400); cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.15s; }
+.animal-add-btn:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-bg); }
+.ear-tag-input-row { display: flex; gap: 6px; align-items: center; }
+.ear-tag-input-row input { flex: 1; border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 8px 10px; font-size: 13px; font-family: inherit; color: var(--gray-700); outline: none; }
+.ear-tag-confirm-btn { padding: 9px 12px; border-radius: 10px; background: var(--brand); color: white; border: none; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; white-space: nowrap; }
+.verify-all-btn { padding: 7px 14px; background: var(--brand); color: white; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; white-space: nowrap; }
+.template-chip { display: inline-flex; align-items: center; gap: 4px; padding: 7px 12px; border-radius: 10px; border: 1.5px solid var(--gray-200); background: var(--white); font-size: 13px; color: var(--gray-500); cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.template-chip:hover { border-color: var(--brand); color: var(--brand); }
+.unknown-eartag-btn { background: none; border: none; color: var(--gray-400); font-size: 13px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 8px 0; font-family: inherit; }
+.official-form-section { background: var(--white); margin: 12px 16px; border-radius: 18px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1.5px solid var(--gray-100); }
+.official-section-title { font-size: 14px; font-weight: 700; color: var(--gray-700); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--gray-100); display: flex; align-items: center; gap: 8px; }
+.official-section-title .section-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--brand-bg); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.entry-card { background: var(--gray-50); border: 1.5px solid var(--gray-200); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+.entry-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.entry-card-title { font-size: 13px; font-weight: 600; color: var(--brand); }
+.bottom-sheet-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 300; display: none; align-items: flex-end; justify-content: center; }
+.bottom-sheet-overlay.active { display: flex; }
+.bottom-sheet { background: var(--white); border-radius: 24px 24px 0 0; width: 100%; padding: 0 0 34px; }
+.bottom-sheet-handle { width: 40px; height: 4px; background: var(--gray-300); border-radius: 2px; margin: 14px auto 0; }
+.bottom-sheet-title { font-size: 17px; font-weight: 700; color: var(--gray-700); padding: 18px 24px 8px; }
+.bottom-sheet-options { padding: 6px 14px; }
+.bottom-sheet-option { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 14px; cursor: pointer; border: none; background: none; width: 100%; font-family: inherit; text-align: left; transition: background 0.12s; }
+.bottom-sheet-option:active, .bottom-sheet-option:hover { background: var(--gray-50); }
+.bottom-sheet-option .option-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.option-icon.settled-icon  { background: #E8F5E9; color: #2E7D32; }
+.option-icon.unsettled-icon { background: var(--gray-100); color: var(--gray-500); }
+.option-icon.pending-icon  { background: #FFF8E1; color: #F57F17; }
+.bottom-sheet-option .option-text { flex: 1; }
+.bottom-sheet-option .option-name { font-size: 15px; font-weight: 600; color: var(--gray-700); }
+.bottom-sheet-option .option-desc { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.bottom-sheet-option .option-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--gray-300); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; color: transparent; }
+.bottom-sheet-option.selected .option-check { border-color: var(--brand); background: var(--brand); color: white; }
+.bottom-sheet-cancel { margin: 8px 16px 0; padding: 14px; background: var(--gray-100); color: var(--gray-600); border: none; border-radius: 14px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; width: calc(100% - 32px); }
+.farmer-popup-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 300; display: none; align-items: center; justify-content: center; padding: 24px; }
+.farmer-popup-overlay.active { display: flex; }
+.farmer-popup { background: var(--white); border-radius: 24px; padding: 28px 22px 22px; width: 100%; max-width: 340px; box-shadow: 0 24px 60px rgba(0,0,0,0.2); animation: popupIn 0.22s ease; }
+@keyframes popupIn { from { opacity: 0; transform: scale(0.93) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.farmer-popup-icon { text-align: center; margin-bottom: 14px; }
+.farmer-popup-title { font-size: 17px; font-weight: 700; color: var(--gray-700); text-align: center; margin-bottom: 8px; letter-spacing: -0.3px; }
+.farmer-popup-desc { font-size: 13px; color: var(--gray-500); text-align: center; margin-bottom: 20px; line-height: 1.5; }
+.farmer-popup-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.farmer-popup-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: var(--gray-50); border-radius: 14px; cursor: pointer; border: 1.5px solid var(--gray-100); transition: background 0.12s, border-color 0.12s; }
+.farmer-popup-item:active { background: var(--gray-100); border-color: var(--brand-light); }
+.farmer-popup-name { font-size: 15px; font-weight: 600; color: var(--gray-700); margin-bottom: 3px; }
+.farmer-popup-addr { font-size: 12px; color: var(--gray-500); }
+.farmer-popup-cancel { width: 100%; padding: 14px; border: none; background: var(--gray-100); border-radius: 14px; font-size: 15px; font-weight: 600; color: var(--gray-500); cursor: pointer; font-family: inherit; transition: background 0.12s; }
+.farmer-popup-cancel:active { background: var(--gray-200); }
+.animal-select-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 300; display: none; align-items: flex-end; justify-content: center; }
+.animal-select-overlay.active { display: flex; }
+.animal-select-sheet { background: var(--white); border-radius: 24px 24px 0 0; width: 100%; max-height: 86%; overflow-y: auto; animation: sheetUp 0.28s cubic-bezier(0.32,0.72,0,1); }
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.animal-select-header { display: flex; align-items: center; justify-content: space-between; padding: 22px 20px 0; position: sticky; top: 0; background: var(--white); border-radius: 24px 24px 0 0; }
+.animal-select-title-highlight { font-size: 18px; font-weight: 800; color: var(--brand); }
+.animal-select-title { font-size: 18px; font-weight: 700; color: var(--gray-700); }
+.animal-select-close { width: 32px; height: 32px; border: none; background: var(--gray-100); border-radius: 50%; font-size: 16px; color: var(--gray-500); cursor: pointer; }
+.animal-select-desc { font-size: 13px; color: var(--gray-400); padding: 8px 20px 14px; border-bottom: 1px solid var(--gray-100); }
+.animal-select-list { padding: 10px 16px; }
+.animal-select-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; margin-bottom: 8px; background: var(--gray-50); border-radius: 14px; cursor: pointer; border: 1.5px solid transparent; transition: background 0.12s, border-color 0.12s; }
+.animal-select-item:active { background: var(--gray-100); }
+.animal-select-item.selected { border-color: var(--brand); background: rgba(74,112,169,0.05); }
+.animal-select-id { font-size: 15px; font-weight: 600; color: var(--gray-700); margin-bottom: 3px; }
+.animal-select-info { font-size: 12px; color: var(--gray-500); }
+.doc-form-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 310; display: none; align-items: flex-end; justify-content: center; }
+.doc-form-overlay.active { display: flex; }
+.doc-form-sheet { background: var(--bg); border-radius: 24px 24px 0 0; width: 100%; max-height: 92%; overflow-y: auto; -webkit-overflow-scrolling: touch; animation: sheetUp 0.28s cubic-bezier(0.32,0.72,0,1); }
+.doc-form-sheet::-webkit-scrollbar { display: none; }
+.doc-form-sheet-header { position: sticky; top: 0; z-index: 2; background: var(--white); display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 16px; border-bottom: 1px solid var(--gray-100); border-radius: 24px 24px 0 0; }
+.doc-form-sheet-title { font-size: 17px; font-weight: 700; color: var(--gray-700); }
+.doc-form-sheet-close { width: 32px; height: 32px; border: none; background: var(--gray-100); border-radius: 50%; font-size: 16px; color: var(--gray-500); cursor: pointer; }
+.doc-form-sheet-back { width: 28px; height: 28px; border: none; background: none; font-size: 26px; font-weight: 300; color: var(--brand); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1; }
+.stepper-row { display: flex; align-items: center; gap: 0; margin-top: 8px; width: fit-content; }
+.stepper-btn { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--gray-200); background: var(--white); font-size: 22px; font-weight: 400; color: var(--gray-600); cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; transition: background 0.13s, border-color 0.13s; line-height: 1; flex-shrink: 0; }
+.stepper-btn:active { background: var(--gray-100); border-color: var(--brand); }
+.stepper-input { width: 64px; height: 44px; border: 1.5px solid var(--gray-200); border-left: none; border-right: none; text-align: center; font-size: 18px; font-weight: 700; color: var(--gray-700); font-family: inherit; outline: none; background: var(--white); -moz-appearance: textfield; }
+.stepper-input::-webkit-inner-spin-button, .stepper-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.lab-field { display:flex; flex-direction:column; gap:4px; }
+.lab-label { font-size:11px; font-weight:600; color:var(--gray-500); letter-spacing:0.2px; }
+.lab-input { font-size:13px !important; padding:9px 10px !important; }
+.lab-unit { position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--gray-400); pointer-events:none; white-space:nowrap; }
+.kit-row-lg { display:flex; flex-direction:column; gap:8px; }
+.kit-label-lg { font-size:14px; font-weight:500; color:var(--gray-700); }
+.kit-en { font-size:12px; color:var(--gray-400); font-weight:400; }
+.kit-btns-lg { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.kit-btn-lg { padding:14px 8px; border-radius:12px; border:1.5px solid var(--gray-200); background:var(--white); font-size:15px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; text-align:center; }
+.kit-btn-lg:active { transform:scale(0.96); }
+.kit-btn-lg.active-kit { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+.kit-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding-bottom:12px; border-bottom:1px solid var(--gray-100); }
+.kit-row:last-child { border-bottom:none; padding-bottom:0; }
+.kit-label { font-size:13px; font-weight:500; color:var(--gray-700); flex:1; }
+.kit-btns { display:flex; gap:6px; flex-shrink:0; }
+.kit-btn { padding:6px 12px; border-radius:8px; border:1.5px solid var(--gray-200); background:var(--white); font-size:12px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; }
+.kit-btn:active { transform:scale(0.95); }
+.kit-btn.active-kit { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+.basic-exam-row { margin-bottom:16px; }
+.basic-exam-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.basic-btn { padding:8px 14px; border-radius:10px; border:1.5px solid var(--gray-200); background:var(--white); font-size:13px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; }
+.basic-btn:active { transform:scale(0.95); }
+.basic-btn.active-basic { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+.toggle-option { padding:9px 20px; border-radius:10px; border:1.5px solid var(--gray-200); background:var(--white); font-size:14px; font-weight:500; color:var(--gray-500); cursor:pointer; font-family:inherit; transition:all 0.13s; }
+.toggle-option.active-toggle { border-color:var(--brand); background:var(--brand-bg); color:var(--brand); font-weight:700; }
+.opt-accordion { background: var(--white); border-radius: 16px; margin: 0 16px 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
+.opt-acc-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; background: none; border: none; cursor: pointer; font-family: inherit; }
+.opt-acc-left { display: flex; align-items: center; gap: 10px; }
+.opt-acc-plus { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--gray-300); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--gray-400); flex-shrink: 0; transition: all 0.15s; }
+.opt-accordion.done .opt-acc-plus { border-color: var(--brand); background: var(--brand-bg); color: var(--brand); }
+.opt-acc-title { font-size: 15px; font-weight: 600; color: var(--gray-700); }
+.opt-acc-badge { font-size: 12px; font-weight: 600; color: var(--gray-400); transition: color 0.15s; }
+.opt-accordion.done .opt-acc-badge { color: var(--brand); }
+.opt-acc-body { padding: 4px 20px 20px; border-top: 1px solid var(--gray-100); }
+.ri-treatment-option { padding: 20px 22px; font-size: 17px; font-weight: 500; color: var(--gray-700); cursor: pointer; border-bottom: 1px solid var(--gray-100); transition: background 0.12s; }
+.ri-treatment-option:active { background: var(--gray-50); }
+.ri-treatment-option.selected { color: var(--brand); font-weight: 700; background: var(--brand-bg); }
+.treatment-option { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; font-size: 15px; font-weight: 500; color: var(--gray-700); cursor: pointer; border-bottom: 1px solid var(--gray-100); transition: background 0.12s; }
+.treatment-option:active { background: var(--gray-50); }
+.treatment-option.selected { background: var(--brand-bg); color: var(--brand); font-weight: 700; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeIn 0.25s ease-out; }
+
+/* ═══════════════════════════════════════════════════
+   데스크탑 사이드바 기본 (모바일에서는 숨김)
+═══════════════════════════════════════════════════ */
+.desktop-sidebar { display: none; }
+
+.desktop-nav-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px; border-radius: 12px;
+  border: none; background: none;
+  cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px; font-weight: 500;
+  color: var(--gray-500);
+  transition: background 0.15s, color 0.15s;
+  text-align: left; width: 100%; letter-spacing: -0.2px;
+}
+.desktop-nav-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+.desktop-nav-item svg path,
+.desktop-nav-item svg circle,
+.desktop-nav-item svg polyline,
+.desktop-nav-item svg line { stroke: var(--gray-400); }
+.desktop-nav-item:hover { background: var(--gray-50); color: var(--gray-700); }
+.desktop-nav-item.active { background: var(--brand-bg); color: var(--brand); font-weight: 700; }
+.desktop-nav-item.active svg path,
+.desktop-nav-item.active svg circle,
+.desktop-nav-item.active svg polyline,
+.desktop-nav-item.active svg line { stroke: var(--brand); }
+
+/* ═══════════════════════════════════════════════════
+   반응형 브레이크포인트 — 769px 이상: 풀 웹 레이아웃
+═══════════════════════════════════════════════════ */
+@media (min-width: 769px) {
+  body {
+    background: #eef1f7;
+    padding: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 100vh;
+  }
+
+  .phone-frame {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* 사이드바 활성화 */
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 252px;
+    min-width: 252px;
+    height: 100vh;
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    flex-shrink: 0;
+    overflow: hidden;
+    z-index: 300;
+    box-shadow: 2px 0 20px rgba(74,112,169,0.06);
+  }
+
+  /* 스크린: 사이드바 오른쪽에 위치 */
+  .screen {
+    left: 252px !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+  }
+
+  /* 스크린 내부 모바일 전용 요소 숨김 */
+  .screen .bottom-nav     { display: none !important; }
+  .screen .status-bar     { display: none !important; }
+  .screen .home-indicator { display: none !important; }
+
+  /* 오버레이: 사이드바 제외 영역에만 표시 */
+  .bottom-sheet-overlay,
+  .farmer-popup-overlay,
+  .animal-select-overlay,
+  .doc-form-overlay,
+  .alert-overlay {
+    left: 252px !important;
+  }
+
+  /* 토스트 위치 보정 */
+  .toast {
+    left: calc(252px + 50%);
+    transform: translateX(-50%) translateY(12px);
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 스크롤바 데스크탑에서 표시 */
+  .screen-content::-webkit-scrollbar { display: block; width: 5px; }
+  .screen-content::-webkit-scrollbar-track { background: transparent; }
+  .screen-content::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 3px; }
+  .screen-content::-webkit-scrollbar-thumb:hover { background: var(--gray-300); }
+
+  /* 플로팅 버튼 */
+  .floating-btn { bottom: 24px; }
+
+  /* 헤더 여백 개선 */
+  .page-header-with-back { padding: 14px 24px 14px 16px; }
+
+  /* 홈 스크린 greeting */
+  .greeting-text { font-size: 24px; }
+}
+
+/* 모바일 (최대 420px): 기존 폰 프레임 해제 */
+@media (max-width: 420px) {
+  .phone-frame { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+  body { padding: 0; background: var(--white); }
+}
+
+/* ═══════════════════════════════════════════════
+   로그인 화면
+═══════════════════════════════════════════════ */
+.login-screen {
+  position: absolute;
+  inset: 0;
+  left: 0 !important;   /* 사이드바 무시하고 전체 덮기 */
+  display: none;
+  background: var(--white);
+  z-index: 500;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* 모바일: 세로 중앙 정렬 */
+  flex-direction: column;
+  align-items: stretch;
+}
+.login-screen.active { display: flex; }
+
+/* ── 모바일 기본: 심플 단열 ── */
+.login-brand-panel { display: none; }
+
+.login-form-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 52px 28px 40px;
+  overflow-y: auto;
+}
+
+.login-logo-mark {
+  width: 52px; height: 52px;
+  background: var(--brand);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.login-brand { font-size: 30px; font-weight: 900; color: var(--brand); letter-spacing: -1px; margin-bottom: 4px; }
+.login-tagline { font-size: 14px; color: var(--gray-400); margin-bottom: 40px; font-weight: 400; }
+
+.login-field { margin-bottom: 16px; }
+.login-label { font-size: 12px; font-weight: 600; color: var(--gray-500); letter-spacing: 0.2px; margin-bottom: 7px; display: block; }
+.login-input {
+  width: 100%;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--gray-700);
+  outline: none;
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.login-input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(74,112,169,0.10); }
+.login-input::placeholder { color: var(--gray-300); }
+.login-input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(255,68,68,0.08); }
+.login-error-msg { font-size: 12px; color: var(--red); margin-top: 16px; text-align: center; font-weight: 500; display: none; }
+.login-btn {
+  width: 100%; padding: 16px;
+  background: var(--brand); color: white;
+  border: none; border-radius: 14px;
+  font-size: 16px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+  margin-top: 24px;
+  box-shadow: 0 4px 14px rgba(74,112,169,0.30);
+  transition: transform 0.12s, opacity 0.12s, box-shadow 0.12s;
+  letter-spacing: -0.2px;
+}
+.login-btn:hover { box-shadow: 0 6px 20px rgba(74,112,169,0.40); }
+.login-btn:active { transform: scale(0.97); opacity: 0.9; }
+
+.login-test-memo {
+  margin-top: 28px;
+  background: #F5F7FB;
+  border: 1px dashed var(--gray-200);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.login-test-memo-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--gray-400); letter-spacing: 0.5px;
+  text-transform: uppercase; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.login-test-memo-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--gray-600);
+  margin-bottom: 5px; line-height: 1.5;
+}
+.login-test-memo-row:last-child { margin-bottom: 0; }
+.login-test-memo-key {
+  font-size: 11px; font-weight: 600;
+  color: var(--gray-400); min-width: 52px; flex-shrink: 0;
+}
+.login-test-memo-val {
+  font-size: 13px; font-weight: 600;
+  color: var(--brand); font-family: 'Courier New', monospace;
+  letter-spacing: 0.2px;
+}
+
+/* ── 데스크탑: 좌우 분할 레이아웃 ── */
+@media (min-width: 769px) {
+  .login-screen {
+    flex-direction: row;
+    overflow: hidden;
+  }
+
+  /* 왼쪽: 브랜딩 패널 */
+  .login-brand-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 45%;
+    min-width: 320px;
+    background: var(--brand);
+    padding: 52px 48px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* 배경 장식 원 */
+  .login-brand-panel::before {
+    content: '';
+    position: absolute;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    bottom: -120px; right: -100px;
+  }
+  .login-brand-panel::after {
+    content: '';
+    position: absolute;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    top: -60px; left: -60px;
+  }
+
+  .login-panel-logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .login-panel-logo-mark {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .login-panel-logo-text {
+    font-size: 24px; font-weight: 900;
+    color: white; letter-spacing: -0.8px;
+  }
+
+  .login-panel-headline {
+    position: relative; z-index: 1;
+  }
+  .login-panel-headline h2 {
+    font-size: 32px; font-weight: 800;
+    color: white; line-height: 1.35;
+    letter-spacing: -0.8px; margin-bottom: 14px;
+  }
+  .login-panel-headline p {
+    font-size: 15px; color: rgba(255,255,255,0.72);
+    line-height: 1.7; font-weight: 400;
+  }
+
+  .login-panel-features {
+    display: flex; flex-direction: column; gap: 14px;
+    position: relative; z-index: 1;
+  }
+  .login-panel-feature {
+    display: flex; align-items: center; gap: 12px;
+    color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500;
+  }
+  .login-panel-feature-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* 오른쪽: 폼 패널 */
+  .login-form-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 60px;
+    background: var(--white);
+    overflow-y: auto;
+  }
+
+  .login-form-inner {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  /* 데스크탑에서는 로고마크 숨기기 (왼쪽 패널에 있으므로) */
+  .login-logo-mark { display: none; }
+  .login-brand { font-size: 26px; }
+  .login-tagline { margin-bottom: 36px; }
+}
+</style>
 </head>
 <body>
-
 <div class="phone-frame" id="app">
-  <!-- 화면들이 여기에 동적으로 로드됩니다 -->
-  <div id="screens-container"></div>
+
+  <!-- ══════════════════════════════════════
+       로그인 화면
+  ══════════════════════════════════════ -->
+  <div class="login-screen active" id="screen-login">
+
+    <!-- 왼쪽 브랜딩 패널 (데스크탑만 보임) -->
+    <div class="login-brand-panel">
+      <div class="login-panel-logo">
+        <div class="login-panel-logo-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="login-panel-logo-text">오이소</span>
+      </div>
+      <div class="login-panel-headline">
+        <h2>대동물 진료,<br>더 쉽고 빠르게</h2>
+        <p>진료 기록부터 청구서 발급까지<br>현장에서 바로 처리하세요.</p>
+      </div>
+      <div class="login-panel-features">
+        <div class="login-panel-feature">
+          <div class="login-panel-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          진료 기록 즉시 저장
+        </div>
+        <div class="login-panel-feature">
+          <div class="login-panel-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          PC·모바일 반응형 지원
+        </div>
+        <div class="login-panel-feature">
+          <div class="login-panel-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+          </div>
+          청구서·서류 자동 발급
+        </div>
+      </div>
+    </div>
+
+    <!-- 오른쪽 폼 패널 -->
+    <div class="login-form-panel">
+      <div class="login-form-inner">
+        <div class="login-logo-mark">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="login-brand">오이소</div>
+        <div class="login-tagline">대동물 수의사 진료 앱</div>
+
+        <div class="login-field">
+          <label class="login-label">이메일</label>
+          <input id="login-email" class="login-input" type="email" placeholder="이메일을 입력하세요" autocomplete="email">
+        </div>
+        <div class="login-field">
+          <label class="login-label">비밀번호</label>
+          <input id="login-pw" class="login-input" type="password" placeholder="비밀번호를 입력하세요" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()">
+        </div>
+
+        <div class="login-error-msg" id="login-error">이메일 또는 비밀번호가 올바르지 않습니다</div>
+
+        <button class="login-btn" onclick="doLogin()">로그인</button>
+
+        <!-- 테스트 계정 메모 -->
+        <div class="login-test-memo">
+          <div class="login-test-memo-title">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            테스트 계정
+          </div>
+          <div class="login-test-memo-row">
+            <span class="login-test-memo-key">이메일</span>
+            <span class="login-test-memo-val">test1234@email.com</span>
+          </div>
+          <div class="login-test-memo-row">
+            <span class="login-test-memo-key">비밀번호</span>
+            <span class="login-test-memo-val">test1234</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       데스크탑 전용 사이드바
+  ══════════════════════════════════════ -->
+  <div class="desktop-sidebar" id="desktop-sidebar">
+    <!-- 브랜드 -->
+    <div style="padding:28px 24px 20px; border-bottom:1px solid var(--gray-100); flex-shrink:0;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:5px;">
+        <div style="width:36px; height:36px; background:var(--brand); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div style="font-size:22px; font-weight:900; color:var(--brand); letter-spacing:-0.8px; line-height:1;">오이소</div>
+      </div>
+      <div style="font-size:11px; color:var(--gray-400); padding-left:46px; font-weight:500; letter-spacing:0.2px;">대동물 수의사 진료 앱</div>
+    </div>
+
+    <!-- 네비게이션 -->
+    <nav style="flex:1; padding:16px 12px; display:flex; flex-direction:column; gap:4px; overflow-y:auto;">
+      <button id="dnav-home" class="desktop-nav-item active" onclick="switchTab('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>진료</span>
+      </button>
+      <button id="dnav-records" class="desktop-nav-item" onclick="switchTab('records')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>기록</span>
+      </button>
+      <button id="dnav-settings" class="desktop-nav-item" onclick="switchTab('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>관리</span>
+      </button>
+    </nav>
+
+    <!-- 구분선 -->
+    <div style="height:1px; background:var(--gray-100); flex-shrink:0;"></div>
+  </div>
+
+  <!-- ══════════════════════════ 홈 화면 ══════════════════════════ -->
+  <div class="screen" id="screen-home" style="background:var(--white);">
+    <div class="status-bar" style="background:var(--white);"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C6.4 3 4.9 3.6 3.8 4.7L2.4 3.3C3.9 1.9 5.9 1 8 1s4.1.9 5.6 2.3L12.2 4.7C11.1 3.6 9.6 3 8 3z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div style="padding:20px 20px 4px;">
+      <div class="greeting-text">홍길동 수의사님!</div>
+      <div class="greeting-sub">어떤 농장에서 진료를 하셨나요?</div>
+    </div>
+    <div class="search-bar" onclick="navigateTo('screen-search')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="이름 또는 전화번호 검색" readonly>
+    </div>
+    <div class="screen-content" style="background:var(--white);">
+      <div class="section-label">최근 진료 농장</div>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;"><div class="farmer-name">김형만</div><div class="farmer-phone">010-3423-5093</div><div class="farmer-addr">경상남도 김해시 한림면</div></div>
+        <button class="star-btn active" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">★</button>
+      </div>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;"><div class="farmer-name">장주은</div><div class="farmer-phone-missing">전화번호 등록 필요</div><div class="farmer-addr">경상남도 김해시 진영읍</div></div>
+        <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
+      </div>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;"><div class="farmer-name">최동우</div><div class="farmer-phone">010-4324-1234</div><div class="farmer-addr">부산광역시 강서구 대저동</div></div>
+        <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
+      </div>
+      <div class="farmer-list-item" onclick="navigateTo('screen-record-input')">
+        <div style="flex:1; min-width:0;"><div class="farmer-name">이상호</div><div class="farmer-phone">010-2131-4220</div><div class="farmer-addr">경상남도 김해시 진영읍</div></div>
+        <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active'); this.textContent = this.classList.contains('active') ? '★' : '☆'">☆</button>
+      </div>
+    </div>
+    <div class="floating-btn" onclick="navigateTo('screen-new-record')">
+      <div class="floating-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+      <div class="floating-btn-text"><div class="floating-btn-title">새 농장주 진료 등록</div><div class="floating-btn-sub">처음 진료하는 농장주의 진료를 등록합니다</div></div>
+      <span class="floating-btn-arrow">›</span>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
+      <div class="nav-item" onclick="switchTab('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>기록</span></div>
+      <div class="nav-item" onclick="switchTab('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>관리</span></div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 검색 화면 ══════════════════════════ -->
+  <div class="screen" id="screen-search" style="background:var(--white);">
+    <div class="status-bar" style="background:var(--white);"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 3h2v9H9zM13 0h2v12h-2z" fill="#37353E"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="2" stroke="#37353E" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#37353E"/><rect x="2" y="3" width="18" height="6" rx="1" fill="#37353E"/></svg></div></div>
+    <div style="display:flex; align-items:center; padding:10px 16px; background:var(--white); gap:10px;">
+      <button class="back-btn" onclick="navigateTo('screen-home')">‹</button>
+      <div style="flex:1; display:flex; align-items:center; gap:8px;">
+        <input id="search-input" type="text" placeholder="농장주 이름 또는 전화번호" style="flex:1; border:none; background:none; font-size:17px; font-family:inherit; outline:none; color:var(--gray-700);" oninput="handleSearch(this.value)" autofocus>
+        <button id="search-clear-btn" onclick="clearSearch()" style="display:none; width:22px; height:22px; border-radius:50%; background:var(--gray-300); border:none; cursor:pointer; color:white; font-size:13px; line-height:1; align-items:center; justify-content:center; flex-shrink:0;">✕</button>
+      </div>
+    </div>
+    <div style="height:1px; background:var(--gray-200);"></div>
+    <div class="screen-content" id="search-results" style="background:var(--white);">
+      <div style="text-align:center; padding:100px 40px; color:var(--gray-400); font-size:14px; line-height:1.8;">농장주의 이름, 주소, 전화번호 찾거나<br>직접 입력하여 진료기록을 입력할 수 있습니다</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 저장 완료 ══════════════════════════ -->
+  <div class="screen" id="screen-save-success">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="screen-content"><div class="success-screen"><div class="success-icon">✓</div><div class="success-title">진료 기록 추가 완료!</div><div class="success-sub">새로운 진료 기록이 저장되었습니다.</div><button class="success-btn" onclick="switchTab('home')">홈으로</button></div></div>
+  </div>
+
+  <!-- ══════════════════════════ 관리 메뉴 ══════════════════════════ -->
+  <div class="screen" id="screen-settings">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="screen-content" style="padding-bottom:80px;">
+      <div style="padding:16px 16px 0;">
+        <div class="settings-item" onclick="navigateTo('screen-vet-profile')" style="margin-bottom:10px;">
+          <div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div class="settings-text"><div class="settings-name">수의사 정보 수정</div><div class="settings-desc">계정 정보 수정</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+        <div class="settings-item" onclick="navigateTo('screen-templates')" style="margin-bottom:10px;">
+          <div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <div class="settings-text"><div class="settings-name">진단/처방 템플릿</div><div class="settings-desc">자주 사용하는 템플릿 관리</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+        <div class="settings-item" onclick="showToast('진료비 할증 설정 준비 중')" style="margin-bottom:10px;">
+          <div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg></div>
+          <div class="settings-text"><div class="settings-name">진료비 할증 설정</div><div class="settings-desc">야간, 주말/공휴일 할증 설정</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+        <div class="settings-item" onclick="showToast('고객센터 연결 준비 중')">
+          <div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          <div class="settings-text"><div class="settings-name">고객센터</div><div class="settings-desc">궁금한 사항이 있으신가요?</div></div>
+          <span class="settings-arrow">›</span>
+        </div>
+        <div class="settings-item" onclick="showAlert('로그아웃','로그아웃 하시겠습니까?','아니오','예')" style="margin-top:16px; border:1.5px solid #FFE5E5; background:var(--white);">
+          <div class="settings-icon" style="background:#FFF0F0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+          <div class="settings-text"><div class="settings-name" style="color:var(--red);">로그아웃</div></div>
+          <span class="settings-arrow" style="color:var(--red);">›</span>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
+      <div class="nav-item" onclick="switchTab('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>기록</span></div>
+      <div class="nav-item active" onclick="switchTab('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>관리</span></div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 수의사 정보 수정 ══════════════════════════ -->
+  <div class="screen" id="screen-vet-profile">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--white);"><button class="back-btn" onclick="navigateTo('screen-settings')">‹</button><span class="page-title">기본 정보 보기</span></div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:20px 24px 0; border-bottom:1px solid var(--gray-100); margin-bottom:4px;"><div style="font-size:12px; font-weight:600; color:var(--gray-400); letter-spacing:0.5px; margin-bottom:16px;">내 정보 관리</div></div>
+      <div class="profile-field-row"><span class="profile-field-label">이메일</span><span class="profile-field-value readonly">test1234@email.com</span></div>
+      <div class="profile-field-row" style="cursor:pointer;" onclick="navigateTo('screen-change-pw')"><span class="profile-field-value" style="font-weight:700; color:var(--gray-700);">비밀번호 변경</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-400)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+      <div class="profile-field-row"><span class="profile-field-label">이름</span><input class="profile-field-input" value="홍길동"></div>
+      <div class="profile-field-row"><span class="profile-field-label">전화번호</span><input class="profile-field-input" value="010-1234-5678" type="tel"></div>
+      <div class="profile-field-row"><span class="profile-field-label">동물병원 명칭</span><input class="profile-field-input" value="다함께 동물병원"></div>
+      <div class="profile-field-row"><span class="profile-field-label">동물병원 주소</span><input class="profile-field-input" value="경상남도 창원시 진해구 안골로..."></div>
+      <div class="profile-field-row"><span class="profile-field-label">수의사 면허번호</span><input class="profile-field-input" value="12345" type="number"> <span style="font-size:14px; color:var(--gray-500);">호</span></div>
+      <div class="profile-field-row"><span class="profile-field-label">은행</span><input class="profile-field-input" value="농협"></div>
+      <div class="profile-field-row" style="border-bottom:none;"><span class="profile-field-label">계좌번호</span><input class="profile-field-input" value="123-2323424242-2"></div>
+      <div style="padding:20px 24px 32px;"><button onclick="showAlert('기본 정보 수정하기','변경된 정보가 있습니다. 변경된 내용으로 저장하시겠습니까?','취소','예')" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">저장</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 비밀번호 변경 ══════════════════════════ -->
+  <div class="screen" id="screen-change-pw">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--white);"><button class="back-btn" onclick="navigateTo('screen-vet-profile')">‹</button><span class="page-title">비밀번호 변경</span></div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:28px 24px 0; display:flex; flex-direction:column; gap:28px; flex:1;">
+        <div><div class="profile-field-label" style="margin-bottom:8px;">기존 비밀번호 입력</div><input type="password" placeholder="8자리 이상 입력" style="width:100%; border:none; border-bottom:1.5px solid var(--gray-200); padding:10px 0; font-size:16px; font-family:inherit; outline:none; color:var(--gray-700); background:none;"></div>
+        <div><div class="profile-field-label" style="margin-bottom:8px;">변경 비밀번호 입력</div><input type="password" placeholder="8자리 이상 입력" style="width:100%; border:none; border-bottom:1.5px solid var(--gray-200); padding:10px 0; font-size:16px; font-family:inherit; outline:none; color:var(--gray-700); background:none;"></div>
+        <div><div class="profile-field-label" style="margin-bottom:8px;">변경 비밀번호 재입력</div><input type="password" placeholder="8자리 이상 입력" style="width:100%; border:none; border-bottom:1.5px solid var(--gray-200); padding:10px 0; font-size:16px; font-family:inherit; outline:none; color:var(--gray-700); background:none;"></div>
+      </div>
+      <div style="padding:32px 24px 40px;"><button onclick="showToast('비밀번호가 변경되었습니다'); navigateTo('screen-vet-profile');" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">비밀번호 변경</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 템플릿 목록 ══════════════════════════ -->
+  <div class="screen" id="screen-templates">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--white);"><button class="back-btn" onclick="navigateTo('screen-settings')">‹</button><span class="page-title">진단 / 처방 템플릿</span></div>
+    <div class="screen-content" style="background:var(--white); padding-bottom:100px;">
+      <div style="padding:12px 16px 8px;">
+        <div style="display:flex; align-items:center; background:var(--gray-100); border-radius:12px; padding:0 14px; height:44px; gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="진단명 or 처방내역으로 검색하기" style="border:none;background:none;flex:1;font-size:14px;font-family:inherit;outline:none;color:var(--gray-700);">
+        </div>
+      </div>
+      <div class="tmpl-item" onclick="navigateTo('screen-template-detail')"><div class="tmpl-item-body"><div class="tmpl-diagnosis">설사, 장염, 장출혈 [수액 + 키트]</div><div class="tmpl-price">진료비 140,000</div><div class="tmpl-rx">DW, 10percent dex, KCL, MGsulfate, chco3 IV...</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+      <div class="tmpl-item" onclick="navigateTo('screen-template-detail')"><div class="tmpl-item-body"><div class="tmpl-diagnosis"><span class="tmpl-calf-tag">[송아지]</span> 설사, 장염, 장출혈 [수액 + 키트]</div><div class="tmpl-price">진료비 140,000</div><div class="tmpl-rx">DW, 10percent dex, KCL, MGsulfate...</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+      <div class="tmpl-item" onclick="navigateTo('screen-template-detail')"><div class="tmpl-item-body"><div class="tmpl-diagnosis">호흡기 감염 [항생제 처방]</div><div class="tmpl-price">진료비 80,000</div><div class="tmpl-rx">Penicillin, Gentamicin, Dexamethasone IV...</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+      <div class="tmpl-item" onclick="navigateTo('screen-template-detail')"><div class="tmpl-item-body"><div class="tmpl-diagnosis">외상 처치 [소독 + 봉합]</div><div class="tmpl-price">진료비 60,000</div><div class="tmpl-rx">Betadine, 생리식염수 세척, 봉합사 처치...</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+      <div class="tmpl-item" onclick="navigateTo('screen-template-detail')"><div class="tmpl-item-body"><div class="tmpl-diagnosis">발정 동기화 처방</div><div class="tmpl-price">진료비 50,000</div><div class="tmpl-rx">CIDR 삽입, GnRH, PGF2α 처치...</div></div><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+    </div>
+    <div class="floating-btn" onclick="navigateTo('screen-template-add')" style="bottom:12px;">
+      <div class="floating-btn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+      <div class="floating-btn-text"><div class="floating-btn-title">템플릿 추가 등록</div><div class="floating-btn-sub">새로운 템플릿을 등록합니다</div></div>
+      <span class="floating-btn-arrow">›</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 템플릿 추가 ══════════════════════════ -->
+  <div class="screen" id="screen-template-add">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--white);"><button class="back-btn" onclick="navigateTo('screen-templates')">‹</button><span class="page-title">템플릿 추가</span></div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:20px 20px 0;">
+        <div class="form-group" style="margin-bottom:20px;"><span class="form-label">진단명 <span class="required">*</span></span><input id="tmpl-add-name" class="form-input" placeholder="진단명을 입력하세요" oninput="clearTmplError('tmpl-add-name','tmpl-add-name-err')"><div id="tmpl-add-name-err" class="tmpl-error" style="display:none;">진단명을 입력해주세요</div></div>
+        <div class="form-group" style="margin-bottom:20px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea id="tmpl-add-rx" class="form-input" placeholder="처방내역을 입력하세요" rows="5" style="resize:none;" oninput="clearTmplError('tmpl-add-rx','tmpl-add-rx-err')"></textarea><div id="tmpl-add-rx-err" class="tmpl-error" style="display:none;">처방내역을 입력해주세요</div></div>
+        <div class="form-group" style="margin-bottom:24px;"><span class="form-label">진료비</span><input id="tmpl-add-price" class="form-input" placeholder="진료비를 입력하세요" type="number"></div>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:32px;"><input id="tmpl-add-calf" type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;"><span style="font-size:14px; color:var(--gray-600);">송아지 진료에 사용되는 템플릿입니다</span></label>
+        <button onclick="submitTmplAdd()" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">템플릿 추가</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 템플릿 상세 ══════════════════════════ -->
+  <div class="screen" id="screen-template-detail">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--white);"><button class="back-btn" onclick="navigateTo('screen-templates')">‹</button><span class="page-title">템플릿 상세보기</span></div>
+    <div class="screen-content" style="background:var(--white);">
+      <div style="padding:20px 20px 0;">
+        <div class="form-group" style="margin-bottom:20px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" value="설사, 장염, 장출혈 [수액 + 키트]"></div>
+        <div class="form-group" style="margin-bottom:20px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" rows="6" style="resize:none;">DW, 10percent dex, KCL, MGsulfate, choco3 IV, kacine, dexa, anargine, meto, 수액 1000 ml</textarea></div>
+        <div class="form-group" style="margin-bottom:24px;"><span class="form-label">진료비</span><input class="form-input" value="140,000"></div>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:32px;"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;"><span style="font-size:14px; color:var(--gray-600);">송아지 진료에 사용되는 템플릿입니다</span></label>
+        <div style="display:flex; gap:12px;">
+          <button onclick="showAlert('템플릿 삭제하기','삭제하시겠습니까?','취소','삭제')" style="flex:1;padding:15px;background:#FFF0F0;color:var(--red);border:1.5px solid #FFD4D4;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;">삭제하기</button>
+          <button onclick="showAlert('템플릿 수정하기','저장하시겠습니까?','아니오','예')" style="flex:1;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(74,112,169,0.30);">수정하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 기록 목록 ══════════════════════════ -->
+  <div class="screen" id="screen-records">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div style="background:var(--white); padding:14px 20px 0; flex-shrink:0;">
+      <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:6px;">
+        <button class="month-arrow" onclick="showToast('이전 달')">‹</button>
+        <span class="month-text">2026년 2월</span>
+        <button class="month-arrow" onclick="showToast('다음 달')">›</button>
+      </div>
+      <div style="text-align:center; padding-bottom:12px;">
+        <span style="font-size:13px; color:var(--gray-500);">총 진료비 </span>
+        <span style="font-size:20px; font-weight:800; color:var(--brand); letter-spacing:-0.5px;">₩10,130,429</span>
+      </div>
+    </div>
+    <div class="screen-content" style="background:var(--bg); padding-bottom:80px;">
+      <div style="background:var(--white); padding:10px 16px 0;">
+        <div style="display:flex; align-items:center; background:var(--gray-100); border-radius:12px; padding:0 14px; height:44px; gap:8px; margin-bottom:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="농장주 이름, 전화번호, 진료유형, ..." style="border:none;background:none;flex:1;font-size:14px;font-family:inherit;outline:none;color:var(--gray-700);">
+        </div>
+        <button onclick="openMonthlyBill()" style="width:100%;padding:14px;background:var(--brand);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;box-shadow:0 3px 10px rgba(74,112,169,0.22);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+          이번 달 청구서 발급
+        </button>
+      </div>
+      <div style="padding:8px 20px 6px; font-size:12px; color:var(--gray-400);">각 진료기록을 탭하여 개별 기록 수정, 청구서·서류 발급</div>
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">설사, 장염</span><span class="rec-time">02-14 14:30</span></div>
+        <div class="rec-farmer">김형만 | 010-3423-5093</div>
+        <div class="rec-addr">경상남도 김해시 한림면...</div>
+        <div class="rec-bottom"><span class="status-badge settled" onclick="event.stopPropagation();openStatusSheet(this,'settled')">✓ 정산완료</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">중성화</span><span class="rec-time">02-14 14:30</span></div>
+        <div class="rec-farmer">최동우 | 010-4324-1234</div>
+        <div class="rec-addr">부산광역시 강서구 대저동...</div>
+        <div class="rec-bottom"><span class="status-badge unsettled" onclick="event.stopPropagation();openStatusSheet(this,'unsettled')">✕ 미정산</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+      <div class="rec-card" onclick="navigateTo('screen-record-detail')">
+        <div class="rec-card-top"><span class="rec-diagnosis">시료채취</span><span class="rec-time">02-14 14:30</span></div>
+        <div class="rec-farmer">장주은 | 010-1234-5678</div>
+        <div class="rec-addr">경상남도 김해시 진영읍...</div>
+        <div class="rec-bottom"><span class="status-badge pending" onclick="event.stopPropagation();openStatusSheet(this,'pending')">⏳ 정산대기</span><div style="display:flex;align-items:center;gap:10px;"><span class="rec-fee">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div></div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>진료</span></div>
+      <div class="nav-item active" onclick="switchTab('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>기록</span></div>
+      <div class="nav-item" onclick="switchTab('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>관리</span></div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 진료 기록 상세 ══════════════════════════ -->
+  <div class="screen" id="screen-record-detail">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="justify-content:space-between; background:var(--bg); border-bottom:none;">
+      <div style="display:flex;align-items:center;gap:4px;"><button class="back-btn" onclick="navigateTo('screen-records')">‹</button><span class="page-title">진료 기록 상세보기</span></div>
+      <span class="status-badge settled" style="cursor:pointer;" onclick="openStatusSheet(this,'settled')">✓ 정산완료</span>
+    </div>
+    <div class="screen-content">
+      <div style="background:var(--white);border-radius:16px;margin:4px 16px 12px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span style="font-size:13px;font-weight:700;color:var(--brand);">농장주 정보</span></div>
+        <div style="font-size:18px;font-weight:700;color:var(--gray-700);margin-bottom:4px;">김형만</div>
+        <div style="font-size:14px;color:var(--gray-400);margin-bottom:3px;">010-3423-5093</div>
+        <div style="font-size:14px;color:var(--gray-400);">경상남도 김해시 한림면</div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">진료기록</div>
+        <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2026.02.14"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="14:30"></div></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" value="설사, 장염"></div>
+        <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" rows="3" style="resize:none;">DW, 10% dex, KCL, MGsulfate IV</textarea></div>
+        <div class="form-row"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" value="100000" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option selected>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+      </div>
+      <div style="padding:4px 16px 8px;"><button onclick="openIndividualBillPreview()" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 10px rgba(74,112,169,0.25);">개별 청구서 발급</button></div>
+      <div style="padding:0 16px 8px;"><button onclick="navigateTo('screen-doc-individual')" style="width:100%;padding:14px;background:var(--white);color:var(--gray-600);border:1.5px solid var(--gray-200);border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;">서류 발급</button></div>
+      <div style="display:flex;gap:10px;padding:0 16px 20px;">
+        <button onclick="showAlert('진료 기록 수정','수정하시겠습니까?','취소','수정')" style="flex:1;padding:14px;background:var(--white);color:var(--gray-600);border:1.5px solid var(--gray-200);border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;">수정</button>
+        <button onclick="showAlert('진료 기록 삭제','삭제하시겠습니까?','취소','삭제')" style="flex:1;padding:14px;background:#FFF0F0;color:var(--red);border:1.5px solid #FFD4D4;border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 진료 기록 입력 (기존 농장주) ══════════════════════════ -->
+  <div class="screen" id="screen-record-input">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--bg); border-bottom:none;"><button class="back-btn" onclick="navigateTo('screen-home')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="screen-content">
+      <div style="background:var(--white); border-radius:16px; margin:4px 16px 12px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+        <div style="display:flex; align-items:center; gap:7px; margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span style="font-size:13px; font-weight:700; color:var(--brand);">농장주 정보</span></div>
+        <div style="font-size:18px; font-weight:700; color:var(--gray-700); margin-bottom:5px;">김형만</div>
+        <div style="font-size:14px; color:var(--gray-400); margin-bottom:3px;">010-3423-5093</div>
+        <div style="font-size:14px; color:var(--gray-400);">경상남도 김해시 한림면</div>
+      </div>
+      <div style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+        <button onclick="toggleTreatmentAccordion()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:20px 22px; background:none; border:none; cursor:pointer; font-family:inherit;">
+          <span id="treatment-selected-label" style="font-size:16px; font-weight:500; color:var(--gray-400);">진료유형</span>
+          <svg id="treatment-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" style="transition:transform 0.22s; transform:rotate(180deg); flex-shrink:0;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div id="treatment-accordion-body" style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '일반진료', 'general')"><span>일반진료</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '송아지 진료', 'calf')"><span>송아지 진료</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '중성화', 'castration')"><span>중성화</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '임신감정', 'simple')"><span>임신감정</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '수정', 'simple')"><span>수정</span></div>
+        <div class="ri-treatment-option" onclick="selectTreatment(this, '시료채취', 'simple')" style="border-bottom:none;"><span>시료채취</span></div>
+      </div>
+
+      <!-- 일반진료 폼 -->
+      <div id="form-general" class="treatment-form" style="display:none;">
+        <div class="form-section animate-in">
+          <div class="form-section-title">진료기록</div>
+          <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option value="">선택</option><option>소화불량 처방</option><option>호흡기 감염 처방</option><option>외상 처치</option><option>발정 동기화</option></select></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:16px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">지금 작성한 내용을 새로운 진단 템플릿으로 추가</span></label>
+          <div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+          <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+        </div>
+
+        <!-- 개체 정보 아코디언 -->
+        <div class="opt-accordion" id="acc-animal-g">
+          <button class="opt-acc-header" onclick="toggleOptAcc('acc-animal-g')">
+            <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">개체 정보</span></div>
+            <span class="opt-acc-badge" id="badge-acc-animal-g">선택사항</span>
+          </button>
+          <div class="opt-acc-body" id="body-acc-animal-g" style="display:none;">
+            <div class="form-group" style="margin-bottom:8px;"><span class="form-label">이표번호 (개체식별번호)</span><input class="form-input" placeholder="002-1234-5678-1" oninput="checkOptAcc('acc-animal-g',this.value.trim()!=='')"></div>
+            <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">아직 이표번호를 부착 전인 송아지 입니다.</span></label>
+            <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">축종</span><select class="form-select"><option>한우</option><option>젖소</option><option>육우</option></select></div><div class="form-group"><span class="form-label">성별</span><select class="form-select"><option>암컷</option><option>수컷</option></select></div></div>
+            <div class="form-group" style="margin-bottom:14px;"><span class="form-label">임신여부</span><div style="display:flex;gap:8px;margin-top:6px;"><button class="toggle-option active-toggle" onclick="toggleOption(this)">임신</button><button class="toggle-option" onclick="toggleOption(this)">비임신</button></div></div>
+            <div class="form-row"><div class="form-group"><span class="form-label">연령</span><input class="form-input" placeholder="숫자" type="number"></div><div class="form-group"><span class="form-label">단위</span><select class="form-select"><option>일</option><option>주</option><option selected>개월</option><option>년</option></select></div></div>
+          </div>
+        </div>
+
+        <!-- 혈액검사 아코디언 -->
+        <div class="opt-accordion" id="acc-blood-g">
+          <button class="opt-acc-header" onclick="toggleOptAcc('acc-blood-g')">
+            <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">혈액검사</span></div>
+            <span class="opt-acc-badge" id="badge-acc-blood-g">선택사항</span>
+          </button>
+          <div class="opt-acc-body" id="body-acc-blood-g" style="display:none;">
+            <div style="background:var(--gray-50);border:1.5px dashed var(--gray-300);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;cursor:pointer;">
+              <div style="font-size:22px;margin-bottom:6px;">📷</div>
+              <div style="font-size:13px;font-weight:600;color:var(--brand);margin-bottom:4px;">사진 촬영 또는 불러오기</div>
+              <div style="font-size:11px;color:var(--gray-400);line-height:1.6;">이미지를 업로드하면 결과값을 자동으로 읽어옵니다</div>
+            </div>
+            <div style="font-size:12px;color:var(--gray-400);margin-bottom:12px;">검사 결과 — 자동 입력된 값을 확인하고 수정할 수 있습니다.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="lab-field"><span class="lab-label">pH</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">PCO2 (mmHg)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">PO2 (mmHg)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">HCO3 (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">Na (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">K (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">iCa (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">Glu (mg/dL)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">Hct (%PCV)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">BUN (mg/dL)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">Lac (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+              <div class="lab-field"><span class="lab-label">Crea (mg/dL)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-g',true)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 키트검사 아코디언 -->
+        <div class="opt-accordion" id="acc-kit-g">
+          <button class="opt-acc-header" onclick="toggleOptAcc('acc-kit-g')">
+            <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">키트검사</span></div>
+            <span class="opt-acc-badge" id="badge-acc-kit-g">선택사항</span>
+          </button>
+          <div class="opt-acc-body" id="body-acc-kit-g" style="display:none;">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="kit-row-lg"><span class="kit-label-lg">로타바이러스 <span style="font-size:12px;color:var(--gray-400);">(Rotavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+              <div class="kit-row-lg"><span class="kit-label-lg">코로나바이러스 <span style="font-size:12px;color:var(--gray-400);">(Coronavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+              <div class="kit-row-lg"><span class="kit-label-lg">대장균 <span style="font-size:12px;color:var(--gray-400);">(E. coli)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+              <div class="kit-row-lg"><span class="kit-label-lg">크립토스포리디움 <span style="font-size:12px;color:var(--gray-400);">(Cryptosporidium)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+              <div class="kit-row-lg"><span class="kit-label-lg">소 바이러스 설사병 <span style="font-size:12px;color:var(--gray-400);">(BVD)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-g')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-g')">음성</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 기초검사 아코디언 -->
+        <div class="opt-accordion" id="acc-basic-g">
+          <button class="opt-acc-header" onclick="toggleOptAcc('acc-basic-g')">
+            <div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">기초검사</span></div>
+            <span class="opt-acc-badge" id="badge-acc-basic-g">선택사항</span>
+          </button>
+          <div class="opt-acc-body" id="body-acc-basic-g" style="display:none;">
+            <div class="form-group" style="margin-bottom:16px;"><span class="form-label">체온 (℃)</span><input class="form-input" placeholder="숫자만 입력하세요 (예: 38.5)" type="number" step="0.1" oninput="checkOptAcc('acc-basic-g',this.value.trim()!=='')"></div>
+            <div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">변 상태</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">설사</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">혈변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">점액변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">수양성</button></div></div>
+            <div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">식욕</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">감소</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">절폐</button></div></div>
+            <div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">활력</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">양호</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">저하</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">기립불능</button></div></div>
+            <div class="basic-exam-row" style="margin-bottom:0;"><span class="form-label" style="margin-bottom:8px;display:block;">보행</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">파행</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-g')">보행곤란</button></div></div>
+          </div>
+        </div>
+
+        <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- 송아지진료 폼 -->
+      <div id="form-calf" class="treatment-form" style="display:none;">
+        <div class="form-section animate-in">
+          <div class="form-section-title">진료기록</div>
+          <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단 템플릿</span><select class="form-select"><option value="">선택</option><option>[송아지] 설사 처방</option><option>[송아지] 호흡기 감염</option><option>[송아지] 탈수 치료</option></select></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">진단명 <span class="required">*</span></span><input class="form-input" placeholder="진단명을 입력하세요"></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">처방내역 <span class="required">*</span></span><textarea class="form-input" placeholder="처방내역을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:16px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">지금 작성한 내용을 새로운 진단 템플릿으로 추가</span></label>
+          <div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+          <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+        </div>
+        <div class="opt-accordion" id="acc-animal-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-animal-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">개체 정보</span></div><span class="opt-acc-badge" id="badge-acc-animal-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-animal-c" style="display:none;"><div class="form-group" style="margin-bottom:8px;"><span class="form-label">이표번호</span><input class="form-input" placeholder="002-1234-5678-1" oninput="checkOptAcc('acc-animal-c',this.value.trim()!=='')"></div><label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;color:var(--gray-600);">아직 이표번호를 부착 전인 송아지 입니다.</span></label><div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">축종</span><select class="form-select"><option>한우</option><option>젖소</option><option>육우</option></select></div><div class="form-group"><span class="form-label">성별</span><select class="form-select"><option>암컷</option><option>수컷</option></select></div></div><div class="form-row"><div class="form-group"><span class="form-label">연령</span><input class="form-input" placeholder="숫자" type="number"></div><div class="form-group"><span class="form-label">단위</span><select class="form-select"><option>일</option><option>주</option><option selected>개월</option><option>년</option></select></div></div></div></div>
+        <div class="opt-accordion" id="acc-blood-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-blood-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">혈액검사</span></div><span class="opt-acc-badge" id="badge-acc-blood-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-blood-c" style="display:none;"><div style="background:var(--gray-50);border:1.5px dashed var(--gray-300);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;cursor:pointer;"><div style="font-size:22px;margin-bottom:6px;">📷</div><div style="font-size:13px;font-weight:600;color:var(--brand);margin-bottom:4px;">사진 촬영 또는 불러오기</div><div style="font-size:11px;color:var(--gray-400);">이미지를 업로드하면 결과값을 자동으로 읽어옵니다</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="lab-field"><span class="lab-label">pH</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">PCO2 (mmHg)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">HCO3 (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">Na (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">K (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">Glu (mg/dL)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">BUN (mg/dL)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div><div class="lab-field"><span class="lab-label">Lac (mmol/L)</span><input class="form-input" style="font-size:13px;padding:9px 10px;" placeholder="0" type="number" oninput="checkOptAcc('acc-blood-c',true)"></div></div></div></div>
+        <div class="opt-accordion" id="acc-kit-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-kit-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">키트검사</span></div><span class="opt-acc-badge" id="badge-acc-kit-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-kit-c" style="display:none;"><div style="display:flex;flex-direction:column;gap:16px;"><div class="kit-row-lg"><span class="kit-label-lg">로타바이러스 <span style="font-size:12px;color:var(--gray-400);">(Rotavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div><div class="kit-row-lg"><span class="kit-label-lg">코로나바이러스 <span style="font-size:12px;color:var(--gray-400);">(Coronavirus)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div><div class="kit-row-lg"><span class="kit-label-lg">대장균 <span style="font-size:12px;color:var(--gray-400);">(E. coli)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div><div class="kit-row-lg"><span class="kit-label-lg">크립토스포리디움 <span style="font-size:12px;color:var(--gray-400);">(Cryptosporidium)</span></span><div class="kit-btns-lg"><button class="kit-btn-lg active-kit" onclick="selectKit(this,'acc-kit-c')">미정</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">양성</button><button class="kit-btn-lg" onclick="selectKit(this,'acc-kit-c')">음성</button></div></div></div></div></div>
+        <div class="opt-accordion" id="acc-basic-c"><button class="opt-acc-header" onclick="toggleOptAcc('acc-basic-c')"><div class="opt-acc-left"><span class="opt-acc-plus">+</span><span class="opt-acc-title">기초검사</span></div><span class="opt-acc-badge" id="badge-acc-basic-c">선택사항</span></button><div class="opt-acc-body" id="body-acc-basic-c" style="display:none;"><div class="form-group" style="margin-bottom:16px;"><span class="form-label">체온 (℃)</span><input class="form-input" placeholder="38.5" type="number" step="0.1" oninput="checkOptAcc('acc-basic-c',this.value.trim()!=='')"></div><div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">변 상태</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">설사</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">혈변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">점액변</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">수양성</button></div></div><div class="basic-exam-row"><span class="form-label" style="margin-bottom:8px;display:block;">식욕</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">정상</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">감소</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">절폐</button></div></div><div class="basic-exam-row" style="margin-bottom:0;"><span class="form-label" style="margin-bottom:8px;display:block;">활력</span><div class="basic-exam-btns"><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">양호</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">저하</button><button class="basic-btn" onclick="selectBasic(this,'acc-basic-c')">기립불능</button></div></div></div></div>
+        <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- 중성화 폼 -->
+      <div id="form-castration" class="treatment-form" style="display:none;">
+        <div class="form-section animate-in">
+          <div class="form-section-title">진료기록</div>
+          <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
+          <div class="form-group" style="margin-bottom:16px;"><span class="form-label">실시 두수 <span class="required">*</span></span><div class="stepper-row"><button class="stepper-btn" onclick="stepperChange('stepper-castration', -1)">−</button><input id="stepper-castration" class="stepper-input" type="number" value="1" min="1" oninput="stepperClamp(this)"><button class="stepper-btn" onclick="stepperChange('stepper-castration', 1)">+</button></div></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">사용약물 <span class="required">*</span></span><textarea class="form-input" placeholder="사용약물을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+          <div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;cursor:pointer;margin-bottom:14px;border:1.5px solid var(--gray-200);"><input type="checkbox" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;"><span style="font-size:14px;color:var(--gray-600);font-weight:500;">현장에서 현금결제 완료함</span></label>
+          <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+        </div>
+        <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- 간단 폼 (임신감정/수정/시료채취) -->
+      <div id="form-simple" class="treatment-form" style="display:none;">
+        <div class="form-section animate-in">
+          <div class="form-section-title">진료기록</div>
+          <div class="form-row" style="margin-bottom:14px;"><div class="form-group"><span class="form-label">진료일자 <span class="required">*</span></span><input class="form-input" value="2025.10.11"></div><div class="form-group" style="max-width:100px;"><span class="form-label">&nbsp;</span><input class="form-input" value="09:41"></div></div>
+          <div class="form-group" style="margin-bottom:16px;"><span class="form-label">실시 두수 <span class="required">*</span></span><div class="stepper-row"><button class="stepper-btn" onclick="stepperChange('stepper-simple', -1)">−</button><input id="stepper-simple" class="stepper-input" type="number" value="1" min="1" oninput="stepperClamp(this)"><button class="stepper-btn" onclick="stepperChange('stepper-simple', 1)">+</button></div></div>
+          <div class="form-row" style="margin-bottom:10px;"><div class="form-group"><span class="form-label">진료비 <span class="required">*</span></span><input class="form-input" placeholder="금액" type="number"></div><div class="form-group"><span class="form-label">할증 여부</span><select class="form-select"><option>없음</option><option>주말 (30%)</option><option>야간 (50%)</option></select></div></div>
+          <div class="form-group"><span class="form-label">예후소견</span><textarea class="form-input" placeholder="메모할 사항을 입력하세요" rows="3" style="resize:none;"></textarea></div>
+        </div>
+        <button class="save-btn" onclick="navigateTo('screen-save-success')">저장</button>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 새 농장주 진료 등록 ══════════════════════════ -->
+  <div class="screen" id="screen-new-record">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back" style="background:var(--bg); border-bottom:none;"><button class="back-btn" onclick="navigateTo('screen-home')">‹</button><span class="page-title">진료 기록 입력</span></div>
+    <div class="screen-content">
+      <div id="nr-farmer-form">
+        <div style="background:var(--white); border-radius:16px; margin:4px 16px 12px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+          <div style="display:flex; align-items:center; gap:7px; margin-bottom:16px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span style="font-size:13px; font-weight:700; color:var(--brand);">농장주 정보</span></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장주 이름 <span class="required">*</span></span><input id="nr-name" class="form-input" placeholder="농장주 이름을 입력하세요"></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">전화번호 <span class="required">*</span></span><input id="nr-phone" class="form-input" placeholder="전화번호를 입력하세요" type="tel"></div>
+          <div class="form-group" style="margin-bottom:14px;"><span class="form-label">농장 주소 <span class="required">*</span></span><input id="nr-addr" class="form-input" placeholder="경상남도 김해시 장주읍..."></div>
+          <div class="form-group" style="margin-bottom:20px;"><span class="form-label">상세주소</span><input id="nr-addr-detail" class="form-input" placeholder="상세주소를 입력하세요"></div>
+          <button onclick="saveFarmerInfo()" style="width:100%; padding:15px; background:var(--brand); color:white; border:none; border-radius:14px; font-size:16px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 4px 14px rgba(74,112,169,0.30);">저장</button>
+        </div>
+      </div>
+      <div id="nr-farmer-card" style="display:none;">
+        <div style="background:var(--white); border-radius:16px; margin:4px 16px 12px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+          <div style="display:flex; align-items:center; gap:7px; margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span style="font-size:13px; font-weight:700; color:var(--brand);">농장주 정보</span></div>
+          <div id="nr-card-name" style="font-size:18px; font-weight:700; color:var(--gray-700); margin-bottom:5px;"></div>
+          <div id="nr-card-phone" style="font-size:14px; color:var(--gray-400); margin-bottom:3px;"></div>
+          <div id="nr-card-addr" style="font-size:14px; color:var(--gray-400);"></div>
+        </div>
+        <div style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+          <button onclick="toggleTreatmentAccordionNR()" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:20px 22px; background:none; border:none; cursor:pointer; font-family:inherit;">
+            <span id="nr-treatment-label" style="font-size:16px; font-weight:500; color:var(--gray-400);">진료유형</span>
+            <svg id="nr-treatment-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2" style="transition:transform 0.22s; transform:rotate(180deg); flex-shrink:0;"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+        <div id="nr-treatment-list" style="background:var(--white); border-radius:16px; margin:0 16px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden;">
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'일반진료','general')"><span>일반진료</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'송아지 진료','calf')"><span>송아지 진료</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'중성화','castration')"><span>중성화</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'임신감정','simple')"><span>임신감정</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'수정','simple')"><span>수정</span></div>
+          <div class="ri-treatment-option" onclick="selectTreatmentNR(this,'시료채취','simple')" style="border-bottom:none;"><span>시료채취</span></div>
+        </div>
+        <div id="nr-form-area"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 서류 발급 (개체) ══════════════════════════ -->
+  <div class="screen" id="screen-doc-individual">
+    <div class="status-bar"><span class="time">9:41</span></div>
+    <div class="page-header-with-back"><button class="back-btn" onclick="navigateTo('screen-record-detail')">‹</button><span class="page-title">서류 발급</span></div>
+    <div class="screen-content">
+      <div style="padding:20px 20px 4px;"><div style="font-size:15px; font-weight:700; color:var(--gray-700);">발급할 서류를 선택하세요</div></div>
+      <div style="padding:12px 0;">
+        <div class="doc-type-item animate-in" onclick="openDocForm('doc-form-diagnosis')"><div class="doc-type-info"><div class="doc-type-icon blue">📋</div><div><div class="doc-type-name">진단서</div><div class="doc-type-desc">질병 진단 내용을 기록합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" onclick="showToast('검안서 작성 화면으로 이동')"><div class="doc-type-info"><div class="doc-type-icon orange">🔍</div><div><div class="doc-type-name">검안서</div><div class="doc-type-desc">폐사 원인 검안 내용을 기록합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" onclick="showToast('처방전 작성 화면으로 이동')"><div class="doc-type-info"><div class="doc-type-icon green">💊</div><div><div class="doc-type-name">처방전</div><div class="doc-type-desc">약물 처방 내역을 기록합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" onclick="showToast('진료확인서 작성 화면으로 이동')"><div class="doc-type-info"><div class="doc-type-icon purple">✅</div><div><div class="doc-type-name">진료확인서</div><div class="doc-type-desc">진료 사실을 확인합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" onclick="openDocForm('doc-form-castration-cert')"><div class="doc-type-info"><div class="doc-type-icon green">✂️</div><div><div class="doc-type-name">거세확인서</div><div class="doc-type-desc">거세 시술 내역을 확인합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+        <div class="doc-type-item animate-in" onclick="showToast('예방접종증명서 작성 화면으로 이동')"><div class="doc-type-info"><div class="doc-type-icon red">💉</div><div><div class="doc-type-name">예방접종증명서</div><div class="doc-type-desc">예방접종 이력을 증명합니다</div></div></div><span style="color:var(--gray-300); font-size:18px;">›</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 정산 상태 변경 바텀시트 ══════════════════════════ -->
+  <div class="bottom-sheet-overlay" id="status-sheet-overlay" onclick="closeStatusSheet()">
+    <div class="bottom-sheet" onclick="event.stopPropagation()">
+      <div class="bottom-sheet-handle"></div>
+      <div class="bottom-sheet-title">정산 상태 변경</div>
+      <div class="bottom-sheet-options">
+        <button class="bottom-sheet-option" data-status="unsettled" onclick="selectStatus('unsettled')"><div class="option-icon unsettled-icon" style="font-size:14px;font-weight:700;">✕</div><div class="option-text"><div class="option-name">미정산</div><div class="option-desc">청구서 미발급</div></div><div class="option-check">✓</div></button>
+        <button class="bottom-sheet-option" data-status="pending" onclick="selectStatus('pending')"><div class="option-icon pending-icon" style="font-size:16px;">⏳</div><div class="option-text"><div class="option-name">정산대기</div><div class="option-desc">청구서 발급, 정산 전</div></div><div class="option-check">✓</div></button>
+        <button class="bottom-sheet-option" data-status="settled" onclick="selectStatus('settled')"><div class="option-icon settled-icon" style="font-size:14px;font-weight:700;">✓</div><div class="option-text"><div class="option-name">정산완료</div><div class="option-desc">정산 완료</div></div><div class="option-check">✓</div></button>
+      </div>
+      <button class="bottom-sheet-cancel" onclick="closeStatusSheet()">취소</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 이번 달 청구서 바텀시트 ══════════════════════════ -->
+  <div class="bottom-sheet-overlay" id="monthly-bill-overlay" onclick="closeMonthlyBill()">
+    <div style="background:var(--white); border-radius:24px 24px 0 0; width:100%; max-height:88%; display:flex; flex-direction:column; animation: sheetUp 0.28s cubic-bezier(0.32,0.72,0,1);" onclick="event.stopPropagation()">
+      <div style="padding:14px 20px 0; flex-shrink:0;">
+        <div style="width:40px; height:4px; background:var(--gray-300); border-radius:2px; margin:0 auto 16px;"></div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+          <span style="font-size:18px; font-weight:800; color:var(--gray-700);">2026년 2월 청구서</span>
+          <button onclick="closeMonthlyBill()" style="width:32px;height:32px;border:none;background:var(--gray-100);border-radius:50%;font-size:16px;color:var(--gray-500);cursor:pointer;">✕</button>
+        </div>
+        <p style="font-size:13px; color:var(--gray-400); margin-bottom:14px;">청구서를 발급할 농장주를 선택하세요</p>
+        <div style="height:1px; background:var(--gray-100); margin:0 -20px;"></div>
+      </div>
+      <div style="overflow-y:auto; flex:1; padding:12px 20px 24px;">
+        <div onclick="openFarmerBill('김형만','010-1234-4242','₩1,100,000')" style="padding:16px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; display:flex; align-items:center; justify-content:space-between;" class="bill-farmer-row">
+          <div><div style="font-size:15px; font-weight:700; color:var(--gray-700); margin-bottom:4px;">김형만 <span style="font-size:13px; font-weight:400; color:var(--gray-500);">(010-1234-4242)</span></div><div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">3건 미정산 · 2건 대기 · 1건 완료</div><div style="font-size:12px; color:var(--gray-500);">미정산 ₩1,000,000 + <span style="color:var(--orange); font-weight:600;">대기 ₩100,000</span></div></div>
+          <div style="display:flex; align-items:center; gap:8px;"><span style="font-size:16px; font-weight:800; color:var(--brand);">₩1,100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+        </div>
+        <div onclick="openFarmerBill('송형만','010-1234-4242','₩100,000')" style="padding:16px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; display:flex; align-items:center; justify-content:space-between;" class="bill-farmer-row">
+          <div><div style="font-size:15px; font-weight:700; color:var(--gray-700); margin-bottom:4px;">송형만 <span style="font-size:13px; font-weight:400; color:var(--gray-500);">(010-1234-4242)</span></div><div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">2건 미정산</div><div style="font-size:12px; color:var(--gray-500);">미정산 ₩1,000,000</div></div>
+          <div style="display:flex; align-items:center; gap:8px;"><span style="font-size:16px; font-weight:800; color:var(--brand);">₩100,000</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"><path d="M1 1l6 6-6 6"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 농장주별 청구 항목 선택 풀시트 ══════════════════════════ -->
+  <div class="doc-form-overlay" id="farmer-bill-overlay" onclick="closeFarmerBillOverlay()">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeFarmerBillOverlay(); document.getElementById('monthly-bill-overlay').classList.add('active')">‹</button>
+          <span class="doc-form-sheet-title" id="farmer-bill-title">김형만 청구서</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeFarmerBillOverlay()">✕</button>
+      </div>
+      <div style="padding:12px 20px 0; background:var(--white); flex-shrink:0;">
+        <div style="font-size:13px; color:var(--gray-400);">총 진료비</div>
+        <div style="font-size:22px; font-weight:800; color:var(--brand); letter-spacing:-0.5px;" id="farmer-bill-total">₩1,100,000</div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 20px 8px; background:var(--white);">
+        <span style="font-size:13px; color:var(--gray-500);">청구할 항목을 선택하세요</span>
+        <button onclick="selectAllBillItems()" style="padding:6px 14px; background:var(--gray-100); border:none; border-radius:8px; font-size:12px; font-weight:600; color:var(--gray-600); cursor:pointer; font-family:inherit;">전체선택</button>
+      </div>
+      <div style="height:1px; background:var(--gray-100);"></div>
+      <div style="flex:1; overflow-y:auto; padding:8px 0 0;">
+        <label class="bill-item-row" style="cursor:pointer;">
+          <input type="checkbox" checked class="bill-checkbox" data-amount="500000" style="width:20px;height:20px;accent-color:var(--brand);flex-shrink:0;cursor:pointer;" onchange="updateBillTotal()">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span style="font-size:15px; font-weight:700; color:var(--gray-700);">설사, 장염</span><span style="font-size:15px; font-weight:700; color:var(--gray-700);">₩500,000</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:12px; color:var(--gray-400);">02-01 14:30</span><span style="font-size:11px; font-weight:600; color:var(--gray-500); background:var(--gray-100); padding:2px 8px; border-radius:6px;">미정산</span></div>
+          </div>
+        </label>
+        <label class="bill-item-row" style="cursor:pointer;">
+          <input type="checkbox" checked class="bill-checkbox" data-amount="500000" style="width:20px;height:20px;accent-color:var(--brand);flex-shrink:0;cursor:pointer;" onchange="updateBillTotal()">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span style="font-size:15px; font-weight:700; color:var(--gray-700);">호흡기 감염</span><span style="font-size:15px; font-weight:700; color:var(--gray-700);">₩500,000</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:12px; color:var(--gray-400);">02-05 09:20</span><span style="font-size:11px; font-weight:600; color:var(--gray-500); background:var(--gray-100); padding:2px 8px; border-radius:6px;">미정산</span></div>
+          </div>
+        </label>
+        <label class="bill-item-row" style="cursor:pointer;">
+          <input type="checkbox" class="bill-checkbox" data-amount="100000" style="width:20px;height:20px;accent-color:var(--brand);flex-shrink:0;cursor:pointer;" onchange="updateBillTotal()">
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span style="font-size:15px; font-weight:700; color:var(--gray-700);">중성화</span><span style="font-size:15px; font-weight:700; color:var(--gray-700);">₩100,000</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:12px; color:var(--gray-400);">02-12 19:30</span><span style="font-size:11px; font-weight:600; color:var(--orange); background:#FFF3E0; padding:2px 8px; border-radius:6px;">대기</span></div>
+          </div>
+        </label>
+        <div style="height:160px;"></div>
+      </div>
+      <div style="position:sticky; bottom:0; background:var(--white); border-top:1px solid var(--gray-100); padding:14px 20px 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <span style="font-size:14px; color:var(--gray-600);">선택: <span id="bill-selected-count" style="font-weight:700;">2건</span></span>
+          <span id="bill-selected-amount" style="font-size:18px; font-weight:800; color:var(--brand);">₩1,000,000</span>
+        </div>
+        <label style="display:flex; align-items:center; gap:10px; margin-bottom:14px; cursor:pointer;">
+          <input type="checkbox" id="bill-settle-now" style="width:18px;height:18px;accent-color:var(--brand);cursor:pointer;">
+          <span style="font-size:13px; color:var(--gray-600);">청구서 생성 시 정산완료 처리 <span style="color:var(--gray-400);">(기본값: 정산대기)</span></span>
+        </label>
+        <button onclick="openBillPreview()" style="width:100%;padding:15px;background:var(--brand);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(74,112,169,0.30);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          청구서 생성
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 청구서 미리보기 풀시트 ══════════════════════════ -->
+  <div class="doc-form-overlay" id="bill-preview-overlay">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="doc-form-sheet-back" onclick="closeBillPreview()">‹</button>
+          <span class="doc-form-sheet-title" id="bill-preview-title">김형만 청구서 미리보기</span>
+        </div>
+        <button class="doc-form-sheet-close" onclick="closeBillPreview(); closeMonthlyBill();">✕</button>
+      </div>
+      <div style="overflow-y:auto; flex:1;">
+        <div style="margin:12px 16px; padding:12px 16px; background:#E8F5E9; border-radius:12px; display:flex; align-items:center; gap:8px; border:1.5px solid #A5D6A7;">
+          <span style="color:#2E7D32; font-size:16px;">✓</span>
+          <span style="font-size:14px; font-weight:700; color:#2E7D32;">청구서 생성 완료!</span>
+        </div>
+        <div style="background:var(--white); border:1px solid var(--gray-200); border-radius:12px; margin:0 16px 16px; padding:28px 22px; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+          <h2 style="text-align:center; font-size:20px; font-weight:800; letter-spacing:8px; color:var(--gray-700); margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--gray-700);">진 료 비 청 구 서</h2>
+          <div style="font-size:13px; color:var(--gray-600); margin-bottom:4px;">청구 대상: <strong style="color:var(--gray-700);" id="bill-preview-name">김형만</strong></div>
+          <div style="font-size:13px; color:var(--gray-600); margin-bottom:20px;">청구 기간: <strong style="color:var(--gray-700);">2026.02.01 ~ 2026.02.28</strong></div>
+          <div style="border-top:1px solid var(--gray-200); padding-top:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--gray-100);"><div><div style="font-size:13px; font-weight:600; color:var(--gray-700);">설사, 장염</div><div style="font-size:11px; color:var(--gray-400);">02-01 14:30</div></div><span style="font-size:13px; font-weight:600; color:var(--gray-700);">₩500,000</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--gray-100);"><div><div style="font-size:13px; font-weight:600; color:var(--gray-700);">호흡기 감염</div><div style="font-size:11px; color:var(--gray-400);">02-05 09:20</div></div><span style="font-size:13px; font-weight:600; color:var(--gray-700);">₩500,000</span></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:14px; border-top:2px solid var(--gray-700);"><span style="font-size:15px; font-weight:700; color:var(--gray-700);">합계 (2건)</span><span style="font-size:20px; font-weight:800; color:var(--brand);">₩1,000,000</span></div>
+          <div style="text-align:center; margin-top:24px; padding-top:16px; border-top:1px solid var(--gray-200); font-size:13px; color:var(--gray-500); line-height:2;">
+            <div style="margin-bottom:4px;">위 금액을 정히 청구함</div>
+            <div style="font-weight:700; color:var(--gray-700);">다함께 동물병원</div>
+            <div>수의사 홍길동</div>
+            <div style="color:var(--gray-400); font-size:12px;">(농협) 123-2323424242-2</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; padding:0 16px 32px;">
+          <button onclick="showToast('PDF 다운로드 기능은 준비 중입니다')" style="flex:1;padding:14px;background:var(--gray-700);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF 다운로드</button>
+          <button onclick="showToast('이미지 공유 기능은 준비 중입니다')" style="flex:1;padding:14px;background:var(--gray-100);color:var(--gray-700);border:none;border-radius:12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>공유하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 서류 발급 - 진단서 작성 풀시트 ══════════════════════════ -->
+  <div class="doc-form-overlay" id="doc-form-diagnosis">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-form-diagnosis')">‹</button><span class="doc-form-sheet-title">📋 진단서 작성</span></div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div style="overflow-y:auto; flex:1;">
+        <div style="padding:12px 16px 0;"><div class="guide-banner info" style="margin:0 0 4px;">📋 진료 기록에서 정보가 자동으로 입력되었습니다</div></div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">👤</div>동물 소유자 (관리인)</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">성명 <span class="required">*</span></span><input class="form-input readonly" value="김형만" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">주소 <span class="required">*</span></span><input class="form-input readonly" value="경상남도 김해시 한림면" readonly></div><div class="form-group"><span class="form-label">사육 장소</span><input class="form-input" value="경상남도 김해시 한림면"></div></div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">🐄</div>동물의 표시</div><div class="form-row"><div class="form-group"><span class="form-label">종류 <span class="required">*</span></span><input class="form-input readonly" value="소" readonly></div><div class="form-group"><span class="form-label">품종 <span class="required">*</span></span><input class="form-input readonly" value="한우" readonly></div></div><div class="form-row" style="margin-top:14px;"><div class="form-group"><span class="form-label">성별 <span class="required">*</span></span><input class="form-input readonly" value="수컷" readonly></div><div class="form-group"><span class="form-label">연령</span><input class="form-input readonly" value="2세" readonly></div></div></div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">📋</div>진단 정보</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">병명 <span class="required">*</span></span><input class="form-input" value="설사, 장염"></div><div class="form-row"><div class="form-group"><span class="form-label">발병 연월일 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">진단 연월일 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div></div><div class="form-group" style="margin-top:14px;margin-bottom:14px;"><span class="form-label">예후 소견 <span class="required">*</span></span><textarea class="form-input" rows="3" style="resize:none;" placeholder="예후 소견을 입력하세요"></textarea></div><div class="form-group"><span class="form-label">그 밖의 사항 <span style="color:var(--gray-400);font-size:11px;">(선택)</span></span><textarea class="form-input" rows="2" style="resize:none;" placeholder="기타 사항을 입력하세요"></textarea></div></div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">🏥</div>발급 기관</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">동물병원 명칭</span><input class="form-input readonly" value="다함께 동물병원" readonly></div><div class="form-row"><div class="form-group"><span class="form-label">수의사 면허번호</span><input class="form-input readonly" value="12345" readonly></div><div class="form-group"><span class="form-label">수의사 성명</span><input class="form-input readonly" value="홍길동" readonly></div></div></div>
+        <div style="padding:0 16px;"><button class="save-btn" style="margin:0; width:100%;" onclick="closeDocForm('doc-form-diagnosis'); openDocForm('doc-preview-diagnosis')">미리보기 및 발급</button></div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 서류 발급 - 진단서 미리보기 풀시트 ══════════════════════════ -->
+  <div class="doc-form-overlay" id="doc-preview-diagnosis">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-preview-diagnosis'); openDocForm('doc-form-diagnosis')">‹</button><span class="doc-form-sheet-title">진단서 미리보기</span></div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div style="overflow-y:auto; flex:1;">
+        <div class="pdf-preview" style="margin-top:16px;">
+          <div class="pdf-doc-title">진 단 서</div>
+          <table class="pdf-table"><tr><th>소유자</th><td>김형만</td></tr><tr><th>주소</th><td>경상남도 김해시 한림면</td></tr><tr><th>사육장소</th><td>경상남도 김해시 한림면</td></tr></table>
+          <table class="pdf-table"><tr><th>종류</th><td>소</td><th>품종</th><td>한우</td></tr><tr><th>성별</th><td>수컷</td><th>연령</th><td>2세</td></tr></table>
+          <div class="pdf-section-title">진단 내용</div>
+          <table class="pdf-table"><tr><th>병명</th><td>설사, 장염</td></tr><tr><th>발병일</th><td>2026. 02. 01.</td></tr><tr><th>진단일</th><td>2026. 02. 01.</td></tr><tr><th>예후 소견</th><td>—</td></tr></table>
+          <div class="pdf-footer"><div class="date">2026년 02월 06일</div><div class="vet-info">다함께 동물병원<br>수의사 면허번호: 12345<br>수의사 <span class="pdf-stamp">인</span><br><span class="vet-name">홍길동</span></div></div>
+        </div>
+        <div class="share-btns"><button class="share-btn share-kakao" onclick="showToast('카카오톡으로 전송합니다')">💬 카카오톡</button><button class="share-btn share-sms" onclick="showToast('PDF 저장 완료')">📄 PDF 저장</button></div>
+        <button class="save-btn" onclick="closeAllDocSheets(); showToast('진단서가 발급되었습니다')">발급 완료</button>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 서류 발급 - 거세확인서 작성 풀시트 ══════════════════════════ -->
+  <div class="doc-form-overlay" id="doc-form-castration-cert">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-form-castration-cert')">‹</button><span class="doc-form-sheet-title">✂️ 거세확인서 작성</span></div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div style="overflow-y:auto; flex:1;">
+        <div style="padding:12px 16px 0;"><div class="guide-banner info" style="margin:0 0 4px;">✂️ 진료기록에서 거세 정보가 불러와졌습니다</div></div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">👤</div>동물 소유자 (관리인)</div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">성명 <span class="required">*</span></span><input class="form-input readonly" value="김형만" readonly></div><div class="form-group" style="margin-bottom:14px;"><span class="form-label">주소 <span class="required">*</span></span><input class="form-input readonly" value="경상남도 김해시 한림면" readonly></div><div class="form-group"><span class="form-label">핸드폰 번호 <span class="required">*</span></span><input class="form-input" placeholder="010-0000-0000"></div></div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">✂️</div>거세실적</div>
+          <div class="entry-card"><div class="entry-card-header"><span class="entry-card-title">개체 1</span></div><div class="form-group" style="margin-bottom:10px;"><span class="form-label">개체식별번호 <span class="required">*</span></span><input class="form-input readonly" value="002-1233-3132-2" readonly></div><div class="form-row"><div class="form-group"><span class="form-label">거세일자 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">애우번호</span><input class="form-input" value="0174"></div></div><div class="form-row" style="margin-top:10px;"><div class="form-group"><span class="form-label">출생일</span><input class="form-input" value="2024. 02. 01."></div><div class="form-group"><span class="form-label">거세방법 <span class="required">*</span></span><select class="form-select"><option>무혈</option><option>유혈</option></select></div></div></div>
+          <div class="entry-card"><div class="entry-card-header"><span class="entry-card-title">개체 2</span></div><div class="form-group" style="margin-bottom:10px;"><span class="form-label">개체식별번호 <span class="required">*</span></span><input class="form-input readonly" value="002-2342-2342-1" readonly></div><div class="form-row"><div class="form-group"><span class="form-label">거세일자 <span class="required">*</span></span><input class="form-input" value="2026. 02. 01."></div><div class="form-group"><span class="form-label">애우번호</span><input class="form-input" value="0175"></div></div><div class="form-row" style="margin-top:10px;"><div class="form-group"><span class="form-label">출생일</span><input class="form-input" value="2024. 03. 15."></div><div class="form-group"><span class="form-label">거세방법 <span class="required">*</span></span><select class="form-select"><option>유혈</option><option>무혈</option></select></div></div></div>
+        </div>
+        <div class="official-form-section"><div class="official-section-title"><div class="section-icon">✅</div>확인자</div><div class="form-row"><div class="form-group"><span class="form-label">농가</span><input class="form-input readonly" value="김형만" readonly></div><div class="form-group"><span class="form-label">시술자</span><input class="form-input readonly" value="홍길동" readonly></div></div><div class="form-group" style="margin-top:14px;"><span class="form-label">협조단체 <span class="required">*</span></span><input class="form-input" placeholder="예: 한우협회"></div></div>
+        <div style="padding:0 16px;"><button class="save-btn" style="margin:0; width:100%;" onclick="closeDocForm('doc-form-castration-cert'); openDocForm('doc-preview-castration-cert')">미리보기 및 발급</button></div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ 거세확인서 미리보기 풀시트 ══════════════════════════ -->
+  <div class="doc-form-overlay" id="doc-preview-castration-cert">
+    <div class="doc-form-sheet" onclick="event.stopPropagation()">
+      <div class="doc-form-sheet-header">
+        <div style="display:flex; align-items:center; gap:8px;"><button class="doc-form-sheet-back" onclick="closeDocForm('doc-preview-castration-cert'); openDocForm('doc-form-castration-cert')">‹</button><span class="doc-form-sheet-title">거세확인서 미리보기</span></div>
+        <button class="doc-form-sheet-close" onclick="closeAllDocSheets()">✕</button>
+      </div>
+      <div style="overflow-y:auto; flex:1;">
+        <div class="pdf-preview" style="margin-top:16px;">
+          <div class="pdf-doc-title">거 세 확 인 서</div>
+          <table class="pdf-table"><tr><th>소유자</th><td>김형만</td></tr><tr><th>주소</th><td>경상남도 김해시 한림면</td></tr></table>
+          <div class="pdf-section-title">거세실적</div>
+          <table class="pdf-animal-list"><tr><th>No.</th><th>개체식별번호</th><th>거세일자</th><th>애우번호</th><th>거세방법</th></tr><tr><td>1</td><td style="font-size:9px;">002-1233-3132-2</td><td>2026.02.01</td><td>0174</td><td>무혈</td></tr><tr><td>2</td><td style="font-size:9px;">002-2342-2342-1</td><td>2026.02.01</td><td>0175</td><td>유혈</td></tr></table>
+          <table class="pdf-table"><tr><th>농가</th><td>김형만</td><th>시술자</th><td>홍길동</td></tr></table>
+          <div style="text-align:center; font-size:12px; color:var(--gray-500); margin:16px 0;">위와 같이 거세 시술을 실시하였음을 확인합니다.</div>
+          <div class="pdf-footer"><div class="date">2026년 02월 06일</div><div class="vet-info">다함께 동물병원<br>수의사 <span class="pdf-stamp">인</span><br><span class="vet-name">홍길동</span></div></div>
+        </div>
+        <div class="share-btns"><button class="share-btn share-kakao" onclick="showToast('카카오톡으로 전송합니다')">💬 카카오톡</button><button class="share-btn share-sms" onclick="showToast('PDF 저장 완료')">📄 PDF 저장</button></div>
+        <button class="save-btn" onclick="closeAllDocSheets(); showToast('거세확인서가 발급되었습니다')">발급 완료</button>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 & 얼럿 -->
+  <div class="toast" id="toast"></div>
+  <div class="alert-overlay" id="alert-overlay" onclick="closeAlert()">
+    <div class="alert-box" onclick="event.stopPropagation()">
+      <div class="alert-title" id="alert-title"></div>
+      <div class="alert-msg" id="alert-msg"></div>
+      <div class="alert-btns">
+        <button class="alert-btn alert-btn-cancel" id="alert-cancel" onclick="closeAlert()"></button>
+        <button class="alert-btn alert-btn-confirm" id="alert-confirm" onclick="var t=document.getElementById('alert-title').textContent; closeAlert(); if(t.includes('로그아웃')){doLogout();}else{showToast('완료되었습니다')}"></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-// 화면 HTML 파일들을 순서대로 로드
-const screenFiles = [
-  'screens-main.html',
-  'screens-records.html',
-  'screens-input.html',
-  'screens-docs.html',
-  'screens-shared.html'
-];
+let currentStatusBadge = null;
 
-async function loadScreens() {
-  const container = document.getElementById('screens-container');
-  
-  for (const file of screenFiles) {
-    try {
-      const response = await fetch(file);
-      if (!response.ok) throw new Error(`${file} 로드 실패`);
-      const html = await response.text();
-      container.insertAdjacentHTML('beforeend', html);
-    } catch (err) {
-      console.error(`[오이소] ${file} 로드 에러:`, err);
-    }
+const TEST_EMAIL = 'test1234@email.com';
+const TEST_PW    = 'test1234';
+
+function doLogin(){
+  var email = document.getElementById('login-email').value.trim();
+  var pw    = document.getElementById('login-pw').value;
+  var emailEl = document.getElementById('login-email');
+  var pwEl    = document.getElementById('login-pw');
+  var errEl   = document.getElementById('login-error');
+  emailEl.classList.remove('error');
+  pwEl.classList.remove('error');
+  errEl.style.display = 'none';
+  if(!email || !pw){
+    if(!email) emailEl.classList.add('error');
+    if(!pw)    pwEl.classList.add('error');
+    errEl.textContent = '이메일과 비밀번호를 모두 입력해주세요';
+    errEl.style.display = 'block';
+    return;
   }
-  
-  // 모든 화면 로드 후 첫 화면 활성화
-  const firstScreen = document.getElementById('screen-home');
-  if (firstScreen) firstScreen.classList.add('active');
-  
-  console.log('[오이소] 모든 화면 로드 완료');
+  if(email !== TEST_EMAIL || pw !== TEST_PW){
+    emailEl.classList.add('error');
+    pwEl.classList.add('error');
+    errEl.textContent = '이메일 또는 비밀번호가 올바르지 않습니다';
+    errEl.style.display = 'block';
+    return;
+  }
+  // 로그인 성공
+  document.getElementById('screen-login').classList.remove('active');
+  switchTab('home');
 }
 
-loadScreens();
-</script>
-<script src="app.js"></script>
+function doLogout(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('login-email').value='';
+  document.getElementById('login-pw').value='';
+  document.getElementById('login-error').style.display='none';
+  document.getElementById('login-email').classList.remove('error');
+  document.getElementById('login-pw').classList.remove('error');
+  document.getElementById('screen-login').classList.add('active');
+}
 
+function navigateTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function switchTab(t){
+  const m={home:'screen-home',records:'screen-records',settings:'screen-settings'};
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(m[t]).classList.add('active');
+  // 데스크탑 사이드바 active 상태 동기화
+  const dmap={home:'dnav-home',records:'dnav-records',settings:'dnav-settings'};
+  document.querySelectorAll('.desktop-nav-item').forEach(n=>n.classList.remove('active'));
+  var dn=document.getElementById(dmap[t]);
+  if(dn) dn.classList.add('active');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function showAlert(title,msg,cancel,confirm){
+  document.getElementById('alert-title').textContent=title;
+  document.getElementById('alert-msg').textContent=msg;
+  document.getElementById('alert-cancel').textContent=cancel;
+  document.getElementById('alert-confirm').textContent=confirm;
+  document.getElementById('alert-overlay').classList.add('active');
+}
+function closeAlert(){document.getElementById('alert-overlay').classList.remove('active');}
+
+function submitTmplAdd(){
+  var name=document.getElementById('tmpl-add-name');
+  var rx=document.getElementById('tmpl-add-rx');
+  var nameErr=document.getElementById('tmpl-add-name-err');
+  var rxErr=document.getElementById('tmpl-add-rx-err');
+  var valid=true;
+  if(!name.value.trim()){name.classList.add('tmpl-input-error');nameErr.style.display='block';valid=false;}
+  if(!rx.value.trim()){rx.classList.add('tmpl-input-error');rxErr.style.display='block';valid=false;}
+  if(!valid) return;
+  showToast('템플릿이 추가되었습니다');
+  navigateTo('screen-templates');
+}
+function clearTmplError(inputId,errId){
+  var el=document.getElementById(inputId);
+  var err=document.getElementById(errId);
+  if(el) el.classList.remove('tmpl-input-error');
+  if(err) err.style.display='none';
+}
+
+function saveFarmerInfo(){
+  var name=document.getElementById('nr-name').value.trim();
+  var phone=document.getElementById('nr-phone').value.trim();
+  var addr=document.getElementById('nr-addr').value.trim();
+  var detail=document.getElementById('nr-addr-detail').value.trim();
+  if(!name){showToast('농장주 이름을 입력하세요');return;}
+  if(!phone){showToast('전화번호를 입력하세요');return;}
+  if(!addr){showToast('농장 주소를 입력하세요');return;}
+  document.getElementById('nr-card-name').textContent=name;
+  document.getElementById('nr-card-phone').textContent=phone;
+  document.getElementById('nr-card-addr').textContent=addr+(detail?' '+detail:'');
+  document.getElementById('nr-farmer-form').style.display='none';
+  document.getElementById('nr-farmer-card').style.display='block';
+}
+
+function toggleTreatmentAccordion(){
+  var body=document.getElementById('treatment-accordion-body');
+  var chevron=document.getElementById('treatment-chevron');
+  if(!body) return;
+  var isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  chevron.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+
+function selectTreatment(el,name,formType){
+  el.closest('#treatment-accordion-body').querySelectorAll('.ri-treatment-option').forEach(function(opt){opt.classList.remove('selected');});
+  el.classList.add('selected');
+  var label=document.getElementById('treatment-selected-label');
+  if(label){label.textContent=name;label.style.color='var(--gray-700)';label.style.fontWeight='600';}
+  var body=document.getElementById('treatment-accordion-body');
+  var chevron=document.getElementById('treatment-chevron');
+  if(body) body.style.display='none';
+  if(chevron) chevron.style.transform='rotate(0deg)';
+  document.querySelectorAll('.treatment-form').forEach(function(f){f.style.display='none';});
+  var target=document.getElementById('form-'+(formType||'simple'));
+  if(target) target.style.display='block';
+}
+
+function toggleTreatmentAccordionNR(){
+  var list=document.getElementById('nr-treatment-list');
+  var chevron=document.getElementById('nr-treatment-chevron');
+  if(!list) return;
+  var isOpen=list.style.display!=='none';
+  list.style.display=isOpen?'none':'block';
+  chevron.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+
+function selectTreatmentNR(el,name,formType){
+  el.closest('#nr-treatment-list').querySelectorAll('.ri-treatment-option').forEach(function(opt){opt.classList.remove('selected');});
+  el.classList.add('selected');
+  var label=document.getElementById('nr-treatment-label');
+  if(label){label.textContent=name;label.style.color='var(--gray-700)';label.style.fontWeight='600';}
+  var list=document.getElementById('nr-treatment-list');
+  var chevron=document.getElementById('nr-treatment-chevron');
+  if(list) list.style.display='none';
+  if(chevron) chevron.style.transform='rotate(0deg)';
+  var area=document.getElementById('nr-form-area');
+  if(!area) return;
+  area.innerHTML='';
+  var sourceId=formType==='general'?'form-general':formType==='castration'?'form-castration':'form-simple';
+  var source=document.getElementById(sourceId);
+  if(!source) return;
+  var clone=source.cloneNode(true);
+  clone.removeAttribute('id');
+  clone.style.display='block';
+  area.appendChild(clone);
+}
+
+function stepperChange(id,delta){
+  var el=document.getElementById(id);
+  if(!el) return;
+  var val=parseInt(el.value)||1;
+  val=Math.max(1,val+delta);
+  el.value=val;
+}
+function stepperClamp(el){
+  var val=parseInt(el.value)||1;
+  if(val<1) el.value=1;
+}
+
+function openStatusSheet(badgeEl,currentStatus){
+  currentStatusBadge=badgeEl;
+  var overlay=document.getElementById('status-sheet-overlay');
+  overlay.querySelectorAll('.bottom-sheet-option').forEach(function(opt){
+    opt.classList.remove('selected');
+    if(opt.dataset.status===currentStatus) opt.classList.add('selected');
+  });
+  overlay.classList.add('active');
+}
+function closeStatusSheet(){document.getElementById('status-sheet-overlay').classList.remove('active');}
+function selectStatus(status){
+  if(!currentStatusBadge) return;
+  const labels={settled:'✓ 정산완료',unsettled:'✕ 미정산',pending:'⏳ 정산대기'};
+  currentStatusBadge.classList.remove('settled','unsettled','pending');
+  currentStatusBadge.classList.add(status);
+  currentStatusBadge.textContent=labels[status];
+  currentStatusBadge.setAttribute('onclick',"event.stopPropagation(); openStatusSheet(this, '"+status+"')");
+  closeStatusSheet();
+  showToast('정산 상태가 변경되었습니다');
+}
+
+function openMonthlyBill(){document.getElementById('monthly-bill-overlay').classList.add('active');}
+function closeMonthlyBill(){document.getElementById('monthly-bill-overlay').classList.remove('active');}
+
+function openFarmerBill(name, phone, total){
+  document.getElementById('farmer-bill-title').textContent = name + ' 청구서';
+  document.getElementById('farmer-bill-total').textContent = total;
+  closeMonthlyBill();
+  document.getElementById('farmer-bill-overlay').classList.add('active');
+  updateBillTotal();
+}
+function closeFarmerBillOverlay(){
+  document.getElementById('farmer-bill-overlay').classList.remove('active');
+}
+function selectAllBillItems(){
+  document.querySelectorAll('#farmer-bill-overlay .bill-checkbox').forEach(function(cb){ cb.checked=true; });
+  updateBillTotal();
+}
+function updateBillTotal(){
+  setTimeout(function(){
+    var checkboxes=document.querySelectorAll('#farmer-bill-overlay .bill-checkbox');
+    var count=0; var total=0;
+    checkboxes.forEach(function(cb){ if(cb.checked){ count++; total+=parseInt(cb.dataset.amount||0); } });
+    var countEl=document.getElementById('bill-selected-count');
+    var amountEl=document.getElementById('bill-selected-amount');
+    if(countEl) countEl.textContent=count+'건';
+    if(amountEl) amountEl.textContent='₩'+total.toLocaleString();
+  },10);
+}
+function openBillPreview(){
+  var name=document.getElementById('farmer-bill-title').textContent.replace(' 청구서','');
+  document.getElementById('bill-preview-title').textContent=name+' 청구서 미리보기';
+  var nameEl=document.getElementById('bill-preview-name');
+  if(nameEl) nameEl.textContent=name;
+  closeFarmerBillOverlay();
+  document.getElementById('bill-preview-overlay').classList.add('active');
+}
+function closeBillPreview(){document.getElementById('bill-preview-overlay').classList.remove('active');}
+function openIndividualBillPreview(){
+  document.getElementById('bill-preview-title').textContent='김형만 청구서 미리보기';
+  var nameEl=document.getElementById('bill-preview-name');
+  if(nameEl) nameEl.textContent='김형만';
+  document.getElementById('bill-preview-overlay').classList.add('active');
+}
+
+function openDocForm(id){
+  var el=document.getElementById(id);
+  if(el) el.classList.add('active');
+}
+function closeDocForm(id){
+  var el=document.getElementById(id);
+  if(el) el.classList.remove('active');
+}
+function closeAllDocSheets(){
+  document.querySelectorAll('.doc-form-overlay').forEach(function(el){ el.classList.remove('active'); });
+}
+
+function toggleOptAcc(id){
+  var body=document.getElementById('body-'+id);
+  if(!body) return;
+  var isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+}
+function checkOptAcc(id,isDone){
+  var acc=document.getElementById(id);
+  var badge=document.getElementById('badge-'+id);
+  if(!acc||!badge) return;
+  if(isDone){ acc.classList.add('done'); badge.textContent='입력완료'; }
+  else { acc.classList.remove('done'); badge.textContent='선택사항'; }
+}
+function selectKit(btn,accId){
+  btn.closest('.kit-btns-lg').querySelectorAll('.kit-btn-lg').forEach(function(b){ b.classList.remove('active-kit'); });
+  btn.classList.add('active-kit');
+  if(accId) checkOptAcc(accId,true);
+}
+function selectBasic(btn,accId){
+  btn.closest('.basic-exam-btns').querySelectorAll('.basic-btn').forEach(function(b){ b.classList.remove('active-basic'); });
+  btn.classList.add('active-basic');
+  if(accId) checkOptAcc(accId,true);
+}
+function toggleOption(btn){
+  btn.closest('div').querySelectorAll('.toggle-option').forEach(function(b){ b.classList.remove('active-toggle'); });
+  btn.classList.add('active-toggle');
+}
+
+// 검색
+const FARMERS=[
+  {name:'김형만',phone:'010-3423-5093',addr:'경상남도 김해시 한림면',star:true},
+  {name:'장주은',phone:null,addr:'경상남도 김해시 진영읍',star:false},
+  {name:'최동우',phone:'010-4324-1234',addr:'부산광역시 강서구 대저동',star:false},
+  {name:'이상호',phone:'010-2131-4220',addr:'경상남도 김해시 진영읍',star:false},
+];
+
+function clearSearch(){
+  var inp=document.getElementById('search-input');
+  if(inp){inp.value='';inp.focus();}
+  handleSearch('');
+}
+
+function handleSearch(val){
+  var results=document.getElementById('search-results');
+  var clearBtn=document.getElementById('search-clear-btn');
+  if(!results) return;
+  if(clearBtn) clearBtn.style.display=val?'flex':'none';
+  if(!val){
+    results.innerHTML='<div style="text-align:center; padding:100px 40px; color:var(--gray-400); font-size:14px; line-height:1.8;">농장주의 이름, 주소, 전화번호 찾거나<br>직접 입력하여 진료기록을 입력할 수 있습니다</div>';
+    return;
+  }
+  var matched=FARMERS.filter(function(f){
+    var q=val.toLowerCase();
+    return f.name.includes(q)||(f.phone&&f.phone.replace(/-/g,'').includes(q.replace(/-/g,'')))||f.addr.includes(q);
+  });
+  if(matched.length===0){
+    results.innerHTML='<div style="padding:40px 20px;"><div onclick="navigateTo(\'screen-new-record\')" style="display:flex; align-items:center; gap:16px; padding:16px 0; cursor:pointer;"><div style="width:36px; height:36px; border-radius:50%; border:2px solid var(--gray-300); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div><div style="font-size:15px; color:var(--gray-500);">농장주 정보가 없습니다.</div><div style="font-size:14px; font-weight:600; color:var(--brand); margin-top:3px;">농장주 추가</div></div></div></div>';
+    return;
+  }
+  results.innerHTML=matched.map(function(f){
+    var phoneHtml=f.phone?'<div style="font-size:13px; color:var(--gray-500); margin-top:3px;">'+f.phone+'</div>':'<div style="font-size:13px; font-weight:600; color:var(--red); margin-top:3px;">전화번호 등록 필요</div>';
+    var starChar=f.star?'★':'☆';
+    var starColor=f.star?'var(--yellow)':'var(--gray-300)';
+    return '<div class="farmer-list-item" onclick="navigateTo(\'screen-record-input\')"><div style="flex:1; min-width:0;"><div class="farmer-name">'+f.name+'</div>'+phoneHtml+'<div class="farmer-addr" style="margin-top:2px;">'+f.addr+'</div></div><span style="font-size:22px; color:'+starColor+'; cursor:pointer;">'+starChar+'</span></div>';
+  }).join('');
+}
+</script>
 </body>
 </html>
